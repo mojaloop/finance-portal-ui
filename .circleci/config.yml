@@ -67,14 +67,9 @@ jobs:
       - run:
           name: Update NPM install
           command: npm install
-#      - save_cache:
-#          key: dependency-cache-{{ checksum "package.json" }}
-#          paths:
-#            - node_modules
 
   build:
     machine: true
-    # <<: *default_env
     steps:
     - checkout
     - run:
@@ -90,6 +85,21 @@ jobs:
         <<: *defaults_build_docker_build
     - run:
         <<: *defaults_build_docker_publish
+
+  test:
+    docker:
+    - image: node:8.11.3-alpine
+    steps:
+    - checkout
+    - run:
+        name: Update npm registry
+        command: curl $NPM_TOKEN $ARTIFACTORY_NPMURL_INSTALL > .npmrc
+    - run:
+        name: Install dependencies
+        command: npm install
+    - run:
+        name: Run unit tests
+        command: num test -- --coverage
 
 workflows:
   version: 2
@@ -114,4 +124,9 @@ workflows:
             branches:
               only:
                 - /.*/
-
+      - test:
+          context: org-global
+          filters:
+            branches:
+              only:
+                - /.*/
