@@ -28,7 +28,7 @@ make run LISTEN_PORT=3001
   * Customise logging
   * Support compression of (especially) responses
 
-# Create-React-App default READEME follows
+# Create-React-App default README follows
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
