@@ -1,3 +1,12 @@
+
+## TODO
+* Read a little more nginx documentation, consider creating a proper nginx config, because
+  * Support deep-links into the app using the browser 
+  * Customise logging
+  * Support compression of (especially) responses
+
+# Create-React-App default READEME follows
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
