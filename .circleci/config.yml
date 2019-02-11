@@ -99,7 +99,7 @@ jobs:
         command: npm install
     - run:
         name: Run unit tests
-        command: num test -- --coverage
+        command: npm test -- --coverage
 
 workflows:
   version: 2
