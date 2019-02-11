@@ -1,4 +1,25 @@
 
+## Build
+With the default version. Will be $COMMITHASH if there are no local changes, or $COMMITHASH-local
+if there are.
+```bash
+make build
+```
+With a specific version:
+```bash
+make build VER=whatever-you-want
+```
+
+## Run
+Default port:
+```bash
+make run
+```
+On a different port:
+```bash
+make run LISTEN_PORT=3001
+```
+
 ## TODO
 * Read a little more nginx documentation, consider creating a proper nginx config, because
   * Support deep-links into the app using the browser 
