@@ -117,6 +117,7 @@ workflows:
       - build:
           context: org-global
           requires:
+            - test
             - setup
           filters:
             tags:

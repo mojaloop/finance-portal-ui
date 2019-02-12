@@ -13,7 +13,9 @@ make build VER=whatever-you-want
 ```
 
 ## Run
-Default port:
+You'll need a running frontend-backend. See instructions at
+https://github.com/casablanca-project/admin-portal-web-ui-backend.
+Default port (3000):
 ```bash
 make run
 ```
@@ -24,7 +26,7 @@ make run LISTEN_PORT=3001
 
 ## TODO
 * Read a little more nginx documentation, consider creating a proper nginx config, because
-  * Support deep-links into the app using the browser 
+  * Support client-side routing using browser pushState API
   * Customise logging
   * Support compression of (especially) responses
 
