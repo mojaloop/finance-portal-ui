@@ -1,5 +1,26 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import './App.css';
+import { withStyles } from '@material-ui/core/styles';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+
+const endpoint = 'http://localhost:3002';
+const fetchOpts = { headers: { 'accept': 'application/json' } };
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+});
 
 function SettlementWindowInfo(props) {
   return (
@@ -9,7 +30,7 @@ function SettlementWindowInfo(props) {
       <div>Receipts: {props.settlementWindow.receipts.numTransactions}</div>
       <div>Amount: {props.settlementWindow.receipts.senderAmount}</div>
       {props.positions.map(p =>
-        <div key={p.currency} className="position">
+        <div key={p.participantLimitId} className="position">
           <div>Currency: {p.currency}</div>
           <div>Limit: {p.limit}</div>
           <div>Position: {p.position}</div>
@@ -19,37 +40,53 @@ function SettlementWindowInfo(props) {
   );
 }
 
-const fetchOpts = {
-  headers: {
-    'accept': 'application/json'
-  }
-};
-
-function App() {
-  const [state, setState] = useState(undefined);
-  // const [state, setState] = useState({
-  //   window: {
-  //     payments: { numTransactions: 5, senderAmount: 100 }, receipts: { numTransactions: 4, senderAmount: 200 }
-  //   },
-  //   positions: [{
-  //     position: "1.00",
-  //     limit: "10000.00",
-  //     currency: "XOF",
-  //     participantId: 4
-  //   }]
-  // });
-  const fetchCurrentWindow = async () => {
-    const newState = await fetch('http://localhost:3002/current-window/34', fetchOpts).then(res => res.json());
-    console.log(newState);
-    setState(newState);
-  };
-  useEffect(() => fetchCurrentWindow, []);
+function FSPSelector(props) {
   return (
-    <>
-      <button onClick={fetchCurrentWindow}>Refresh</button>
-      {state === undefined ? <></> : <SettlementWindowInfo settlementWindow={state.window} positions={state.positions} />}
-    </>
+    <List>
+      {props.fspList.sort((a, b) => a.id > b.id).map(fsp =>
+        <ListItem key={fsp.id} button onClick={props.selectFsp.bind(null, fsp.id)}>
+          <ListItemText>[{fsp.id}] | {fsp.name}</ListItemText>
+        </ListItem>
+      )}
+    </List>
   );
 }
 
-export default App;
+function App(props) {
+  const { classes, fspList } = props;
+  const [settlementWindowState, setSettlementWindowState] = useState(undefined);
+  const [selectedFsp, setSelectedFsp] = useState(undefined);
+  const fetchCurrentWindow = async (dfspId) => {
+    const newState = await fetch(`${endpoint}/current-window/${dfspId}`, fetchOpts).then(res => res.json());
+    console.log(newState);
+    setSettlementWindowState(newState);
+  };
+  const selectFsp = async (dfspId) => {
+    await fetchCurrentWindow(dfspId);
+    setSelectedFsp(dfspId); // TODO: necessary?
+  };
+  useEffect(() => fetchCurrentWindow, []);
+  return (
+    <div className={classes.root}>
+      <Grid container spacing={24}>
+        <Grid item md={12} />
+        <Grid item md={4}>
+          <Paper className={classes.paper}>
+            <FSPSelector selectedFsp={selectedFsp} selectFsp={selectFsp} fspList={fspList} />
+          </Paper>
+        </Grid>
+        <Grid item md={8}>
+          <Paper className={classes.paper}>
+            {settlementWindowState === undefined ? <></> : <SettlementWindowInfo settlementWindow={settlementWindowState.window} positions={settlementWindowState.positions} />}
+          </Paper>
+        </Grid>
+      </Grid>
+    </div>
+  );
+}
+
+App.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(App);
