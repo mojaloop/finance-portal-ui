@@ -15,7 +15,7 @@ make build VER=whatever-you-want
 ## Run
 ### Containerised
 You'll need a running frontend-backend. See instructions for [admin-portal-web-ui-backend](
-https://github.com/casablanca-project/admin-portal-web-ui-backend).
+https://github.com/casablanca-project/admin-portal-web-ui-backend#running-locally).
 
 Default port (3000):
 ```bash
@@ -28,7 +28,7 @@ make run LISTEN_PORT=3001
 
 ### Natively
 You'll need a running frontend-backend. See instructions for [admin-portal-web-ui-backend](
-https://github.com/casablanca-project/admin-portal-web-ui-backend).
+https://github.com/casablanca-project/admin-portal-web-ui-backend#running-locally).
 ```bash
 npm install
 npm start
