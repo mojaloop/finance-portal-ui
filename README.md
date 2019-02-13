@@ -27,6 +27,8 @@ make run LISTEN_PORT=3001
 ```
 
 ### Natively
+You'll need a running frontend-backend. See instructions for [admin-portal-web-ui-backend](
+https://github.com/casablanca-project/admin-portal-web-ui-backend).
 ```bash
 npm install
 npm start
