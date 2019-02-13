@@ -66,6 +66,7 @@ function App(props) {
     setSelectedFsp(dfspId); // TODO: necessary?
   };
   useEffect(() => fetchCurrentWindow, []);
+  // TODO: what are the md props on Grid?
   return (
     <div className={classes.root}>
       <Grid container spacing={24}>

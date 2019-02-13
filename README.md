@@ -13,6 +13,7 @@ make build VER=whatever-you-want
 ```
 
 ## Run
+### Containerised
 You'll need a running frontend-backend. See instructions for [admin-portal-web-ui-backend](
 https://github.com/casablanca-project/admin-portal-web-ui-backend).
 
@@ -23,6 +24,12 @@ make run
 On a different port:
 ```bash
 make run LISTEN_PORT=3001
+```
+
+### Natively
+```bash
+npm install
+npm start
 ```
 
 ## TODO
