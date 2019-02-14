@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -23,11 +23,12 @@ const styles = theme => ({
 });
 
 function SettlementsTab(props) {
-  const { fspList, classes } = props;
+  const { classes } = props;
 
   const [settlements, setSettlements] = useState(undefined);
   const [settlementWindowState, setSettlementWindowState] = useState(undefined);
   const [selectedFsp, setSelectedFsp] = useState(undefined); // TODO: remove?
+  const [fspList, setFspList] = useState(undefined);
 
   const selectFsp = async (dfspId) => {
     const [win, settlements] = await Promise.all(([
@@ -39,8 +40,27 @@ function SettlementsTab(props) {
     setSelectedFsp(dfspId);
   };
 
+  const getFspList = () => {
+    get('dfsps')
+      .then(dfsps => {
+        // Augment fspList with a map of ids -> names and vice-versa.
+        dfsps.ids = Object.assign(...dfsps.map(fsp => ({ [fsp.id]: fsp.name })));
+        // Note that names are guaranteed unique by the db. We assume here that the concept of
+        // string uniqueness in mysql is no more strict than the concept of string uniqueness in
+        // node
+        dfsps.names = Object.assign(...dfsps.map(fsp => ({ [fsp.name]: fsp.id })));
+        setFspList(dfsps)
+      })
+      .catch(err => window.alert('Failed to get FSPS')); // TODO: better error message, let user retry
+  };
+
+  useEffect(() => {
+    getFspList();
+  }, []);
+
   return (
     <div className={classes.root}>
+    {fspList === undefined ||
       <Grid container spacing={24}>
         <Grid item md={12} />
         <Grid item md={4}>
@@ -65,13 +85,13 @@ function SettlementsTab(props) {
         </Grid>
         }
       </Grid>
+    }
     </div>
   );
 }
 
 SettlementsTab.propTypes = {
-  classes: PropTypes.object.isRequired,
-  fspList: PropTypes.array.isRequired
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(SettlementsTab);
