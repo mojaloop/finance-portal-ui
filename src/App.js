@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import './App.css';
 import { withStyles } from '@material-ui/core/styles';
@@ -31,12 +31,13 @@ const styles = theme => ({
 });
 
 function App(props) {
-  const { classes, fspList } = props;
+  const { classes } = props;
 
   const [selectedFsp, setSelectedFsp] = useState(undefined); // TODO: remove?
   const [settlementWindowState, setSettlementWindowState] = useState(undefined);
   const [settlements, setSettlements] = useState(undefined);
   const [user, setUser] = useState(getUserInfo());
+  const [fspList, setFspList] = useState(undefined);
 
   const selectFsp = async (dfspId) => {
     const [win, settlements] = await Promise.all(([
@@ -51,45 +52,66 @@ function App(props) {
   const loginSuccessful = result => {
     setUserInfo(result);
     setUser(result);
+    getFspList();
   };
+
+  const getFspList = () => {
+    get('dfsps')
+      .then(dfsps => {
+        // Augment fspList with a map of ids -> names and vice-versa.
+        dfsps.ids = Object.assign(...dfsps.map(fsp => ({ [fsp.id]: fsp.name })));
+        // Note that names are guaranteed unique by the db. We assume here that the concept of
+        // string uniqueness in mysql is no more strict than the concept of string uniqueness in
+        // node
+        dfsps.names = Object.assign(...dfsps.map(fsp => ({ [fsp.name]: fsp.id })));
+        setFspList(dfsps)
+      })
+      .catch(err => window.alert('Failed to get FSPS')); // TODO: better error message, let user retry
+  };
+
+  useEffect(() => {
+    if (user !== undefined) {
+      getFspList();
+    }
+  }, []);
 
   // TODO: what are the md (and xs, etc.) props on Grid?
   return (
     <div className={classes.root}>
       {user === undefined ?
         <Login loginSuccessful={loginSuccessful} /> :
-        <Grid container spacing={24}>
-          <Grid item md={12} />
-          <Grid item md={4}>
-            <Paper className={classes.paper}>
-              <FSPSelector selectFsp={selectFsp} fspList={fspList} />
-            </Paper>
-          </Grid>
-          {settlementWindowState === undefined || settlements === undefined ? <></> :
-          <Grid item md={8}>
-            <Grid container spacing={24}>
-              <Grid item md={12}>
-                <Paper className={classes.paper}>
-                  <SettlementWindowInfo settlementWindow={settlementWindowState.window} positions={settlementWindowState.positions} />
-                </Paper>
-              </Grid>
-              <Grid item md={12}>
-                <Paper className={classes.paper}>
-                  <SettlementsList selectedFsp={selectedFsp} settlements={settlements} fspList={fspList} />
-                </Paper>
+        (fspList === undefined ? <></> :
+          <Grid container spacing={24}>
+            <Grid item md={12} />
+            <Grid item md={4}>
+              <Paper className={classes.paper}>
+                <FSPSelector selectFsp={selectFsp} fspList={fspList} />
+              </Paper>
+            </Grid>
+            {settlementWindowState === undefined || settlements === undefined ? <></> :
+            <Grid item md={8}>
+              <Grid container spacing={24}>
+                <Grid item md={12}>
+                  <Paper className={classes.paper}>
+                    <SettlementWindowInfo settlementWindow={settlementWindowState.window} positions={settlementWindowState.positions} />
+                  </Paper>
+                </Grid>
+                <Grid item md={12}>
+                  <Paper className={classes.paper}>
+                    <SettlementsList selectedFsp={selectedFsp} settlements={settlements} fspList={fspList} />
+                  </Paper>
+                </Grid>
               </Grid>
             </Grid>
+            }
           </Grid>
-          }
-        </Grid>
-      }
+        )}
     </div>
   );
 }
 
 App.propTypes = {
-  classes: PropTypes.object.isRequired,
-  fspList: PropTypes.array.isRequired
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(App);

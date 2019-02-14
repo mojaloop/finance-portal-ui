@@ -40,7 +40,7 @@ function Login(props) {
     try {
       // TODO Greg- you should modify the request appropriately such that it hits the WSO2 identity
       // server and provides the correct data
-      const res = post('login', { username, password });
+      const res = await post('login', { username, password });
       loginSuccessful(res);
     } catch (err) {
       // TODO: indicate failure to the user
