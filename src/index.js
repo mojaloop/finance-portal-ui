@@ -3,10 +3,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { get } from './requests';
 
-const endpoint = 'http://localhost:3002';
-const fetchOpts = { headers: { 'accept': 'application/json' } };
-fetch(`${endpoint}/dfsps`, fetchOpts).then(res => res.json())
+get('dfsps')
     .then(fspList => {
         // Augment fspList with a map of ids -> names and vice-versa.
         fspList.ids = Object.assign(...fspList.map(fsp => ({ [fsp.id]: fsp.name })));
