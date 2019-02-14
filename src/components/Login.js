@@ -39,7 +39,9 @@ function Login(props) {
     setBusy(true);
     try {
       // TODO Greg- you should modify the request appropriately such that it hits the WSO2 identity
-      // server and provides the correct data
+      // server and provides the correct data. Change the endpoint pointed at with the following
+        // parameter to the function:
+      // const res = await post('login', { username, password }, { endpoint: 'auth.com/login' });
       const res = await post('login', { username, password });
       loginSuccessful(res);
     } catch (err) {
