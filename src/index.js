@@ -4,16 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-const endpoint = 'http://localhost:3002';
-const fetchOpts = { headers: { 'accept': 'application/json' } };
-fetch(`${endpoint}/dfsps`, fetchOpts).then(res => res.json())
-    .then(fspList => {
-        ReactDOM.render(<App fspList={fspList} />, document.getElementById('root'));
-    })
-    .catch(err => {
-        // TODO: display this more nicely
-        alert(`Couldn't get FSP list: ${err}`);
-    });
+ReactDOM.render(<App />, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
