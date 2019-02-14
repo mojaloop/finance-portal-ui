@@ -39,6 +39,7 @@ npm start
   * Support client-side routing using browser pushState API
   * Customise logging
   * Support compression of (especially) responses
+* Lint in circle CI- fail on bad lint
 
 # Create-React-App default README follows
 
