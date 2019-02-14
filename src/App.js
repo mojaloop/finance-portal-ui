@@ -81,30 +81,30 @@ function App(props) {
       {user === undefined ?
         <Login loginSuccessful={loginSuccessful} /> :
         (fspList === undefined ? <></> :
-          <Grid container spacing={24}>
-            <Grid item md={12} />
-            <Grid item md={4}>
-              <Paper className={classes.paper}>
-                <FSPSelector selectFsp={selectFsp} fspList={fspList} />
-              </Paper>
-            </Grid>
-            {settlementWindowState === undefined || settlements === undefined ? <></> :
-            <Grid item md={8}>
-              <Grid container spacing={24}>
-                <Grid item md={12}>
-                  <Paper className={classes.paper}>
-                    <SettlementWindowInfo settlementWindow={settlementWindowState.window} positions={settlementWindowState.positions} />
-                  </Paper>
-                </Grid>
-                <Grid item md={12}>
-                  <Paper className={classes.paper}>
-                    <SettlementsList selectedFsp={selectedFsp} settlements={settlements} fspList={fspList} />
-                  </Paper>
-                </Grid>
+        <Grid container spacing={24}>
+          <Grid item md={12} />
+          <Grid item md={4}>
+            <Paper className={classes.paper}>
+              <FSPSelector selectFsp={selectFsp} fspList={fspList} />
+            </Paper>
+          </Grid>
+          {settlementWindowState === undefined || settlements === undefined ? <></> :
+          <Grid item md={8}>
+            <Grid container spacing={24}>
+              <Grid item md={12}>
+                <Paper className={classes.paper}>
+                  <SettlementWindowInfo settlementWindow={settlementWindowState.window} positions={settlementWindowState.positions} />
+                </Paper>
+              </Grid>
+              <Grid item md={12}>
+                <Paper className={classes.paper}>
+                  <SettlementsList selectedFsp={selectedFsp} settlements={settlements} fspList={fspList} />
+                </Paper>
               </Grid>
             </Grid>
-            }
           </Grid>
+          }
+        </Grid>
         )}
     </div>
   );

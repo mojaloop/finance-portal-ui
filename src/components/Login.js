@@ -51,25 +51,25 @@ function Login(props) {
   return (
     <>
       <TextField
-        id="login-username"
-        label="Username"
+        id='login-username'
+        label='Username'
         className={classes.textField}
-        margin="normal"
+        margin='normal'
         value={username}
-        variant="outlined"
+        variant='outlined'
         onChange={ev => setUsername(ev.target.value)}
       />
       <TextField
-        id="login-password"
-        label="Password"
+        id='login-password'
+        label='Password'
         className={classes.textField}
-        margin="normal"
-        variant="outlined"
+        margin='normal'
+        variant='outlined'
         value={password}
-        type="password"
+        type='password'
         onChange={ev => setPassword(ev.target.value)}
       />
-      <Button variant="contained" color="primary" disabled={busy} className={classes.button} onClick={attemptLogin}>
+      <Button variant='contained' color='primary' disabled={busy} className={classes.button} onClick={attemptLogin}>
         Login
       </Button>
     </>

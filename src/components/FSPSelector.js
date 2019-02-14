@@ -11,7 +11,7 @@ function FSPSelector(props) {
   return (
     <List>
       {fspList.sort((a, b) => a.id > b.id).map(fsp =>
-        <ListItem key={fsp.id} button onClick={selectFsp.bind(null, fsp.id)}>
+        <ListItem key={fsp.id} button onClick={() => selectFsp(fsp.id)}>
           <ListItemText>[{fsp.id}] | {fsp.name}</ListItemText>
         </ListItem>
       )}

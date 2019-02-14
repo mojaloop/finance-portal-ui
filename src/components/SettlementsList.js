@@ -16,13 +16,13 @@ function SettlementsList(props) {
   const participantInfo = p => `${fspList.ids[p.id]} ${p.accounts.map(a => a.netSettlementAmount.amount + a.netSettlementAmount.currency)}`;
   return (
     <>
-    <List>
-      {settlements.map(settlement =>
-        <ListItem key={settlement.id}>
-          <ListItemText>[{settlement.id}] | {settlement.state} | {settlement.participants.map(participantInfo).join(', ')}</ListItemText>
-        </ListItem>
-      )}
-    </List>
+      <List>
+        {settlements.map(settlement =>
+          <ListItem key={settlement.id}>
+            <ListItemText>[{settlement.id}] | {settlement.state} | {settlement.participants.map(participantInfo).join(', ')}</ListItemText>
+          </ListItem>
+        )}
+      </List>
     </>
   )
 }
