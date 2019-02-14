@@ -3,7 +3,12 @@ import React, { useState } from 'react';
 import './App.css';
 import Login from './components/Login';
 import SettlementsTab from './components/SettlementsTab';
+import PaymentFilesTab from './components/PaymentFilesTab';
 import { getUserInfo, setUserInfo } from './user';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import { withStyles } from '@material-ui/core/styles';
 
 // TODO: consider adding an error boundary?
 //       https://reactjs.org/docs/error-boundaries.html
@@ -11,8 +16,17 @@ import { getUserInfo, setUserInfo } from './user';
 //       thing?)
 // TODO: consider a big "DEVELOPMENT MODE" header when in development mode
 
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
+});
+
 function App(props) {
+  const { classes } = props;
   const [user, setUser] = useState(getUserInfo());
+  const [tab, setTab] = useState(0);
 
   const loginSuccessful = result => {
     setUserInfo(result);
@@ -21,8 +35,21 @@ function App(props) {
 
   // TODO: what are the md (and xs, etc.) props on Grid?
   return (
-    user === undefined ? <Login loginSuccessful={loginSuccessful} /> : <SettlementsTab />
+    <div className={classes.root}>
+    {user === undefined ? <Login loginSuccessful={loginSuccessful} /> : (
+      <>
+      <AppBar position="static">
+        <Tabs value={tab} onChange={(_, val) => setTab(val)}>
+          <Tab label="Settlements" />
+          <Tab label="Payment files" />
+        </Tabs>
+      </AppBar>
+      {tab === 0 && <SettlementsTab />}
+      {tab === 1 && <PaymentFilesTab />}
+      </>
+    )}
+    </div>
   );
 }
 
-export default App;
+export default withStyles(styles)(App);
