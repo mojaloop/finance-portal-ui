@@ -40,7 +40,7 @@ function SettlementsTab(props) {
     setSelectedFsp(dfspId);
   };
 
-  const getFspList = () => {
+  useEffect(() => {
     get('dfsps')
       .then(dfsps => {
         // Augment fspList with a map of ids -> names and vice-versa.
@@ -52,10 +52,6 @@ function SettlementsTab(props) {
         setFspList(dfsps)
       })
       .catch(err => window.alert('Failed to get FSPS')); // TODO: better error message, let user retry
-  };
-
-  useEffect(() => {
-    getFspList();
   }, []);
 
   return (

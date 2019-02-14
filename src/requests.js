@@ -45,6 +45,12 @@ const throwOrJson = async (res, msg = 'HTTP request returned error response code
 };
 
 
+// This will only work if the server returns a content-disposition header value of 'attachment'
+function triggerDownload(path, { endpoint = defaultEndpoint } = {}) {
+    window.location = buildUrl(endpoint, path);
+}
+
+
 async function get(path, { endpoint = defaultEndpoint, logger = () => {} } = {}) {
     try {
         const opts = {
@@ -94,5 +100,6 @@ async function post(path, body, { endpoint = defaultEndpoint, logger = () => {} 
 export {
     get,
     put,
-    post
+    post,
+    triggerDownload
 };
