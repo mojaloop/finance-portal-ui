@@ -38,7 +38,7 @@ function Login(props) {
   const attemptLogin = async () => {
     setBusy(true);
     try {
-      // Greg- you should modify the request appropriately such that it hits the WSO2 identity
+      // TODO Greg- you should modify the request appropriately such that it hits the WSO2 identity
       // server and provides the correct data
       const res = post('login', { username, password });
       loginSuccessful(res);
