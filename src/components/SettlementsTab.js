@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 // in a single statement
 import SettlementsList from './SettlementsList';
 import SettlementWindowInfo from './SettlementWindowInfo';
+import PositionInfo from './PositionInfo';
 import FSPSelector from './FSPSelector';
 import { get } from '../requests';
 
@@ -25,18 +26,18 @@ const styles = theme => ({
 function SettlementsTab(props) {
   const { classes } = props;
 
-  const [settlements, setSettlements] = useState(undefined);
-  const [settlementWindowState, setSettlementWindowState] = useState(undefined);
+  const [positions, setPositions] = useState(undefined);
+  const [settlementWindow, setSettlementWindow] = useState(undefined);
   const [selectedFsp, setSelectedFsp] = useState(undefined); // TODO: remove?
   const [fspList, setFspList] = useState(undefined);
 
   const selectFsp = async (dfspId) => {
-    const [win, settlements] = await Promise.all(([
+    const [positions, win] = await Promise.all(([
+      get(`positions/${dfspId}`),
       get(`current-window/${dfspId}`),
-      get(`settlements/${dfspId}`)
     ]));
-    setSettlementWindowState(win);
-    setSettlements(settlements);
+    setPositions(positions);
+    setSettlementWindow(win);
     setSelectedFsp(dfspId);
   };
 
@@ -63,19 +64,26 @@ function SettlementsTab(props) {
             <FSPSelector selectFsp={selectFsp} fspList={fspList} />
           </Paper>
         </Grid>
-        {settlementWindowState === undefined || settlements === undefined ? <></> :
+        {settlementWindow === undefined ? <></> :
         <Grid item md={8}>
           <Grid container spacing={24}>
             <Grid item md={12}>
               <Paper className={classes.paper}>
-                <SettlementWindowInfo settlementWindow={settlementWindowState.window} positions={settlementWindowState.positions} />
+                <SettlementWindowInfo settlementWindow={settlementWindow} />
               </Paper>
             </Grid>
             <Grid item md={12}>
               <Paper className={classes.paper}>
-                <SettlementsList selectedFsp={selectedFsp} settlements={settlements} fspList={fspList} />
+                <PositionInfo positions={positions} />
               </Paper>
             </Grid>
+            {selectedFsp &&
+            <Grid item md={12}>
+              <Paper className={classes.paper}>
+                <SettlementsList selectedFsp={selectedFsp} fspList={fspList} />
+              </Paper>
+            </Grid>
+            }
           </Grid>
         </Grid>
         }
