@@ -32,13 +32,13 @@ function PositionInfo(props) {
           <Paper>Position</Paper>
         </Grid>
         <Grid item md={3}>
-          <Paper>Limit</Paper>
+          <Paper>NDC</Paper>
         </Grid>
         <Grid item md={3}>
           <Paper>Position/Limit</Paper>
         </Grid>
         {positions.map(p =>
-          <Grid container key={p.id}>
+          <Grid container key={p.participantLimitId}>
             <Grid item md={3}><Paper>{p.currency}</Paper></Grid>
             <Grid item md={3}><Paper>{p.position}</Paper></Grid>
             <Grid item md={3}><Paper>{p.limit}</Paper></Grid>

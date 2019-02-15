@@ -4,10 +4,11 @@ import React, { useState, useEffect } from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { DatePicker, dateToStr } from './DatePicker';
+import { DateRangePicker } from './DatePicker';
 
 import { triggerDownload } from '../requests';
 import { getPaymentFileList } from '../api';
+import { truncateDate } from '../utils';
 
 
 function PaymentFilesList(props) {
@@ -27,8 +28,8 @@ function PaymentFilesList(props) {
 
 // TODO: show the user a spinner or something while the query is in progress
 function PaymentFilesTab(props) {
-  const [endDate, setEndDate] = useState(dateToStr(new Date(Date.now() + 1000 * 60 * 60 * 24))); // tomorrow
-  const [startDate, setStartDate] = useState(dateToStr(new Date()));
+  const endDate = truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24)); // tomorrow
+  const startDate = truncateDate(new Date());
   const [paymentFileList, setPaymentFileList] = useState([]);
 
   const updateQuery = (startDate, endDate) => {
@@ -41,9 +42,8 @@ function PaymentFilesTab(props) {
 
   return (
     <>
-      <DatePicker defDate={startDate} selectDate={dt => { setStartDate(dt); updateQuery(dt, endDate); }} />
-      <DatePicker defDate={endDate} selectDate={dt => { setEndDate(dt); updateQuery(startDate, dt); }} />
-      <PaymentFilesList paymentFileList={paymentFileList} startDate={startDate} endDate={endDate} />
+      <DateRangePicker defStartDate={startDate} defEndDate={endDate} onChange={updateQuery} />
+      <PaymentFilesList paymentFileList={paymentFileList} />
     </>
   );
 }
