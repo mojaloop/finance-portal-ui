@@ -43,7 +43,8 @@ function App(props) {
       <AppBar position="static">
         <Tabs value={tab} onChange={(_, val) => setTab(val)}>
           <Tab label="Settlements" />
-          <Tab label="Payment files" />
+          <Tab label="Payment Files" />
+          <Tab label="Funds Management" />
         </Tabs>
       </AppBar>
       {tab === 0 && <SettlementsTab />}

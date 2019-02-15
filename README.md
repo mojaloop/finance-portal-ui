@@ -42,7 +42,8 @@ npm start
 * Lint in circle CI- fail on bad lint
 * Currently getting the FSP list in two places in the UI, FundsManagementTab and SettlementsTab. We
     should use the [Context API](https://reactjs.org/docs/context.html) or just get the FSP list at
-    a higher level in the app.
+    a higher level in the app. Or, can we pass the selector component around? Is that
+    feasible/useful?
 * Some components fetch data on every load- we should cache that. For example, going to the payment
     file tab, leaving it, then returning to it causes a fetch to occur again. It would be better if
     this didn't happen. Might need a state management lib for this later on :(. Could use meiosis.

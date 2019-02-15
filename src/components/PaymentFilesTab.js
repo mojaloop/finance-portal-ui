@@ -11,6 +11,10 @@ import { getPaymentFileList } from '../api';
 import { truncateDate } from '../utils';
 
 
+// TODO: show file sizes. Would either need to return SELECT LENGTH(settlementFile) from query, or
+// store that information in another column. Note that the db _does_ know the length of the data in
+// every field; but there have been bugs raised in the past relating to the performance of the
+// LENGTH function, suggesting it's reading the entire field unnecessarily.
 function PaymentFilesList(props) {
   const { paymentFileList } = props;
 

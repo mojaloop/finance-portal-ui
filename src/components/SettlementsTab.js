@@ -52,7 +52,7 @@ function SettlementsTab(props) {
         dfsps.names = Object.assign(...dfsps.map(fsp => ({ [fsp.name]: fsp.id })));
         setFspList(dfsps)
       })
-      .catch(err => window.alert('Failed to get FSPS')); // TODO: better error message, let user retry
+      .catch(err => window.alert('Failed to get FSP list')); // TODO: better error message, let user retry
   }, []);
 
   return (
