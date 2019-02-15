@@ -12,14 +12,10 @@ import { get, triggerDownload } from '../requests';
 function PaymentFilesList(props) {
   const { paymentFileList } = props;
 
-  const downloadFile = settlementFileId => {
-    triggerDownload(`payment-file/${settlementFileId}`);
-  };
-
   return (
     <List>
     {paymentFileList.map(pf =>
-      <ListItem key={pf.settlementFileId} button onClick={() => downloadFile(pf.settlementFileId)}>
+      <ListItem key={pf.settlementFileId} button onClick={() => triggerDownload(`payment-file/${pf.settlementFileId}`)}>
         <ListItemText>[{pf.settlementFileId}] | [{pf.settlementId}] | [{pf.createdDate}]</ListItemText>
       </ListItem>
     )}
@@ -30,9 +26,8 @@ function PaymentFilesList(props) {
 
 // TODO: show the user a spinner or something while the query is in progress
 function PaymentFilesTab(props) {
-  const { classes } = props;
-  const [endDate, setEndDate] = useState(dateToStr(new Date(Date.now() + 1000 * 60 * 60 * 24)));
-  const [startDate, setStartDate] = useState(dateToStr(new Date())); // one week ago
+  const [endDate, setEndDate] = useState(dateToStr(new Date(Date.now() + 1000 * 60 * 60 * 24))); // tomorrow
+  const [startDate, setStartDate] = useState(dateToStr(new Date()));
   const [paymentFileList, setPaymentFileList] = useState([]);
 
   const updateQuery = (startDate, endDate) => {
@@ -45,8 +40,8 @@ function PaymentFilesTab(props) {
 
   return (
     <>
-      <DatePicker defDate={startDate} classes={classes} selectDate={dt => { setStartDate(dt); updateQuery(dt, endDate); }} />
-      <DatePicker defDate={endDate} classes={classes} selectDate={dt => { setEndDate(dt); updateQuery(startDate, dt); }} />
+      <DatePicker defDate={startDate} selectDate={dt => { setStartDate(dt); updateQuery(dt, endDate); }} />
+      <DatePicker defDate={endDate} selectDate={dt => { setEndDate(dt); updateQuery(startDate, dt); }} />
       <PaymentFilesList paymentFileList={paymentFileList} startDate={startDate} endDate={endDate} />
     </>
   );
