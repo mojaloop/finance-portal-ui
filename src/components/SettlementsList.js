@@ -39,13 +39,13 @@ function SettlementsList(props) {
   const { fspList, selectedFsp } = props;
 
   const to = truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24));
-  const from = truncateDate(new Date());
+  const from = truncateDate(new Date(Date.now() - 1000 * 60 * 60 * 24 * 7));
   const [settlements, setSettlements] = useState(undefined);
 
   const updateQuery = (startDate, endDate) => {
     getSettlements(selectedFsp, { startDate, endDate })
       .then(setSettlements)
-      .catch(err => window.alert('Failed to get FSPS')); // TODO: better error message, let user retry
+      .catch(err => window.alert('Failed to get FSP list')); // TODO: better error message, let user retry
   };
 
   useEffect(() => updateQuery(from, to), []);

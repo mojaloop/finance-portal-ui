@@ -1,5 +1,5 @@
 
-import { get } from './requests';
+import { get, post } from './requests';
 
 const stringifyDate = dt => dt instanceof Date ? dt.toISOString() : dt;
 
@@ -23,10 +23,27 @@ async function getDfsps() {
     return get('dfsps');
 }
 
+// Note that participantName is indeed distinct from participantId
+async function getAccounts(participantName) {
+    return get(`accounts/${participantName}`);
+}
+
+// TODO: remove extensionList?
+async function processFundsIn(participantName, accountId, amount, currency) {
+    return post('funds-in/${participantName}/${accountId}', {
+        amount: {
+            amount,
+            currency
+        }
+    });
+}
+
 export {
-    getPaymentFileList,
-    getSettlements,
-    getPositions,
+    getAccounts,
     getCurrentWindow,
-    getDfsps
+    getDfsps,
+    getPaymentFileList,
+    getPositions,
+    getSettlements,
+    processFundsIn
 };
