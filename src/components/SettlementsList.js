@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import { DatePicker, dateToStr } from './DatePicker';
-import { get } from '../requests';
+import { getSettlements } from '../api';
 
 
 function SettlementsListList(props) {
@@ -42,8 +42,7 @@ function SettlementsList(props) {
   const [settlements, setSettlements] = useState(undefined);
 
   const updateQuery = (startDate, endDate) => {
-    // get(`payment-file-list?startDate=${startDate}&endDate=${endDate}`)
-    get(`settlements/${selectedFsp}?fromDateTime=${startDate}&toDateTime=${endDate}`)
+    getSettlements(selectedFsp, { startDate, endDate })
       .then(setSettlements)
       .catch(err => window.alert('Failed to get FSPS')); // TODO: better error message, let user retry
   };

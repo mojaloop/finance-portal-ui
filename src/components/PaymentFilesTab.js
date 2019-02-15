@@ -6,7 +6,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { DatePicker, dateToStr } from './DatePicker';
 
-import { get, triggerDownload } from '../requests';
+import { triggerDownload } from '../requests';
+import { getPaymentFileList } from '../api';
 
 
 function PaymentFilesList(props) {
@@ -31,9 +32,9 @@ function PaymentFilesTab(props) {
   const [paymentFileList, setPaymentFileList] = useState([]);
 
   const updateQuery = (startDate, endDate) => {
-    get(`payment-file-list?startDate=${startDate}&endDate=${endDate}`)
+    getPaymentFileList({ startDate, endDate })
       .then(setPaymentFileList)
-      .catch(err => window.alert('Failed to get FSPS')); // TODO: better error message, let user retry
+      .catch(err => window.alert('Failed to get payment file list')); // TODO: better error message, let user retry
   };
 
   useEffect(() => updateQuery(startDate, endDate), []);

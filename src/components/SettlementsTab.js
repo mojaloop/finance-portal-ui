@@ -10,7 +10,7 @@ import SettlementsList from './SettlementsList';
 import SettlementWindowInfo from './SettlementWindowInfo';
 import PositionInfo from './PositionInfo';
 import FSPSelector from './FSPSelector';
-import { get } from '../requests';
+import { getDfsps, getPositions, getCurrentWindow } from '../api';
 
 const styles = theme => ({
   root: {
@@ -33,8 +33,8 @@ function SettlementsTab(props) {
 
   const selectFsp = async (dfspId) => {
     const [positions, win] = await Promise.all(([
-      get(`positions/${dfspId}`),
-      get(`current-window/${dfspId}`),
+      getPositions(dfspId),
+      getCurrentWindow(dfspId)
     ]));
     setPositions(positions);
     setSettlementWindow(win);
@@ -42,7 +42,7 @@ function SettlementsTab(props) {
   };
 
   useEffect(() => {
-    get('dfsps')
+    getDfsps()
       .then(dfsps => {
         // Augment fspList with a map of ids -> names and vice-versa.
         dfsps.ids = Object.assign(...dfsps.map(fsp => ({ [fsp.id]: fsp.name })));
