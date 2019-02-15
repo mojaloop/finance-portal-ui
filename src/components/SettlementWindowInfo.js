@@ -20,9 +20,10 @@ const styles = theme => ({
 
 
 function SettlementWindowInfo(props) {
-  const { classes, positions, settlementWindow: { payments, receipts } } = props;
+  const { classes, settlementWindow: { payments, receipts } } = props;
   return (
     <div className={classes.root}>
+      <h2>Current Settlement Window</h2>
       <Grid container spacing={0}>
 
         <Grid item md={4} />
@@ -61,34 +62,11 @@ function SettlementWindowInfo(props) {
           </Paper>
         </Grid>
       </Grid>
-      <Grid container spacing={0}>
-        <Grid item md={3}>
-          <Paper>Currency</Paper>
-        </Grid>
-        <Grid item md={3}>
-          <Paper>Position</Paper>
-        </Grid>
-        <Grid item md={3}>
-          <Paper>Limit</Paper>
-        </Grid>
-        <Grid item md={3}>
-          <Paper>Position/Limit</Paper>
-        </Grid>
-        {positions.map(p =>
-          <Grid container key={p.id}>
-            <Grid item md={3}><Paper>{p.currency}</Paper></Grid>
-            <Grid item md={3}><Paper>{p.position}</Paper></Grid>
-            <Grid item md={3}><Paper>{p.limit}</Paper></Grid>
-            <Grid item md={3}><Paper>{Math.round(p.position / p.limit).toFixed(2)}%</Paper></Grid>
-          </Grid>
-        )}
-      </Grid>
     </div>
   );
 }
 
 SettlementWindowInfo.propTypes = {
-  positions: PropTypes.array.isRequired,
   settlementWindow: PropTypes.object.isRequired
 };
 
