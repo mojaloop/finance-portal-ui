@@ -4,6 +4,7 @@ import './App.css';
 import Login from './components/Login';
 import SettlementsTab from './components/SettlementsTab';
 import PaymentFilesTab from './components/PaymentFilesTab';
+import FundsManagementTab from './components/FundsManagementTab';
 import { getUserInfo, setUserInfo } from './user';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -15,6 +16,7 @@ import { withStyles } from '@material-ui/core/styles';
 // TODO: do we need to add styling to all the components? (Or should we get rid of this material
 //       thing?)
 // TODO: consider a big "DEVELOPMENT MODE" header when in development mode
+// TODO: read more about PropTypes and available validation
 
 const styles = theme => ({
   root: {
@@ -46,6 +48,7 @@ function App(props) {
       </AppBar>
       {tab === 0 && <SettlementsTab />}
       {tab === 1 && <PaymentFilesTab />}
+      {tab === 2 && <FundsManagementTab />}
       </>
     )}
     </div>

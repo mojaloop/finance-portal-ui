@@ -1,12 +1,14 @@
 
 import { get } from './requests';
 
+const stringifyDate = dt => dt instanceof Date ? dt.toISOString() : dt;
+
 async function getPaymentFileList({ startDate, endDate }) {
-    return get(`payment-file-list?fromDateTime=${startDate}&toDateTime=${endDate}`);
+    return get(`payment-file-list?fromDateTime=${stringifyDate(startDate)}&toDateTime=${stringifyDate(endDate)}`);
 };
 
 async function getSettlements(participantId, { startDate, endDate }) {
-    return get(`settlements/${participantId}?fromDateTime=${startDate}&toDateTime=${endDate}`);
+    return get(`settlements/${participantId}?fromDateTime=${stringifyDate(startDate)}&toDateTime=${stringifyDate(endDate)}`);
 }
 
 async function getPositions(participantId) {

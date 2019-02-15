@@ -6,8 +6,9 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import { DatePicker, dateToStr } from './DatePicker';
+import { DateRangePicker } from './DatePicker';
 import { getSettlements } from '../api';
+import { truncateDate } from '../utils'
 
 
 function SettlementsListList(props) {
@@ -37,8 +38,8 @@ function SettlementsListList(props) {
 function SettlementsList(props) {
   const { fspList, selectedFsp } = props;
 
-  const [endDate, setEndDate] = useState(dateToStr(new Date(Date.now() + 1000 * 60 * 60 * 24))); // tomorrow
-  const [startDate, setStartDate] = useState(dateToStr(new Date()));
+  const to = truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24));
+  const from = truncateDate(new Date());
   const [settlements, setSettlements] = useState(undefined);
 
   const updateQuery = (startDate, endDate) => {
@@ -47,13 +48,12 @@ function SettlementsList(props) {
       .catch(err => window.alert('Failed to get FSPS')); // TODO: better error message, let user retry
   };
 
-  useEffect(() => updateQuery(startDate, endDate), []);
+  useEffect(() => updateQuery(from, to), []);
 
-  return(
+  return (
     <>
       <h2>Settlements</h2>
-      <DatePicker defDate={startDate} selectDate={dt => { setStartDate(dt); updateQuery(dt, endDate); }} />
-      <DatePicker defDate={endDate} selectDate={dt => { setEndDate(dt); updateQuery(startDate, dt); }} />
+      <DateRangePicker defStartDate={from} defEndDate={to} onChange={updateQuery} />
       {settlements && <SettlementsListList fspList={fspList} settlements={settlements} />}
     </>
   )
@@ -64,5 +64,4 @@ SettlementsList.propTypes = {
   selectedFsp: PropTypes.number.isRequired
 };
 
-// TODO: material withstyles?
 export default SettlementsList;
