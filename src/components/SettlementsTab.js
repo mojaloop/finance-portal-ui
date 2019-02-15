@@ -58,7 +58,6 @@ function SettlementsTab(props) {
     <div className={classes.root}>
     {fspList === undefined ||
       <Grid container spacing={24}>
-        <Grid item md={12} />
         <Grid item md={4}>
           <Paper className={classes.paper}>
             <FSPSelector selectFsp={selectFsp} fspList={fspList} />
