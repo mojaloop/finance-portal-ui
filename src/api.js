@@ -28,9 +28,15 @@ async function getAccounts(participantName) {
     return get(`accounts/${participantName}`);
 }
 
-// TODO: remove extensionList?
 async function processFundsIn(participantName, accountId, amount, currency) {
     return post(`funds-in/${participantName}/${accountId}`, {
+        amount,
+        currency
+    });
+}
+
+async function processFundsOut(participantName, accountId, amount, currency) {
+    return post(`funds-out/${participantName}/${accountId}`, {
         amount,
         currency
     });
@@ -43,5 +49,6 @@ export {
     getPaymentFileList,
     getPositions,
     getSettlements,
-    processFundsIn
+    processFundsIn,
+    processFundsOut
 };
