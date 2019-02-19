@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 import FSPSelector from './FSPSelector';
-import { getDfsps, getAccounts, processFundsIn } from '../api';
+import { getDfsps, getAccounts, processFundsIn, processFundsOut } from '../api';
 
 
 const styles = theme => ({
@@ -30,8 +30,9 @@ const styles = theme => ({
 });
 
 
-function FundsIn(props) {
-  const { fspName, classes, account, onChange = () => {} } = props;
+// Handles funds in and funds out requests
+function FundsManagement(props) {
+  const { fspName, classes, account, processFn, onChange = () => {} } = props;
 
   const [busy, setBusy] = useState(false);
   const [fundsInAmount, setFundsIn] = useState(0);
@@ -39,7 +40,7 @@ function FundsIn(props) {
   const actionFundsIn = async () => {
     setBusy(true);
     try {
-      const res = await processFundsIn(fspName, account.id, fundsInAmount, account.currency);
+      const res = await processFn(fspName, account.id, fundsInAmount, account.currency);
       onChange(res);
     } catch (err) {
       window.alert('Error processing funds in');
@@ -53,7 +54,6 @@ function FundsIn(props) {
   return (
     <>
       <TextField
-        id='fundsin'
         label='Amount'
         className={classes.textField}
         margin='normal'
@@ -68,10 +68,11 @@ function FundsIn(props) {
   )
 }
 
-FundsIn.propTypes = {
+FundsManagement.propTypes = {
   classes: PropTypes.object.isRequired,
   fspName: PropTypes.string.isRequired,
-  account: PropTypes.object.isRequired
+  account: PropTypes.object.isRequired,
+  processFn: PropTypes.func.isRequired
 };
 
 
@@ -98,11 +99,31 @@ function Account(props) {
       </Grid>
       <Grid container spacing={8}>
         <Grid item md={6}><Paper className={classes.paper}>Funds In</Paper></Grid>
-        <Grid item md={6}><Paper className={classes.paper}><FundsIn fspName={fsp} account={account} classes={classes} onChange={onChange} /></Paper></Grid>
+        <Grid item md={6}>
+          <Paper className={classes.paper}>
+            <FundsManagement
+              processFn={processFundsIn}
+              fspName={fsp}
+              account={account}
+              classes={classes}
+              onChange={onChange}
+            />
+          </Paper>
+        </Grid>
       </Grid>
       <Grid container spacing={8}>
         <Grid item md={6}><Paper className={classes.paper}>Funds Out</Paper></Grid>
-        <Grid item md={6}><Paper className={classes.paper}> </Paper></Grid>
+        <Grid item md={6}>
+          <Paper className={classes.paper}>
+            <FundsManagement
+              processFn={processFundsOut}
+              fspName={fsp}
+              account={account}
+              classes={classes}
+              onChange={onChange}
+            />
+          </Paper>
+        </Grid>
       </Grid>
     </Grid>
   );
