@@ -34,13 +34,13 @@ function FundsIn(props) {
   const { fspName, classes, account, onChange = () => {} } = props;
 
   const [busy, setBusy] = useState(false);
-  const [fundsIn, setFundsIn] = useState('0');
+  const [fundsInAmount, setFundsIn] = useState(0);
 
   const actionFundsIn = async () => {
     setBusy(true);
     try {
-      const res = await processFundsIn(fspName, account.id, fundsIn, account.currency);
-      onChange();
+      const res = await processFundsIn(fspName, account.id, fundsInAmount, account.currency);
+      onChange(res);
     } catch (err) {
       window.alert('Error processing funds in');
     }
@@ -49,6 +49,7 @@ function FundsIn(props) {
 
   // TODO: put a slider in, have the user move the slider to make the transfer. Have the slider
   // shift back to its original position whenever the funds in amount is changed.
+  // TODO: force a currency input, currently if the user enters any text there is no problem.
   return (
     <>
       <TextField
@@ -56,12 +57,12 @@ function FundsIn(props) {
         label='Amount'
         className={classes.textField}
         margin='normal'
-        value={fundsIn}
+        value={fundsInAmount}
         variant='outlined'
-        onChange={ev => setFundsIn(ev.target.value)}
+        onChange={ev => setFundsIn(Number(ev.target.value))}
       />
-      <Button variant='contained' color='primary' disabled={busy} className={classes.button} onClick={processFundsIn}>
-        Login
+      <Button variant='contained' color='primary' disabled={busy} className={classes.button} onClick={actionFundsIn}>
+        Process
       </Button>
     </>
   )
@@ -69,14 +70,14 @@ function FundsIn(props) {
 
 FundsIn.propTypes = {
   classes: PropTypes.object.isRequired,
-  fsp: PropTypes.string.isRequired,
+  fspName: PropTypes.string.isRequired,
   account: PropTypes.object.isRequired
 };
 
 
-// TODO: try a card here
+// TODO: try a material card here?
 function Account(props) {
-  const { account, classes, fsp } = props;
+  const { account, classes, fsp, onChange = () => {} } = props;
   return (
     <Grid container spacing={8}>
       <Grid container spacing={8}>
@@ -97,7 +98,7 @@ function Account(props) {
       </Grid>
       <Grid container spacing={8}>
         <Grid item md={6}><Paper className={classes.paper}>Funds In</Paper></Grid>
-        <Grid item md={6}><Paper className={classes.paper}><FundsIn fsp={fsp} classes={classes} /></Paper></Grid>
+        <Grid item md={6}><Paper className={classes.paper}><FundsIn fspName={fsp} account={account} classes={classes} onChange={onChange} /></Paper></Grid>
       </Grid>
       <Grid container spacing={8}>
         <Grid item md={6}><Paper className={classes.paper}>Funds Out</Paper></Grid>
@@ -134,14 +135,24 @@ function AccountsList(props) {
 
   useEffect(() => {
     getAccounts(fsp)
-      .then(setAccounts)
+      .then(accounts => setAccounts(accounts.filter(a => a.ledgerAccountType === 'SETTLEMENT')))
       .catch(err => window.alert('Failed to get accounts')) // TODO: better error message, let user retry
   }, []);
+
+  const updateAccount = updatedAccount => {
+    setAccounts([...accounts.filter(a => updatedAccount.id !== a.id), updatedAccount]);
+    // TODO: what is the diff algorithm used? The following doesn't work..
+    // const ix = accounts.findIndex(a => updatedAccount.id === a.id);
+    // if (ix !== -1) {
+    //   accounts[ix] = updatedAccount;
+    //   setAccounts(accounts);
+    // }
+  };
 
   // TODO: is the value field the balance??
   return (
     <Grid container spacing={0}>
-    {accounts.map(a => <Account key={a.id} account={a} classes={classes} fsp={fsp} />)}
+    {accounts.map(a => <Account key={a.id} account={a} classes={classes} fsp={fsp} onChange={updateAccount} />)}
     </Grid>
   );
 }

@@ -30,11 +30,9 @@ async function getAccounts(participantName) {
 
 // TODO: remove extensionList?
 async function processFundsIn(participantName, accountId, amount, currency) {
-    return post('funds-in/${participantName}/${accountId}', {
-        amount: {
-            amount,
-            currency
-        }
+    return post(`funds-in/${participantName}/${accountId}`, {
+        amount,
+        currency
     });
 }
 
