@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.2",
+    "immutable": "^4.0.0-rc.12",
+    "lodash": "^4.17.11",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-scripts": "2.1.4"
