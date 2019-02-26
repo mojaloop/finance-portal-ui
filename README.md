@@ -47,6 +47,7 @@ npm start
 * Some components fetch data on every load- we should cache that. For example, going to the payment
     file tab, leaving it, then returning to it causes a fetch to occur again. It would be better if
     this didn't happen. Might need a state management lib for this later on :(. Could use meiosis.
+* Factor out common styles from various components
 
 # Create-React-App default README follows
 

@@ -9,7 +9,6 @@ import Button from '@material-ui/core/Button';
 
 import FSPSelector from './FSPSelector';
 import { getDfsps, getNetDebitCap, updateNetDebitCap } from '../api';
-import _ from 'lodash';
 
 const styles = theme => ({
   root: {
@@ -61,7 +60,7 @@ function NDCManagement(props) {
         UPDATE
       </Button>
     </>
-  )
+  );
 }
 
 NDCManagement.propTypes = {
@@ -72,6 +71,7 @@ NDCManagement.propTypes = {
 
 
 // TODO: try a material card here?
+// TODO: this Account component is duplicated in the FundsManagementTab. We could factor it out.
 function Account(props) {
   const { account, classes, fsp, onChange = () => { } } = props;
   return (
@@ -115,21 +115,18 @@ function NDCAccountList(props) {
 
   useEffect(() => {
     getNetDebitCap(fsp)
-      .then(accounts => {
-        const sortedAccounts = _.sortBy(accounts, o => o.currency);
-        setAccounts(sortedAccounts)})
+      .then(setAccounts)
       .catch(err => window.alert('Failed to get NDC')) // TODO: better error message, let user retry
   }, []);
 
   const updateAccount = updatedAccount => {
-    const acc = [...accounts.filter(a => updatedAccount.id !== a.id), updatedAccount];
-    const sortedAccounts = _.sortBy(acc, o => o.currency);
-    setAccounts(sortedAccounts);
+    const newAccounts = [...accounts.filter(a => updatedAccount.id !== a.id), updatedAccount];
+    setAccounts(newAccounts);
   };
 
   return (
     <Grid container spacing={0}>
-      {accounts.map(a => <Account key={a.id} account={a} classes={classes} fsp={fsp} onChange={updateAccount} />)}
+      {accounts.sort((a, b) => a.currency > b.currency).map(a => <Account key={a.id} account={a} classes={classes} fsp={fsp} onChange={updateAccount} />)}
     </Grid>
   );
 }
@@ -137,7 +134,7 @@ function NDCAccountList(props) {
 function NDCManagementTab(props) {
   const { classes } = props;
 
-  const [selectedFsp, setSelectedFsp] = useState(undefined); // TODO: remove?
+  const [selectedFsp, setSelectedFsp] = useState(undefined);
   const [fspList, setFspList] = useState(undefined);
 
   useEffect(() => {
