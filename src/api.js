@@ -42,6 +42,14 @@ async function processFundsOut(participantName, accountId, amount, currency) {
     });
 }
 
+async function getNetDebitCap(participantName) {
+    return get(`netdebitcap/${participantName}`);
+}
+
+async function updateNetDebitCap(participantName, currency, newValue, accountId) {
+    return post(`netdebitcap/${participantName}`, { currency, newValue, accountId });
+}
+
 export {
     getAccounts,
     getCurrentWindow,
@@ -50,5 +58,7 @@ export {
     getPositions,
     getSettlements,
     processFundsIn,
-    processFundsOut
+    processFundsOut,
+    getNetDebitCap,
+    updateNetDebitCap
 };
