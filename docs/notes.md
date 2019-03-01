@@ -1,7 +1,10 @@
 
-The following design document is synthesised from this document:
-https://modusbox.atlassian.net/wiki/spaces/CV/pages/340820007/30+Admin+Portal#id-30AdminPortal-3)Financemanagementportal
+The following design document is synthesised from [this document](
+https://modusbox.atlassian.net/wiki/spaces/CV/pages/340820007/30+Admin+Portal#id-30AdminPortal-3%29Financemanagementportal).
 
+The design below provides detail on the generic tab, list, and details views shown in the
+wireframe:
+[Shoddy UI wireframe](./wireframe.png?raw=true)
 
 
 ## Tabs:
