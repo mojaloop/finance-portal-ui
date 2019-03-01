@@ -46,7 +46,9 @@ Contains the Settlement Windows list view.
 
 
 ### Participant List
+No filters required on the Participant List, for now. We'll add these if and when necessary.
 On selection of participant, overlay Participant Detail
+
 #### Columns
 * Name
 * ID
@@ -55,6 +57,7 @@ On selection, show up Participant Detail view
 
 
 ### Participant Detail
+
 #### Detail
 * Name
 * ID
@@ -64,13 +67,20 @@ On selection, show up Participant Detail view
     * Outgoing transactions
     * Incoming transactions
     * Net position / Net debit Cap (%)
+
 #### Actions
 * Stop transactions
 * Edit NDC
 
 
 ### Settlement List
+Initially, a date range filter should be prepopulated with a sensible date range, and the
+settlement list should be populated with settlements in this range. We don't paginate or supply
+other filters at this stage because the Mojaloop API does not support this. If we move to a raw
+database query, more filters and pagination should be easy to support.
+
 On selection of settlement, overlay Settlement Detail
+
 #### Columns
 * ID
 * Start date
@@ -79,6 +89,7 @@ On selection of settlement, overlay Settlement Detail
 
 
 ### Settlement Detail
+
 #### Detail
 * Settlement ID
 * Contained settlement window IDs
@@ -88,13 +99,20 @@ On selection of settlement, overlay Settlement Detail
 * End date
 * Status
 * Amounts (credit/debit/net) per participant/currency
+
 #### Actions
 * Download payment file
 * Commit settlement (if it is pending)
 
 
 ### Settlement Window List
+Initially, a date range filter should be prepopulated with a sensible date range, and the
+settlement window list should be populated with settlements in this range. We don't paginate or
+supply other filters at this stage because the Mojaloop API does not support this. If we move to a
+raw database query, more filters and pagination should be easy to support.
+
 On selection of settlement window, overlay Settlement Window Detail
+
 #### Detail
 * Window ID
 * Start date
@@ -104,6 +122,7 @@ On selection of settlement window, overlay Settlement Window Detail
 
 
 ### Settlement Window Detail
+
 #### Detail
 * Window ID
 * Sum of debits
@@ -112,5 +131,6 @@ On selection of settlement window, overlay Settlement Window Detail
 * End date
 * Status
 * Amounts (credit/debit/net) per participant
+
 #### Actions
 * Close settlement window
