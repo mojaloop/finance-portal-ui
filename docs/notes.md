@@ -1,6 +1,11 @@
 
 This design document is synthesised from [this document](
 https://modusbox.atlassian.net/wiki/spaces/CV/pages/340820007/30+Admin+Portal#id-30AdminPortal-3%29Financemanagementportal).
+As there are likely to have been transcription errors, or omissions, that document should likely be
+considered the source of truth. If anything in JIRA tasks, that document, or this document doesn't
+make sense- start a conversation with Matt or Iveth about it. If something in this document seems a
+bad idea, or future tasks don't fit, start a conversation about it. This document, and the
+associated UI, should be considered to be changeable and evolving- not prescriptive.
 
 The following wireframe presents two views. On the left, a main view consisting of a navigation
 bar, a filter, and a details pane. This is the view the user will be presented with after login.
