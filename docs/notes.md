@@ -6,7 +6,10 @@ considered the source of truth. If anything in JIRA tasks, that document, or thi
 make sense- start a conversation with Matt or Iveth about it. If something in this document seems a
 bad idea, or future tasks don't fit, start a conversation about it. This document, and the
 associated UI, should be considered to be changeable and evolving- not prescriptive.
-[See also](https://modusbox.atlassian.net/wiki/spaces/CV/pages/338855324/Portals) for JIRA tasks.
+
+See also:
+[StoriesOnBoard](https://mowali.storiesonboard.com/m/mowali-development)
+[JIRA](https://modusbox.atlassian.net/wiki/spaces/CV/pages/338855324/Portals)
 
 The following wireframe presents two views. On the left, a main view consisting of a navigation
 bar, a filter, and a details pane. This is the view the user will be presented with after login.
