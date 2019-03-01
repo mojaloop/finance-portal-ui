@@ -2,8 +2,14 @@
 The following design document is synthesised from [this document](
 https://modusbox.atlassian.net/wiki/spaces/CV/pages/340820007/30+Admin+Portal#id-30AdminPortal-3%29Financemanagementportal).
 
-The design below provides detail on the generic tab, list, and details views shown in the
-wireframe: ![Shoddy UI wireframe](./wireframe.png?raw=true)
+The following wireframe presents two views. On the left, a main view consisting of a navigation
+bar, a filter, and a details pane. This is the view the user will be presented with after login.
+The navigation bar is intended to contain the various sections of the UI- at the time of writing
+_Participants_, _Settlements_, and _Settlement Windows_. On the right, a details view. This shows a
+contrived _Settlements Detail_ view, modally overlaid atop the faded main view. The wireframe is
+intended to present the general design of the interface. The specific information displayed in each
+of these views is defined in the rest of this document.
+![Shoddy UI wireframe](./wireframe.png?raw=true)
 
 
 ## Tabs
