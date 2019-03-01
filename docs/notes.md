@@ -1,5 +1,5 @@
 
-The following design document is synthesised from [this document](
+This design document is synthesised from [this document](
 https://modusbox.atlassian.net/wiki/spaces/CV/pages/340820007/30+Admin+Portal#id-30AdminPortal-3%29Financemanagementportal).
 
 The following wireframe presents two views. On the left, a main view consisting of a navigation
