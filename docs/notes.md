@@ -6,26 +6,26 @@ The design below provides detail on the generic tab, list, and details views sho
 wireframe: ![Shoddy UI wireframe](./wireframe.png?raw=true)
 
 
-## Tabs:
+## Tabs
 * Participants
 * Settlements
 * Settlement Windows
 
 
 ### Participants
-Contains the participant list view
+Contains the Participant List view.
 
 
 ### Settlements
-Contains the settlements list view
+Contains the Settlements List view.
 
 
 ### Settlement Windows
-Contains the settlement windows list view
+Contains the Settlement Windows list view.
 
 
 
-## Views:
+## Views
 * Participant List
 * Settlement List
 * Settlement Detail
@@ -35,7 +35,8 @@ Contains the settlement windows list view
 
 
 ### Participant List
-Detail visible in the list/table:
+On selection of participant, overlay Participant Detail
+#### Columns
 * Name
 * ID
 * Country
@@ -43,7 +44,7 @@ On selection, show up Participant Detail view
 
 
 ### Participant Detail
-Detail:
+#### Detail
 * Name
 * ID
 * Country
@@ -52,14 +53,14 @@ Detail:
     * Outgoing transactions
     * Incoming transactions
     * Net position / Net debit Cap (%)
-Actions:
+#### Actions
 * Stop transactions
 * Edit NDC
 
 
 ### Settlement List
 On selection of settlement, overlay Settlement Detail
-Detail visible in the list/table:
+#### Columns
 * ID
 * Start date
 * End date
@@ -67,7 +68,7 @@ Detail visible in the list/table:
 
 
 ### Settlement Detail
-Detail:
+#### Detail
 * Settlement ID
 * Contained settlement window IDs
 * Sum of debits
@@ -76,14 +77,14 @@ Detail:
 * End date
 * Status
 * Amounts (credit/debit/net) per participant/currency
-Actions:
+#### Actions
 * Download payment file
 * Commit settlement (if it is pending)
 
 
 ### Settlement Window List
-On selection of settlement, overlay Settlement Window Detail
-Detail visible in the list/table:
+On selection of settlement window, overlay Settlement Window Detail
+#### Detail
 * Window ID
 * Start date
 * End date
@@ -92,7 +93,7 @@ Detail visible in the list/table:
 
 
 ### Settlement Window Detail
-Detail:
+#### Detail
 * Window ID
 * Sum of debits
 * Currency
@@ -100,5 +101,5 @@ Detail:
 * End date
 * Status
 * Amounts (credit/debit/net) per participant
-Actions:
+#### Actions
 * Close settlement window
