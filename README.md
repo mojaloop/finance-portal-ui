@@ -48,6 +48,8 @@ npm start
     file tab, leaving it, then returning to it causes a fetch to occur again. It would be better if
     this didn't happen. Might need a state management lib for this later on :(. Could use meiosis.
 * Factor out common styles from various components
+* Make sure all dates are GMT. This could also be documented and somewhat enforced in the backend
+    by having all date parameters match a regex for ISO8601 GMT strings (i.e. ending in 'Z').
 
 # Create-React-App default README follows
 
