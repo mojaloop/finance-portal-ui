@@ -57,6 +57,8 @@ npm start
 * Change (newly renamed) "Participants" tab to follow the wireframe guidelines of List and Details
     overlay.
 * "Payment files" tab should be subsumed into the settlements detail view
+* "NDC Management" tab should be subsumed into the participants detail view
+* "Funds Management" tab should be subsumed into the participants detail view
 * Some of the layout should be tidied, especially the Paper components that aren't filling the
     space available to them, and look bad as a result.
 * Horizontally and vertically center the login
