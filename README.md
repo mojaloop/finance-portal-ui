@@ -47,9 +47,22 @@ npm start
 * Some components fetch data on every load- we should cache that. For example, going to the payment
     file tab, leaving it, then returning to it causes a fetch to occur again. It would be better if
     this didn't happen. Might need a state management lib for this later on :(. Could use meiosis.
-* Factor out common styles from various components
+* Factor out common styles from various components.
 * Make sure all dates are GMT. This could also be documented and somewhat enforced in the backend
     by having all date parameters match a regex for ISO8601 GMT strings (i.e. ending in 'Z').
+* Rename components in line with the wireframes, currently "SettlementsTab" is really the
+    "ParticipantsTab"
+* Reorganise components into subdirectories corresponding to the wireframes
+* Rename "Settlements" tab to "Participants" tab
+* Change (newly renamed) "Participants" tab to follow the wireframe guidelines of List and Details
+    overlay.
+* "Payment files" tab should be subsumed into the settlements detail view
+* Some of the layout should be tidied, especially the Paper components that aren't filling the
+    space available to them, and look bad as a result.
+* Horizontally and vertically center the login
+* Add a logout button (probably will require a server call, then the server will probably need to
+    expire the cookie, 'Set-Cookie': 'expiry: $yesterday' or trash the token in it 'Set-Cookie':
+    'token=trash')
 
 # Create-React-App default README follows
 
