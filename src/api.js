@@ -1,5 +1,5 @@
 
-import { get, post } from './requests';
+import { get, post, put } from './requests';
 
 const stringifyDate = dt => dt instanceof Date ? dt.toISOString() : dt;
 
@@ -50,6 +50,32 @@ async function updateNetDebitCap(participantName, currency, newValue, accountId)
     return post(`netdebitcap/${participantName}`, { currency, newValue, accountId });
 }
 
+async function getSettlementWindows({ startDate, endDate }) {
+    return get(`settlement-windows?fromDateTime=${stringifyDate(startDate)}&toDateTime=${stringifyDate(endDate)}`);
+}
+
+async function getSettlementWindowInfo(settlementWindowId) {
+    return get(`settlement-windows/${settlementWindowId}`);
+}
+
+async function getSettlementsDetails({ startDate, endDate }) {
+    console.log('getSettlementsDetails');
+    const result = await get(`settlements?fromDateTime=${stringifyDate(startDate)}&toDateTime=${stringifyDate(endDate)}`);
+console.log(result);
+    return result;
+}
+
+async function getSettlementInfo(settlementId) {
+    // return get(`settlements/${settlementId}`);
+    return [];
+}
+
+async function commitSettlement(settlementId, { participants, startDate, endDate }) {
+    console.log('commitSettlement');
+    return put(`settlements/${settlementId}`, { participants, startDate,endDate });
+}
+
+
 export {
     getAccounts,
     getCurrentWindow,
@@ -60,5 +86,10 @@ export {
     processFundsIn,
     processFundsOut,
     getNetDebitCap,
-    updateNetDebitCap
+    updateNetDebitCap,
+    getSettlementWindows,
+    getSettlementWindowInfo,
+    getSettlementsDetails,
+    getSettlementInfo,
+    commitSettlement
 };
