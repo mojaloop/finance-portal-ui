@@ -198,9 +198,9 @@ function SettlementWindowsGrid(props) {
               </Table>
             </Grid>
           }
-          {(!settlementWindowDetails || !settlementWindowDetails.participantAmount || settlementWindowDetails.participantAmount.length === 0) &&
-            <Grid item md={12} className={classes.detailsDialog} > <h2>No Details Found </h2></Grid>
-          }
+          {/* {(!settlementWindowDetails || !settlementWindowDetails.participantAmount || settlementWindowDetails.participantAmount.length === 0) &&
+            <Grid item md={12} className={classes.detailsDialog} > <h2>FSP Details Not Found </h2></Grid>
+          } */}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

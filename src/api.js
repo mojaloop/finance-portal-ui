@@ -71,10 +71,13 @@ async function getSettlementInfo(settlementId) {
 }
 
 async function commitSettlement(settlementId, { participants, startDate, endDate }) {
-    console.log('commitSettlement');
     return put(`settlements/${settlementId}`, { participants, startDate,endDate });
 }
 
+async function getSettlementAccountBalance(participantId) {
+    console.log('getSettlementAccountBalance')
+    return get(`settlement-account/${participantId}`);
+}
 
 export {
     getAccounts,
@@ -91,5 +94,6 @@ export {
     getSettlementWindowInfo,
     getSettlementsDetails,
     getSettlementInfo,
-    commitSettlement
+    commitSettlement,
+    getSettlementAccountBalance
 };

@@ -10,7 +10,7 @@ import SettlementsList from './SettlementsList';
 import SettlementWindowInfo from './SettlementWindowInfo';
 import PositionInfo from './PositionInfo';
 import FSPSelector from './FSPSelector';
-import { getDfsps, getPositions, getCurrentWindow } from '../api';
+import { getDfsps, getPositions, getCurrentWindow, getSettlementAccountBalance } from '../api';
 
 const styles = theme => ({
   root: {
@@ -27,15 +27,18 @@ function SettlementsTab(props) {
   const { classes } = props;
 
   const [positions, setPositions] = useState(undefined);
+  const [settlementAccountBalance, setSettlementAccountBalance] = useState(undefined);
   const [settlementWindow, setSettlementWindow] = useState(undefined);
   const [selectedFsp, setSelectedFsp] = useState(undefined); // TODO: remove?
   const [fspList, setFspList] = useState(undefined);
 
   const selectFsp = async (dfspId) => {
-    const [positions, win] = await Promise.all(([
+    const [positions, win, balance] = await Promise.all(([
       getPositions(dfspId),
-      getCurrentWindow(dfspId)
+      getCurrentWindow(dfspId),
+      getSettlementAccountBalance(dfspId)
     ]));
+    setSettlementAccountBalance(balance);
     setPositions(positions);
     setSettlementWindow(win);
     setSelectedFsp(dfspId);
@@ -57,38 +60,38 @@ function SettlementsTab(props) {
 
   return (
     <div className={classes.root}>
-    {fspList === undefined ||
-      <Grid container spacing={24}>
-        <Grid item md={4}>
-          <Paper className={classes.paper}>
-            <FSPSelector selectFsp={selectFsp} fspList={fspList} />
-          </Paper>
-        </Grid>
-        {settlementWindow === undefined ? <></> :
-        <Grid item md={8}>
-          <Grid container spacing={24}>
-            <Grid item md={12}>
-              <Paper className={classes.paper}>
-                <SettlementWindowInfo settlementWindow={settlementWindow} />
-              </Paper>
-            </Grid>
-            <Grid item md={12}>
-              <Paper className={classes.paper}>
-                <PositionInfo positions={positions} />
-              </Paper>
-            </Grid>
-            {selectedFsp &&
-            <Grid item md={12}>
-              <Paper className={classes.paper}>
-                <SettlementsList selectedFsp={selectedFsp} fspList={fspList} />
-              </Paper>
-            </Grid>
-            }
+      {fspList === undefined ||
+        <Grid container spacing={24}>
+          <Grid item md={4}>
+            <Paper className={classes.paper}>
+              <FSPSelector selectFsp={selectFsp} fspList={fspList} />
+            </Paper>
           </Grid>
+          {settlementWindow === undefined ? <></> :
+            <Grid item md={8}>
+              <Grid container spacing={24}>
+                <Grid item md={12}>
+                  <Paper className={classes.paper}>
+                    <SettlementWindowInfo settlementWindow={settlementWindow} />
+                  </Paper>
+                </Grid>
+                <Grid item md={12}>
+                  <Paper className={classes.paper}>
+                    <PositionInfo positions={positions} settlementAccountBalance={settlementAccountBalance} />
+                  </Paper>
+                </Grid>
+                {selectedFsp &&
+                  <Grid item md={12}>
+                    <Paper className={classes.paper}>
+                      <SettlementsList selectedFsp={selectedFsp} fspList={fspList} />
+                    </Paper>
+                  </Grid>
+                }
+              </Grid>
+            </Grid>
+          }
         </Grid>
-        }
-      </Grid>
-    }
+      }
     </div>
   );
 }
