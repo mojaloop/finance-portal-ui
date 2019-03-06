@@ -58,16 +58,8 @@ async function getSettlementWindowInfo(settlementWindowId) {
     return get(`settlement-windows/${settlementWindowId}`);
 }
 
-async function getSettlementsDetails({ startDate, endDate }) {
-    console.log('getSettlementsDetails');
-    const result = await get(`settlements?fromDateTime=${stringifyDate(startDate)}&toDateTime=${stringifyDate(endDate)}`);
-console.log(result);
-    return result;
-}
-
-async function getSettlementInfo(settlementId) {
-    // return get(`settlements/${settlementId}`);
-    return [];
+async function getSettlementList({ startDate, endDate }) {
+    return get(`settlements?fromDateTime=${stringifyDate(startDate)}&toDateTime=${stringifyDate(endDate)}`);
 }
 
 async function commitSettlement(settlementId, { participants, startDate, endDate }) {
@@ -75,7 +67,6 @@ async function commitSettlement(settlementId, { participants, startDate, endDate
 }
 
 async function getSettlementAccountBalance(participantId) {
-    console.log('getSettlementAccountBalance')
     return get(`settlement-account/${participantId}`);
 }
 
@@ -92,8 +83,7 @@ export {
     updateNetDebitCap,
     getSettlementWindows,
     getSettlementWindowInfo,
-    getSettlementsDetails,
-    getSettlementInfo,
+    getSettlementList,
     commitSettlement,
     getSettlementAccountBalance
 };

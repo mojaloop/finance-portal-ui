@@ -18,12 +18,7 @@ import { truncateDate } from '../utils'
 import Dialog from '@material-ui/core/Dialog';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
-// import Select from '@material-ui/core/Select';
-// import MenuItem from '@material-ui/core/MenuItem';
-
-
-import { getSettlementsDetails, getSettlementInfo, commitSettlement } from '../api';
-// import { Link } from '@material-ui/core';
+import { getSettlementList, commitSettlement } from '../api';
 
 const styles = theme => ({
   root: {
@@ -35,6 +30,12 @@ const styles = theme => ({
     padding: theme.spacing.unit * 3,
     textAlign: 'center',
     color: theme.palette.text.secondary,
+  },
+  paperDetails: {
+    padding: theme.spacing.unit * 3,
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+    minWidth: 500
   },
   button: {
     margin: theme.spacing.unit,
@@ -49,16 +50,15 @@ const styles = theme => ({
     minWidth: 500
   },
   detailsDialog: {
-    minWidth: 200
+    minWidth: 500
   },
 });
 
 
 function SettlementsGrid(props) {
-  const { settlementsList, classes, startDate, endDate } = props;
+  const { settlementsList, classes, startDate, endDate, refreshGridHandler } = props;
   const [open, setOpen] = useState(false);
   const [settlementDetails, setSettlementsDetails] = useState(undefined);
-  // const [settlementId, setSettlementId] = useState(undefined);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -77,20 +77,17 @@ function SettlementsGrid(props) {
   };
 
   const handleCommit = (params) => {
-    console.log(params);
-    commitSettlement(params.settlementId, { participants: params.participants, startDate, endDate })
+    commitSettlement(params.settlementId, { participants: params.participants, startDate, endDate }).then(refreshGridHandler);
     setOpen(false);
   };
 
   const showDetails = async (settlementId, participants) => {
     try {
-      // setSettlementId({settlementId, participants}).
       const settlementDetails = {
         settlementId, participants
       }
       setSettlementsDetails(settlementDetails);
       setOpen(true);
-      // .then(() => setOpen(true));
     } catch (err) {
       window.alert(`Error getting details: ${err}`);
     }
@@ -105,7 +102,6 @@ function SettlementsGrid(props) {
               <TableCell><h3>Settlement Id</h3></TableCell>
               <TableCell align="right"><h3>State</h3></TableCell>
               <TableCell align="right"><h3>Action</h3></TableCell>
-              {/* <TableCell align="right">Changed Date</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -113,17 +109,13 @@ function SettlementsGrid(props) {
               <TableRow key={settlement.id}>
                 <TableCell component="th" scope="row">
                   {settlement.id}
-                  {/* <Link to="#" onClick={() => handleClickOpen(settlement.settlementId)} underline='hover'>{settlement.settlementId}</Link> */}
                 </TableCell>
                 <TableCell align="right">{settlement.state}</TableCell>
                 <TableCell align="right" scope="row">
                   <Button variant='contained' color='primary' disabled={settlement.state !== 'PENDING_SETTLEMENT'} className={classes.button} onClick={() => showDetails(settlement.id, settlement.participants)}>
                     Commit
                   </Button>
-                  {/* <Link to="#" onClick={() => handleClickOpen(settlement.settlementId)} underline='hover'>{settlement.settlementId}</Link> */}
                 </TableCell>
-                {/* <TableCell align="right">{settlement.createdDate}</TableCell>
-                <TableCell align="right">{settlement.changedDate}</TableCell> */}
               </TableRow>
             ))}
             {emptyRows > 0 && (
@@ -164,28 +156,33 @@ function SettlementsGrid(props) {
         <DialogContent>
           {settlementDetails && settlementDetails.participants && settlementDetails.participants.length > 0 &&
             <Grid item md={10}>
-              Settlement ID: {settlementDetails.settlementId}
-              <Table className={classes.tableDetails}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="left">Participant ID</TableCell>
-                    <TableCell align="right">Currency</TableCell>
-                    <TableCell align="right">Net Settlement Amount</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {settlementDetails.participants.sort((a, b) => a.id > b.id).map((row, index) => (
-                    <TableRow key={index}>
-                      <TableCell align="left">{row.id}</TableCell>
-                      <TableCell align="right">{row.accounts[0].netSettlementAmount.currency}</TableCell>
-                      <TableCell align="right">{row.accounts[0].netSettlementAmount.amount}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              <h2>Settlement ID: {settlementDetails.settlementId}</h2>
+              {settlementDetails.participants.sort((a, b) => a.id > b.id).map((row, index) => (
+                <Paper className={classes.paperDetails} key={row.id}>
+                  <h3>Participant ID: {row.id}</h3>
+                  <Table className={classes.tableDetails}>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="left">Account ID</TableCell>
+                        <TableCell align="right">Currency</TableCell>
+                        <TableCell align="right">Net Settlement Amount</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {row.accounts.sort((a, b) => a.id > b.id).map((account, index) => (
+                        <TableRow key={index}>
+                          <TableCell align="left">{account.id}</TableCell>
+                          <TableCell align="right">{account.netSettlementAmount.currency}</TableCell>
+                          <TableCell align="right">{account.netSettlementAmount.amount}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </Paper>
+              ))}
             </Grid>
           }
-          {!settlementDetails  &&
+          {!settlementDetails &&
             <Grid item md={12} > <Paper className={classes.detailsDialog} > <h2>No Details Found </h2></Paper></Grid>
           }
         </DialogContent>
@@ -214,9 +211,9 @@ function SettlementsTab(props) {
   const updateQuery = (startDate, endDate) => {
     setStartDate(startDate);
     setEndDate(endDate);
-    getSettlementsDetails({ startDate, endDate })
+    getSettlementList({ startDate, endDate })
       .then(setSettlementsList)
-      .catch(err => window.alert('Failed to get settlement windows')); // TODO: better error message, let user retry
+      .catch(err => window.alert('Failed to get settlement list')); // TODO: better error message, let user retry
   };
 
   useEffect(() => updateQuery(from, to), []);
@@ -230,10 +227,9 @@ function SettlementsTab(props) {
               <DateRangePicker defStartDate={from} defEndDate={to} onChange={updateQuery} />
             </Paper>
           </Grid>
-
           <Grid item md={10}>
             <Paper className={classes.paper}>
-              <SettlementsGrid settlementsList={settlementsList} classes={classes} endDate={endDate} startDate={startDate} />
+              <SettlementsGrid settlementsList={settlementsList} classes={classes} endDate={endDate} startDate={startDate} refreshGridHandler={setSettlementsList} />
             </Paper>
           </Grid>
         </Grid>
