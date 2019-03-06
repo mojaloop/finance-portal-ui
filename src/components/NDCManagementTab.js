@@ -117,7 +117,7 @@ function NDCAccountList(props) {
     getNetDebitCap(fsp)
       .then(setAccounts)
       .catch(err => window.alert('Failed to get NDC')) // TODO: better error message, let user retry
-  }, []);
+  }, [fsp]);
 
   const updateAccount = updatedAccount => {
     const newAccounts = [...accounts.filter(a => updatedAccount.id !== a.id), updatedAccount];

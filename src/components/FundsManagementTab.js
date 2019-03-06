@@ -158,7 +158,7 @@ function AccountsList(props) {
     getAccounts(fsp)
       .then(accounts => setAccounts(accounts.filter(a => a.ledgerAccountType === 'SETTLEMENT')))
       .catch(err => window.alert('Failed to get accounts')) // TODO: better error message, let user retry
-  }, []);
+  }, [fsp]);
 
   const updateAccount = updatedAccount => {
     setAccounts([...accounts.filter(a => updatedAccount.id !== a.id), updatedAccount]);
