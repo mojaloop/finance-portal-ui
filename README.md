@@ -65,6 +65,7 @@ npm start
 * Add a logout button (probably will require a server call, then the server will probably need to
     expire the cookie, 'Set-Cookie': 'expiry: $yesterday' or trash the token in it 'Set-Cookie':
     'token=trash')
+* Make sure when an item is selected in a list, it shows as selected
 
 # Create-React-App default README follows
 
