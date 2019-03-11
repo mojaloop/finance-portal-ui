@@ -10,11 +10,18 @@ import SettlementsList from './SettlementsList';
 import SettlementWindowInfo from './SettlementWindowInfo';
 import PositionInfo from './PositionInfo';
 import FSPSelector from './FSPSelector';
-import { getDfsps, getPositions, getCurrentWindow, getSettlementAccountBalance } from '../api';
+import Snackbar from '@material-ui/core/Snackbar';
+import Switch from '@material-ui/core/Switch';
+import { SnackbarContentWrapper } from './SnackbarUtils';
+
+import { getDfsps, getPositions, getCurrentWindow, getSettlementAccountBalance, getParticipantIsActiveFlag, setParticipantIsActiveFlag } from '../api';
 
 const styles = theme => ({
   root: {
     flexGrow: 1,
+  },
+  margin: {
+    margin: theme.spacing.unit,
   },
   paper: {
     padding: theme.spacing.unit * 2,
@@ -31,17 +38,47 @@ function SettlementsTab(props) {
   const [settlementWindow, setSettlementWindow] = useState(undefined);
   const [selectedFsp, setSelectedFsp] = useState(undefined); // TODO: remove?
   const [fspList, setFspList] = useState(undefined);
+  const [stopTransactions, setStopTransactions] = useState(undefined);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('Error');
+
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('Success');
 
   const selectFsp = async (dfspId) => {
-    const [positions, win, balance] = await Promise.all(([
+    const [positions, win, balance, isActive] = await Promise.all(([
       getPositions(dfspId),
       getCurrentWindow(dfspId),
-      getSettlementAccountBalance(dfspId)
+      getSettlementAccountBalance(dfspId),
+      getParticipantIsActiveFlag(dfspId)
     ]));
     setSettlementAccountBalance(balance);
     setPositions(positions);
     setSettlementWindow(win);
+    setStopTransactions(isActive);
     setSelectedFsp(dfspId);
+  };
+
+  const updateIsActiveFlag = event => {
+    let isActive = event.target.checked ? 0 : 1;
+    setStopTransactions(isActive);
+    setParticipantIsActiveFlag(selectedFsp, fspList.ids[selectedFsp], isActive).then(setStopTransactions).then(() => {
+      setSuccessMessage('Update Successful!');
+      setShowSuccessMessage(true);
+    })
+      .catch(err => {
+        setStopTransactions(isActive === 1 ? 0 : 1);
+        setErrorMessage('Failed to update!');
+        setShowErrorMessage(true);
+      });
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setShowErrorMessage(false);
+    setShowSuccessMessage(false);
   };
 
   useEffect(() => {
@@ -60,6 +97,39 @@ function SettlementsTab(props) {
 
   return (
     <div className={classes.root}>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left"
+        }}
+        open={showErrorMessage}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <SnackbarContentWrapper
+          onClose={handleCloseSnackbar}
+          variant="error"
+          className={classes.margin}
+          message={errorMessage}
+        />
+      </Snackbar>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left"
+        }}
+        open={showSuccessMessage}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <SnackbarContentWrapper
+          onClose={handleCloseSnackbar}
+          variant="success"
+          className={classes.margin}
+          message={successMessage}
+        />
+      </Snackbar>
+
       {fspList === undefined ||
         <Grid container spacing={24}>
           <Grid item md={4}>
@@ -67,8 +137,21 @@ function SettlementsTab(props) {
               <FSPSelector selectFsp={selectFsp} fspList={fspList} />
             </Paper>
           </Grid>
-          {settlementWindow === undefined ? <></> :
-            <Grid item md={8}>
+          <Grid item md={8}>
+          {stopTransactions === undefined ? <></> :
+            <Grid container spacing={24}>
+              <Grid item md={12}>
+                <Paper className={classes.paper}>
+                  <h3>Stop the Transactions: </h3>
+                    <Switch
+                    checked={stopTransactions === 0}
+                    onChange={updateIsActiveFlag}
+                  />
+                </Paper>
+              </Grid>
+            </Grid>
+          }
+            {settlementWindow === undefined ? <></> :
               <Grid container spacing={24}>
                 <Grid item md={12}>
                   <Paper className={classes.paper}>
@@ -88,8 +171,8 @@ function SettlementsTab(props) {
                   </Grid>
                 }
               </Grid>
-            </Grid>
-          }
+            }
+          </Grid>
         </Grid>
       }
     </div>

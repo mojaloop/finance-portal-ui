@@ -70,6 +70,14 @@ async function getSettlementAccountBalance(participantId) {
     return get(`settlement-account/${participantId}`);
 }
 
+async function getParticipantIsActiveFlag(participantId) {
+    return get(`participants/${participantId}/isActive`);
+}
+
+async function setParticipantIsActiveFlag(participantId, participantName, isActive) {
+    return put(`participants/${participantId}/isActive/`, {participantName, isActive});
+}
+
 export {
     getAccounts,
     getCurrentWindow,
@@ -85,5 +93,7 @@ export {
     getSettlementWindowInfo,
     getSettlementList,
     commitSettlement,
-    getSettlementAccountBalance
+    getSettlementAccountBalance,
+    getParticipantIsActiveFlag,
+    setParticipantIsActiveFlag
 };
