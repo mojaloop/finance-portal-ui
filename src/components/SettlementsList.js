@@ -45,7 +45,7 @@ function SettlementsList(props) {
   const updateQuery = (startDate, endDate) => {
     getSettlements(selectedFsp, { startDate, endDate })
       .then(setSettlements)
-      .catch(err => window.alert('Failed to get FSP list')); // TODO: better error message, let user retry
+      .catch(err => window.alert('Failed to get settlement list')); // TODO: better error message, let user retry
   };
 
   useEffect(() => updateQuery(from, to), []);

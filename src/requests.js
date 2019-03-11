@@ -3,7 +3,7 @@
 
 const util = require('util');
 
-const defaultEndpoint = (process.env.NODE_ENV === 'development') ? 'http://localhost:3002' : window.location.origin;
+const defaultEndpoint = (process.env.NODE_ENV === 'development') ? 'http://localhost:3002' : new URL('admin-portal-backend', window.location.origin).href;
 
 const respErrSym = Symbol('ResponseErrorDataSym');
 
