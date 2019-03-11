@@ -18,12 +18,8 @@ import { truncateDate } from '../utils'
 import Dialog from '@material-ui/core/Dialog';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
-// import Select from '@material-ui/core/Select';
-// import MenuItem from '@material-ui/core/MenuItem';
-
 
 import { getSettlementWindows, getSettlementWindowInfo } from '../api';
-// import { Link } from '@material-ui/core';
 
 const styles = theme => ({
   root: {
@@ -104,7 +100,6 @@ function SettlementWindowsGrid(props) {
                   <Button variant='contained' color='primary' disabled={false} className={classes.button} onClick={() => getDetails(settlementWindow.settlementWindowId, settlementWindow.state)}>
                     {settlementWindow.settlementWindowId}
                   </Button>
-                  {/* <Link to="#" onClick={() => handleClickOpen(settlementWindow.settlementWindowId)} underline='hover'>{settlementWindow.settlementWindowId}</Link> */}
                 </TableCell>
                 <TableCell align="right">{settlementWindow.state}</TableCell>
                 <TableCell align="right">{settlementWindow.createdDate}</TableCell>
@@ -198,9 +193,6 @@ function SettlementWindowsGrid(props) {
               </Table>
             </Grid>
           }
-          {/* {(!settlementWindowDetails || !settlementWindowDetails.participantAmount || settlementWindowDetails.participantAmount.length === 0) &&
-            <Grid item md={12} className={classes.detailsDialog} > <h2>FSP Details Not Found </h2></Grid>
-          } */}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
