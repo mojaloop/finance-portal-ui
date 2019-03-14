@@ -69,9 +69,14 @@ function App(props) {
       {tab === 2 && <SettlementsDetailsTab />}
 =======
       {tab === 1 && <PaymentFilesTab />}
+<<<<<<< feature/#454SettlementWindowActions
       {tab === 4 && <SettlementWindowsTab />}
       {tab === 5 && <SettlementsDetailsTab />}
 >>>>>>> Moved NDC management to financial monitoring to avoid handling dfsp request failure
+=======
+      {tab === 2 && <SettlementWindowsTab />}
+      {tab === 3 && <SettlementsDetailsTab />}
+>>>>>>> Fixed App to once again show settlements and windows
       </>
     )}
     </div>
