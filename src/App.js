@@ -4,7 +4,6 @@ import './App.css';
 import Login from './components/Login';
 import FinancialMonitoringTab from './components/FinancialMonitoringTab';
 import PaymentFilesTab from './components/PaymentFilesTab';
-import FundsManagementTab from './components/FundsManagementTab';
 import { getUserInfo, setUserInfo } from './user';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -46,14 +45,12 @@ function App(props) {
         <Tabs value={tab} onChange={(_, val) => setTab(val)}>
           <Tab label="Financial Monitoring" />
           <Tab label="Payment Files" />
-          <Tab label="Funds Management" />
           <Tab label="Settlement Windows" />
           <Tab label="Settlements Details" />
         </Tabs>
       </AppBar>
       {tab === 0 && <FinancialMonitoringTab />}
       {tab === 1 && <PaymentFilesTab />}
-      {tab === 2 && <FundsManagementTab />}
       {tab === 4 && <SettlementWindowsTab />}
       {tab === 5 && <SettlementsDetailsTab />}
       </>

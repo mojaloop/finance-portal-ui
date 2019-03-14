@@ -58,7 +58,7 @@ function PositionInfo(props) {
             <Grid item md={3}><Paper>{p.currency}</Paper></Grid>
             <Grid item md={3}><Paper>{p.position}</Paper></Grid>
             <Grid item md={3}><Paper>{p.limit}</Paper></Grid>
-            <Grid item md={3}><Paper>{Math.round(p.position / p.limit).toFixed(2)}%</Paper></Grid>
+            <Grid item md={3}><Paper>{(Math.round(p.position / p.limit * 100)).toFixed(2)}%</Paper></Grid>
           </Grid>
         )}
       </Grid>

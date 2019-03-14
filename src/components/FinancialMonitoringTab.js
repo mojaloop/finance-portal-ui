@@ -10,6 +10,7 @@ import SettlementsList from './SettlementsList';
 import SettlementWindowInfo from './SettlementWindowInfo';
 import NDCManagement from './NDCManagement';
 import PositionInfo from './PositionInfo';
+import FundsManagement from './FundsManagement';
 import FSPSelector from './FSPSelector';
 import Snackbar from '@material-ui/core/Snackbar';
 import Switch from '@material-ui/core/Switch';
@@ -171,6 +172,11 @@ function FinancialMonitoringTab(props) {
               <Grid item md={12}>
                 <Paper className={classes.paper}>
                   <NDCManagement fspName={fspList.ids[selectedFsp]} />
+                </Paper>
+              </Grid>
+              <Grid item md={12}>
+                <Paper className={classes.paper}>
+                  <FundsManagement fspName={fspList.ids[selectedFsp]} />
                 </Paper>
               </Grid>
             </Grid>
