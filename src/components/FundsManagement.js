@@ -134,7 +134,7 @@ function FundsManagement(props) {
       </TableHead>
       <TableBody>
       {accounts.sort((a, b) => a.currency.localeCompare(b.currency)).map(a =>
-        <TableRow>
+        <TableRow key={a.id}>
           <TableCell>{a.id}</TableCell>
           <TableCell align="right">{a.currency}</TableCell>
           <TableCell align="right">{a.value}</TableCell>
@@ -167,7 +167,7 @@ function FundsManagement(props) {
 
 FundsManagement.propTypes = {
   classes: PropTypes.object.isRequired,
-  fspName: PropTypes.object.isRequired
+  fspName: PropTypes.string.isRequired
 };
 
 export default withStyles(styles)(FundsManagement);
