@@ -47,7 +47,7 @@ npm start
 * Some components fetch data on every load- we should cache that. For example, going to the payment
     file tab, leaving it, then returning to it causes a fetch to occur again. It would be better if
     this didn't happen. Might need a state management lib for this later on :(. Could use meiosis.
-* Factor out common styles from various components.
+* Factor out, consolidate common styles from various components.
 * Make sure all dates are GMT. This could also be documented and somewhat enforced in the backend
     by having all date parameters match a regex for ISO8601 GMT strings (i.e. ending in 'Z').
 * Rename components in line with the wireframes, currently "SettlementsTab" is really the
@@ -66,6 +66,7 @@ npm start
     expire the cookie, 'Set-Cookie': 'expiry: $yesterday' or trash the token in it 'Set-Cookie':
     'token=trash')
 * Make sure when an item is selected in a list, it shows as selected
+* Properly handle all request failures, including timeouts
 
 # Create-React-App default README follows
 
