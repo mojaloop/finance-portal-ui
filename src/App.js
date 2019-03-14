@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Login from './components/Login';
-import SettlementsTab from './components/SettlementsTab';
+import FinancialMonitoringTab from './components/FinancialMonitoringTab';
 import PaymentFilesTab from './components/PaymentFilesTab';
 import FundsManagementTab from './components/FundsManagementTab';
 import NDCManagementTab from './components/NDCManagementTab';
@@ -45,7 +45,7 @@ function App(props) {
       <>
       <AppBar position="static">
         <Tabs value={tab} onChange={(_, val) => setTab(val)}>
-          <Tab label="Settlements" />
+          <Tab label="Financial Monitoring" />
           <Tab label="Payment Files" />
           <Tab label="Funds Management" />
           <Tab label="NDC Management" />
@@ -53,7 +53,7 @@ function App(props) {
           <Tab label="Settlements Details" />
         </Tabs>
       </AppBar>
-      {tab === 0 && <SettlementsTab />}
+      {tab === 0 && <FinancialMonitoringTab />}
       {tab === 1 && <PaymentFilesTab />}
       {tab === 2 && <FundsManagementTab />}
       {tab === 3 && <NDCManagementTab />}
