@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-
+import moment from 'moment';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -37,6 +37,7 @@ function PaymentFilesTab(props) {
   const [paymentFileList, setPaymentFileList] = useState([]);
 
   const updateQuery = (startDate, endDate) => {
+    endDate = moment(endDate).add(1,'days').format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS)
     getPaymentFileList({ startDate, endDate })
       .then(setPaymentFileList)
       .catch(err => window.alert('Failed to get payment file list')); // TODO: better error message, let user retry
