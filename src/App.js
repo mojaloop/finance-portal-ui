@@ -51,8 +51,8 @@ function App(props) {
       </AppBar>
       {tab === 0 && <FinancialMonitoringTab />}
       {tab === 1 && <PaymentFilesTab />}
-      {tab === 4 && <SettlementWindowsTab />}
-      {tab === 5 && <SettlementsDetailsTab />}
+      {tab === 2 && <SettlementWindowsTab />}
+      {tab === 3 && <SettlementsDetailsTab />}
       </>
     )}
     </div>
