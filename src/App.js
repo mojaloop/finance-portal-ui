@@ -3,6 +3,11 @@ import React, { useState } from 'react';
 import './App.css';
 import Login from './components/Login';
 import FinancialMonitoringTab from './components/FinancialMonitoringTab';
+<<<<<<< feature/#454SettlementWindowActions
+=======
+import PaymentFilesTab from './components/PaymentFilesTab';
+import FundsManagementTab from './components/FundsManagementTab';
+>>>>>>> Moved NDC management to financial monitoring to avoid handling dfsp request failure
 import { getUserInfo, setUserInfo } from './user';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -43,13 +48,25 @@ function App(props) {
       <AppBar position="static">
         <Tabs value={tab} onChange={(_, val) => setTab(val)}>
           <Tab label="Financial Monitoring" />
+<<<<<<< feature/#454SettlementWindowActions
+=======
+          <Tab label="Payment Files" />
+          <Tab label="Funds Management" />
+>>>>>>> Moved NDC management to financial monitoring to avoid handling dfsp request failure
           <Tab label="Settlement Windows" />
           <Tab label="Settlements Details" />
         </Tabs>
       </AppBar>
       {tab === 0 && <FinancialMonitoringTab />}
+<<<<<<< feature/#454SettlementWindowActions
       {tab === 1 && <SettlementWindowsTab />}
       {tab === 2 && <SettlementsDetailsTab />}
+=======
+      {tab === 1 && <PaymentFilesTab />}
+      {tab === 2 && <FundsManagementTab />}
+      {tab === 4 && <SettlementWindowsTab />}
+      {tab === 5 && <SettlementsDetailsTab />}
+>>>>>>> Moved NDC management to financial monitoring to avoid handling dfsp request failure
       </>
     )}
     </div>
