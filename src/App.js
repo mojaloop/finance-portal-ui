@@ -6,8 +6,11 @@ import FinancialMonitoringTab from './components/FinancialMonitoringTab';
 <<<<<<< feature/#454SettlementWindowActions
 =======
 import PaymentFilesTab from './components/PaymentFilesTab';
+<<<<<<< feature/#454SettlementWindowActions
 import FundsManagementTab from './components/FundsManagementTab';
 >>>>>>> Moved NDC management to financial monitoring to avoid handling dfsp request failure
+=======
+>>>>>>> Moved funds management into financial monitoring to avoid handling dfsp request failure
 import { getUserInfo, setUserInfo } from './user';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -51,8 +54,11 @@ function App(props) {
 <<<<<<< feature/#454SettlementWindowActions
 =======
           <Tab label="Payment Files" />
+<<<<<<< feature/#454SettlementWindowActions
           <Tab label="Funds Management" />
 >>>>>>> Moved NDC management to financial monitoring to avoid handling dfsp request failure
+=======
+>>>>>>> Moved funds management into financial monitoring to avoid handling dfsp request failure
           <Tab label="Settlement Windows" />
           <Tab label="Settlements Details" />
         </Tabs>
@@ -63,7 +69,6 @@ function App(props) {
       {tab === 2 && <SettlementsDetailsTab />}
 =======
       {tab === 1 && <PaymentFilesTab />}
-      {tab === 2 && <FundsManagementTab />}
       {tab === 4 && <SettlementWindowsTab />}
       {tab === 5 && <SettlementsDetailsTab />}
 >>>>>>> Moved NDC management to financial monitoring to avoid handling dfsp request failure
