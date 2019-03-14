@@ -50,12 +50,19 @@ function triggerDownload(path, { endpoint = defaultEndpoint } = {}) {
     window.location = buildUrl(endpoint, path);
 }
 
+function fetchTimeoutController({ timeoutMs = 5000, controller = new AbortController() } = {}) {
+    return {
+        timeout: setTimeout(() => controller.abort(), timeoutMs),
+        controller
+    };
+}
 
-async function get(path, { endpoint = defaultEndpoint, logger = () => {} } = {}) {
+async function get(path, { endpoint = defaultEndpoint, logger = () => {}, ftc = fetchTimeoutController() } = {}) {
     try {
         const opts = {
             method: 'GET',
-            headers: { 'accept': 'application/json' }
+            headers: { 'accept': 'application/json' },
+            signal: ftc.controller.signal
         };
 
         return await fetch(buildUrl(endpoint, path), opts).then(throwOrJson);
@@ -66,7 +73,7 @@ async function get(path, { endpoint = defaultEndpoint, logger = () => {} } = {})
 }
 
 
-async function put(path, body, { endpoint = defaultEndpoint, logger = () => {} } = {}) {
+async function put(path, body, { endpoint = defaultEndpoint, logger = () => {}, ftc = fetchTimeoutController() } = {}) {
     try {
         const opts = {
             method: 'PUT',
@@ -82,7 +89,7 @@ async function put(path, body, { endpoint = defaultEndpoint, logger = () => {} }
 }
 
 
-async function post(path, body, { endpoint = defaultEndpoint, logger = () => {} } = {}) {
+async function post(path, body, { endpoint = defaultEndpoint, logger = () => {}, ftc = fetchTimeoutController() } = {}) {
     try {
         const opts = {
             method: 'POST',
@@ -106,5 +113,6 @@ export {
     put,
     post,
     triggerDownload,
+    fetchTimeoutController,
     openInNewWindow
 };

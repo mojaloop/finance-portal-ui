@@ -2,9 +2,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import Login from './components/Login';
-import SettlementsTab from './components/SettlementsTab';
-import FundsManagementTab from './components/FundsManagementTab';
-import NDCManagementTab from './components/NDCManagementTab';
+import FinancialMonitoringTab from './components/FinancialMonitoringTab';
 import { getUserInfo, setUserInfo } from './user';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -44,18 +42,14 @@ function App(props) {
       <>
       <AppBar position="static">
         <Tabs value={tab} onChange={(_, val) => setTab(val)}>
-          <Tab label="Settlements" />
-          <Tab label="Funds Management" />
-          <Tab label="NDC Management" />
+          <Tab label="Financial Monitoring" />
           <Tab label="Settlement Windows" />
           <Tab label="Settlements Details" />
         </Tabs>
       </AppBar>
-      {tab === 0 && <SettlementsTab />}
-      {tab === 1 && <FundsManagementTab />}
-      {tab === 2 && <NDCManagementTab />}
-      {tab === 3 && <SettlementWindowsTab />}
-      {tab === 4 && <SettlementsDetailsTab />}
+      {tab === 0 && <FinancialMonitoringTab />}
+      {tab === 1 && <SettlementWindowsTab />}
+      {tab === 2 && <SettlementsDetailsTab />}
       </>
     )}
     </div>

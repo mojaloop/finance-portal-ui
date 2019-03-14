@@ -30,7 +30,7 @@ const styles = theme => ({
   },
 });
 
-function SettlementsTab(props) {
+function FinancialMonitoringTab(props) {
   const { classes } = props;
 
   const [positions, setPositions] = useState(undefined);
@@ -39,11 +39,7 @@ function SettlementsTab(props) {
   const [selectedFsp, setSelectedFsp] = useState(undefined); // TODO: remove?
   const [fspList, setFspList] = useState(undefined);
   const [stopTransactions, setStopTransactions] = useState(undefined);
-  const [showErrorMessage, setShowErrorMessage] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('Error');
-
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('Success');
+  const [snackBarParams, setSnackBarParams] = useState({ show: false, message: '', variant: 'success' });
 
   const selectFsp = async (dfspId) => {
     const [positions, win, balance, isActive] = await Promise.all(([
@@ -62,14 +58,14 @@ function SettlementsTab(props) {
   const updateIsActiveFlag = event => {
     let isActive = event.target.checked ? 0 : 1;
     setStopTransactions(isActive);
-    setParticipantIsActiveFlag(selectedFsp, fspList.ids[selectedFsp], isActive).then(setStopTransactions).then(() => {
-      setSuccessMessage('Update Successful!');
-      setShowSuccessMessage(true);
-    })
+    setParticipantIsActiveFlag(selectedFsp, fspList.ids[selectedFsp], isActive)
+      .then(setStopTransactions)
+      .then(() => {
+        setSnackBarParams({ show: true, message: 'Update Successful!', variant: 'success', action: 'close' })
+      })
       .catch(err => {
         setStopTransactions(isActive === 1 ? 0 : 1);
-        setErrorMessage('Failed to update!');
-        setShowErrorMessage(true);
+        setSnackBarParams({ show: true, message: 'Failed to update!', variant: 'error', action: 'close' })
       });
   };
 
@@ -77,22 +73,34 @@ function SettlementsTab(props) {
     if (reason === "clickaway") {
       return;
     }
-    setShowErrorMessage(false);
-    setShowSuccessMessage(false);
+    if (snackBarParams.callback) {
+      snackBarParams.callback();
+    }
+    setSnackBarParams({ ...snackBarParams, show: false });
   };
 
   useEffect(() => {
-    getDfsps()
-      .then(dfsps => {
-        // Augment fspList with a map of ids -> names and vice-versa.
-        dfsps.ids = Object.assign(...dfsps.map(fsp => ({ [fsp.id]: fsp.name })));
-        // Note that names are guaranteed unique by the db. We assume here that the concept of
-        // string uniqueness in mysql is no more strict than the concept of string uniqueness in
-        // node
-        dfsps.names = Object.assign(...dfsps.map(fsp => ({ [fsp.name]: fsp.id })));
-        setFspList(dfsps)
-      })
-      .catch(err => window.alert('Failed to get FSP list')); // TODO: better error message, let user retry
+    function loadDfsps() {
+      getDfsps()
+        .then(dfsps => {
+          // Augment fspList with a map of ids -> names and vice-versa.
+          dfsps.ids = Object.assign(...dfsps.map(fsp => ({ [fsp.id]: fsp.name })));
+          // Note that names are guaranteed unique by the db. We assume here that the concept of
+          // string uniqueness in mysql is no more strict than the concept of string uniqueness in
+          // node
+          dfsps.names = Object.assign(...dfsps.map(fsp => ({ [fsp.name]: fsp.id })));
+          setFspList(dfsps)
+        })
+        .catch(err => {
+          if (err.name === 'AbortError') {
+            setSnackBarParams({ show: true, message: 'Timeout getting FSPs. Retry?', variant: 'error', callback: loadDfsps, action: 'retry' })
+          }
+          else {
+            setSnackBarParams({ show: true, message: 'An error occurred trying to get the FSP list. Retry?', variant: 'error', callback: loadDfsps, action: 'retry' })
+          }
+        });
+    }
+    loadDfsps();
   }, []);
 
   return (
@@ -102,31 +110,16 @@ function SettlementsTab(props) {
           vertical: "bottom",
           horizontal: "left"
         }}
-        open={showErrorMessage}
-        autoHideDuration={6000}
+        open={snackBarParams.show}
+        autoHideDuration={snackBarParams.action === 'close' ? 6000 : null}
         onClose={handleCloseSnackbar}
       >
         <SnackbarContentWrapper
           onClose={handleCloseSnackbar}
-          variant="error"
+          variant={snackBarParams.variant}
           className={classes.margin}
-          message={errorMessage}
-        />
-      </Snackbar>
-      <Snackbar
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left"
-        }}
-        open={showSuccessMessage}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-      >
-        <SnackbarContentWrapper
-          onClose={handleCloseSnackbar}
-          variant="success"
-          className={classes.margin}
-          message={successMessage}
+          message={snackBarParams.message}
+          action={snackBarParams.action}
         />
       </Snackbar>
 
@@ -142,8 +135,8 @@ function SettlementsTab(props) {
             <Grid container spacing={24}>
               <Grid item md={12}>
                 <Paper className={classes.paper}>
-                  <h3>Stop the Transactions: </h3>
-                    <Switch
+                  <h3>Disable transactions for this DFSP</h3>
+                  <Switch
                     checked={stopTransactions === 0}
                     onChange={updateIsActiveFlag}
                   />
@@ -151,27 +144,27 @@ function SettlementsTab(props) {
               </Grid>
             </Grid>
           }
-            {settlementWindow === undefined ? <></> :
-              <Grid container spacing={24}>
-                <Grid item md={12}>
-                  <Paper className={classes.paper}>
-                    <SettlementWindowInfo settlementWindow={settlementWindow} />
-                  </Paper>
-                </Grid>
-                <Grid item md={12}>
-                  <Paper className={classes.paper}>
-                    <PositionInfo positions={positions} settlementAccountBalance={settlementAccountBalance} />
-                  </Paper>
-                </Grid>
-                {selectedFsp &&
-                  <Grid item md={12}>
-                    <Paper className={classes.paper}>
-                      <SettlementsList selectedFsp={selectedFsp} fspList={fspList} />
-                    </Paper>
-                  </Grid>
-                }
+          {settlementWindow === undefined ? <></> :
+            <Grid container spacing={24}>
+              <Grid item md={12}>
+                <Paper className={classes.paper}>
+                  <SettlementWindowInfo settlementWindow={settlementWindow} />
+                </Paper>
               </Grid>
-            }
+              <Grid item md={12}>
+                <Paper className={classes.paper}>
+                  <PositionInfo positions={positions} settlementAccountBalance={settlementAccountBalance} />
+                </Paper>
+              </Grid>
+              {selectedFsp &&
+                <Grid item md={12}>
+                  <Paper className={classes.paper}>
+                    <SettlementsList selectedFsp={selectedFsp} fspList={fspList} />
+                  </Paper>
+                </Grid>
+              }
+            </Grid>
+          }
           </Grid>
         </Grid>
       }
@@ -179,8 +172,8 @@ function SettlementsTab(props) {
   );
 }
 
-SettlementsTab.propTypes = {
+FinancialMonitoringTab.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(SettlementsTab);
+export default withStyles(styles)(FinancialMonitoringTab);
