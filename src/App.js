@@ -5,7 +5,6 @@ import Login from './components/Login';
 import FinancialMonitoringTab from './components/FinancialMonitoringTab';
 import PaymentFilesTab from './components/PaymentFilesTab';
 import FundsManagementTab from './components/FundsManagementTab';
-import NDCManagementTab from './components/NDCManagementTab';
 import { getUserInfo, setUserInfo } from './user';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -48,7 +47,6 @@ function App(props) {
           <Tab label="Financial Monitoring" />
           <Tab label="Payment Files" />
           <Tab label="Funds Management" />
-          <Tab label="NDC Management" />
           <Tab label="Settlement Windows" />
           <Tab label="Settlements Details" />
         </Tabs>
@@ -56,7 +54,6 @@ function App(props) {
       {tab === 0 && <FinancialMonitoringTab />}
       {tab === 1 && <PaymentFilesTab />}
       {tab === 2 && <FundsManagementTab />}
-      {tab === 3 && <NDCManagementTab />}
       {tab === 4 && <SettlementWindowsTab />}
       {tab === 5 && <SettlementsDetailsTab />}
       </>
