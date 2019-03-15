@@ -67,6 +67,8 @@ npm start
     'token=trash')
 * Make sure when an item is selected in a list, it shows as selected
 * Properly handle all request failures, including timeouts
+* Big lint branch to apply all lint fixes
+* eslint-plugin-jsx-a11y
 
 # Create-React-App default README follows
 
