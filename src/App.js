@@ -6,6 +6,7 @@ import SettlementsTab from './components/SettlementsTab';
 import PaymentFilesTab from './components/PaymentFilesTab';
 import FundsManagementTab from './components/FundsManagementTab';
 import NDCManagementTab from './components/NDCManagementTab';
+import AdminTab from './components/AdminTab.js';
 import { getUserInfo, setUserInfo } from './user';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -47,12 +48,14 @@ function App(props) {
           <Tab label="Payment Files" />
           <Tab label="Funds Management" />
           <Tab label="NDC Management" />
+          <Tab label="Administration" />
         </Tabs>
       </AppBar>
       {tab === 0 && <SettlementsTab />}
       {tab === 1 && <PaymentFilesTab />}
       {tab === 2 && <FundsManagementTab />}
       {tab === 3 && <NDCManagementTab />}
+      {tab === 4 && <AdminTab />}
       </>
     )}
     </div>

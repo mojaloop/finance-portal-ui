@@ -50,6 +50,13 @@ async function updateNetDebitCap(participantName, currency, newValue, accountId)
     return post(`netdebitcap/${participantName}`, { currency, newValue, accountId });
 }
 
+async function getEmailAddresses(participantName) {
+    return get(`emailAddress/${participantName}`);
+}
+
+async function updateEmailAddress(participantName, emailType, newValue) {
+    return post(`emailAddress/${participantName}`, { emailType, newValue });
+}
 export {
     getAccounts,
     getCurrentWindow,
@@ -60,5 +67,7 @@ export {
     processFundsIn,
     processFundsOut,
     getNetDebitCap,
-    updateNetDebitCap
+    updateNetDebitCap,
+    getEmailAddresses,
+    updateEmailAddress
 };
