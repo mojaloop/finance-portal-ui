@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import './App.css';
 import Login from './components/Login';
 import SettlementsTab from './components/SettlementsTab';
-import PaymentFilesTab from './components/PaymentFilesTab';
 import FundsManagementTab from './components/FundsManagementTab';
 import NDCManagementTab from './components/NDCManagementTab';
 import { getUserInfo, setUserInfo } from './user';
@@ -46,7 +45,6 @@ function App(props) {
       <AppBar position="static">
         <Tabs value={tab} onChange={(_, val) => setTab(val)}>
           <Tab label="Settlements" />
-          <Tab label="Payment Files" />
           <Tab label="Funds Management" />
           <Tab label="NDC Management" />
           <Tab label="Settlement Windows" />
@@ -54,11 +52,10 @@ function App(props) {
         </Tabs>
       </AppBar>
       {tab === 0 && <SettlementsTab />}
-      {tab === 1 && <PaymentFilesTab />}
-      {tab === 2 && <FundsManagementTab />}
-      {tab === 3 && <NDCManagementTab />}
-      {tab === 4 && <SettlementWindowsTab />}
-      {tab === 5 && <SettlementsDetailsTab />}
+      {tab === 1 && <FundsManagementTab />}
+      {tab === 2 && <NDCManagementTab />}
+      {tab === 3 && <SettlementWindowsTab />}
+      {tab === 4 && <SettlementsDetailsTab />}
       </>
     )}
     </div>

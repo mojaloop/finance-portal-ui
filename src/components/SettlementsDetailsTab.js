@@ -76,9 +76,18 @@ function SettlementsGrid(props) {
     setOpen(false);
   };
 
-  const handleCommit = (params) => {
-    commitSettlement(params.settlementId, { participants: params.participants, startDate, endDate }).then(refreshGridHandler);
+  const handleCommit = async (params) => {
     setOpen(false);
+    try {
+      const updatedSettlement = await commitSettlement(params.settlementId, { participants: params.participants, startDate, endDate });
+      let newSettlementList = settlementsList;
+      if (updatedSettlement && updatedSettlement.id) {
+        newSettlementList = [...settlementsList.filter(a => updatedSettlement.id !== a.id), updatedSettlement];
+      }
+      refreshGridHandler(newSettlementList);
+    } catch (err) {
+      window.alert('error while committing settlement')
+    }
   };
 
   const showDetails = async (settlementId, participants) => {

@@ -97,9 +97,14 @@ async function post(path, body, { endpoint = defaultEndpoint, logger = () => {} 
     }
 }
 
+function openInNewWindow(path, { endpoint = defaultEndpoint } = {}) {
+    window.open(buildUrl(endpoint, path), '_blank');
+}
+
 export {
     get,
     put,
     post,
-    triggerDownload
+    triggerDownload,
+    openInNewWindow
 };

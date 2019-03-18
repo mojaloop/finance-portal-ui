@@ -63,7 +63,7 @@ async function getSettlementList({ startDate, endDate }) {
 }
 
 async function commitSettlement(settlementId, { participants, startDate, endDate }) {
-    return put(`settlements/${settlementId}`, { participants, startDate,endDate });
+    return put(`settlements/${settlementId}`, { participants, startDate, endDate });
 }
 
 async function getSettlementAccountBalance(participantId) {
@@ -75,7 +75,15 @@ async function getParticipantIsActiveFlag(participantId) {
 }
 
 async function setParticipantIsActiveFlag(participantId, participantName, isActive) {
-    return put(`participants/${participantId}/isActive/`, {participantName, isActive});
+    return put(`participants/${participantId}/isActive/`, { participantName, isActive });
+}
+
+async function commitSettlementWindow(settlementWindowId, { participants, settlementId, startDate, endDate }) {
+    return put(`settlement-window-commit/${settlementWindowId}`, { participants, settlementId, startDate, endDate });
+}
+
+async function closeSettlementWindow(settlementWindowId, { startDate, endDate }) {
+    return put(`settlement-window-close/${settlementWindowId}`, { startDate, endDate });
 }
 
 export {
@@ -95,5 +103,7 @@ export {
     commitSettlement,
     getSettlementAccountBalance,
     getParticipantIsActiveFlag,
-    setParticipantIsActiveFlag
+    setParticipantIsActiveFlag,
+    commitSettlementWindow,
+    closeSettlementWindow
 };
