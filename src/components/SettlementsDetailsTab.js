@@ -19,6 +19,8 @@ import Dialog from '@material-ui/core/Dialog';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import { getSettlementList, commitSettlement } from '../api';
+import Snackbar from '@material-ui/core/Snackbar';
+import { SnackbarContentWrapper } from './SnackbarUtils';
 
 const styles = theme => ({
   root: {
@@ -61,6 +63,7 @@ function SettlementsGrid(props) {
   const [settlementDetails, setSettlementsDetails] = useState(undefined);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [snackBarParams, setSnackBarParams] = useState({ show: false, message: '', variant: 'success' });
 
   const handleChangePage = (event, page) => {
     setPage(page);
@@ -85,9 +88,20 @@ function SettlementsGrid(props) {
         newSettlementList = [...settlementsList.filter(a => updatedSettlement.id !== a.id), updatedSettlement];
       }
       refreshGridHandler(newSettlementList);
+      setSnackBarParams({ show: true, message: 'Commit Successful!', variant: 'success', action: 'close' });
     } catch (err) {
-      window.alert('error while committing settlement')
+      setSnackBarParams({ show: true, message: 'Failed to commit!', variant: 'error', action: 'close' })
     }
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    if (snackBarParams.callback) {
+      snackBarParams.callback();
+    }
+    setSnackBarParams({ ...snackBarParams, show: false });
   };
 
   const showDetails = async (settlementId, participants) => {
@@ -104,6 +118,23 @@ function SettlementsGrid(props) {
 
   return (
     <>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left"
+        }}
+        open={snackBarParams.show}
+        autoHideDuration={snackBarParams.action === 'close' ? 6000 : null}
+        onClose={handleCloseSnackbar}
+      >
+        <SnackbarContentWrapper
+          onClose={handleCloseSnackbar}
+          variant={snackBarParams.variant}
+          className={classes.margin}
+          message={snackBarParams.message}
+          action={snackBarParams.action}
+        />
+      </Snackbar>
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <TableHead>

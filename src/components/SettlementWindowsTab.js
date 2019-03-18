@@ -112,9 +112,9 @@ function SettlementWindowsGrid(props) {
         newSettlementWindowsList = [...settlementWindowsList.filter(a => updatedSettlementWindow.settlementWindowId !== a.settlementWindowId), updatedSettlementWindow];
       }
       refreshGridHandler(newSettlementWindowsList);
-      setSnackBarParams({ show: true, message: 'Update Successful!', variant: 'success', action: 'close' });
+      setSnackBarParams({ show: true, message: 'Commit Successful!', variant: 'success', action: 'close' });
     } catch (err) {
-      setSnackBarParams({ show: true, message: 'Failed to update!', variant: 'error', action: 'close' })
+      setSnackBarParams({ show: true, message: 'Failed to commit!', variant: 'error', action: 'close' })
     }
   };
 
@@ -138,9 +138,9 @@ function SettlementWindowsGrid(props) {
         newSettlementWindowsList = [...settlementWindowsList.filter(a => updatedSettlementWindow.settlementWindowId !== a.settlementWindowId), updatedSettlementWindow];
       }
       refreshGridHandler(newSettlementWindowsList);
-      // window.alert('close settlement window successful');
+      setSnackBarParams({ show: true, message: 'Close Window Successful!', variant: 'success', action: 'close' });
     } catch (err) {
-      window.alert('Error closing window');
+      setSnackBarParams({ show: true, message: 'Failed to close window!', variant: 'error', action: 'close' })
     }
   };
 
