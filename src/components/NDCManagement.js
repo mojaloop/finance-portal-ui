@@ -95,7 +95,7 @@ function NDCManagement(props) {
             <TableCell align="right"><h3>Currency</h3></TableCell>
             <TableCell align="right"><h3>Position</h3></TableCell>
             <TableCell align="right"><h3>NDC</h3></TableCell>
-            <TableCell align="right"><h3>New NDC</h3></TableCell>
+            <TableCell align="center"><h3>New NDC</h3></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -105,7 +105,7 @@ function NDCManagement(props) {
               <TableCell align="right">{a.currency}</TableCell>
               <TableCell align="right">{a.value}</TableCell>
               <TableCell align="right">{a.netDebitCap}</TableCell>
-              <TableCell align="right">
+              <TableCell align="center">
                 <AccountNDCManagement
                   fspName={fspName}
                   account={a}
