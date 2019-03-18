@@ -128,8 +128,8 @@ function FundsManagement(props) {
           <TableCell align="right"><h3>Currency</h3></TableCell>
           <TableCell align="right"><h3>Balance</h3></TableCell>
           <TableCell align="right"><h3>Ledger Type</h3></TableCell>
-          <TableCell align="right"><h3>Funds In</h3></TableCell>
-          <TableCell align="right"><h3>Funds Out</h3></TableCell>
+          <TableCell align="center"><h3>Funds In</h3></TableCell>
+          <TableCell align="center"><h3>Funds Out</h3></TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -139,7 +139,7 @@ function FundsManagement(props) {
           <TableCell align="right">{a.currency}</TableCell>
           <TableCell align="right">{a.value}</TableCell>
           <TableCell align="right">{a.ledgerAccountType}</TableCell>
-          <TableCell align="right">
+          <TableCell align="center">
             <AccountFundsManagement
               processFn={processFundsIn}
               fspName={fspName}
@@ -148,7 +148,7 @@ function FundsManagement(props) {
               onChange={updateAccount}
             />
           </TableCell>
-          <TableCell align="right">
+          <TableCell align="center">
             <AccountFundsManagement
               processFn={processFundsOut}
               fspName={fspName}
