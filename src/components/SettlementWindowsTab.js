@@ -266,7 +266,6 @@ function SettlementWindowsGrid(props) {
                 </Button>
               </Grid>
               <Grid item md={2}>
-                {/* <Button color='primary' variant='contained' onClick={() => setCommitOpen(true)} disabled={!settlementWindowDetails.settlement.participants}> */}
                 <Button color='primary' variant='contained' onClick={() => setCommitOpen(true)} disabled={settlementWindowStatus !== 'PENDING_SETTLEMENT'}>
                   Commit Window
                 </Button>
