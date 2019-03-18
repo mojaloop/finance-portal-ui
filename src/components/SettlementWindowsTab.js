@@ -19,6 +19,8 @@ import { triggerDownload, openInNewWindow } from '../requests';
 import Dialog from '@material-ui/core/Dialog';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
+import Snackbar from '@material-ui/core/Snackbar';
+import { SnackbarContentWrapper } from './SnackbarUtils';
 
 import { getSettlementWindows, getSettlementWindowInfo, commitSettlementWindow, closeSettlementWindow } from '../api';
 
@@ -60,6 +62,7 @@ function SettlementWindowsGrid(props) {
   const [settlementWindowDetails, setSettlementWindowsDetails] = useState(undefined);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [snackBarParams, setSnackBarParams] = useState({ show: false, message: '', variant: 'success' });
 
   const handleChangePage = (event, page) => {
     setPage(page);
@@ -109,11 +112,20 @@ function SettlementWindowsGrid(props) {
         newSettlementWindowsList = [...settlementWindowsList.filter(a => updatedSettlementWindow.settlementWindowId !== a.settlementWindowId), updatedSettlementWindow];
       }
       refreshGridHandler(newSettlementWindowsList);
-
-      // window.alert('commit settlement window successful');
+      setSnackBarParams({ show: true, message: 'Update Successful!', variant: 'success', action: 'close' });
     } catch (err) {
-      window.alert('Error committing window');
+      setSnackBarParams({ show: true, message: 'Failed to update!', variant: 'error', action: 'close' })
     }
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    if (snackBarParams.callback) {
+      snackBarParams.callback();
+    }
+    setSnackBarParams({ ...snackBarParams, show: false });
   };
 
   const confirmClose = async () => {
@@ -135,6 +147,23 @@ function SettlementWindowsGrid(props) {
 
   return (
     <>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left"
+        }}
+        open={snackBarParams.show}
+        autoHideDuration={snackBarParams.action === 'close' ? 6000 : null}
+        onClose={handleCloseSnackbar}
+      >
+        <SnackbarContentWrapper
+          onClose={handleCloseSnackbar}
+          variant={snackBarParams.variant}
+          className={classes.margin}
+          message={snackBarParams.message}
+          action={snackBarParams.action}
+        />
+      </Snackbar>
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <TableHead>
