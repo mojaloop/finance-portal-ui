@@ -58,7 +58,6 @@ function SettlementWindowsGrid(props) {
   const [open, setOpen] = useState(false);
   const [commitOpen, setCommitOpen] = useState(false);
   const [closeSettlementOpen, setCloseSettlementOpen] = useState(false);
-  const [settlementWindowStatus, setSettlementWindowStatus] = useState(false);
   const [settlementWindowDetails, setSettlementWindowsDetails] = useState(undefined);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -85,9 +84,8 @@ function SettlementWindowsGrid(props) {
     setCloseSettlementOpen(false);
   };
 
-  const getDetails = async (settlementWindowId, status) => {
+  const getDetails = async (settlementWindowId) => {
     try {
-      setSettlementWindowStatus(status);
       const settlementWindow = await getSettlementWindowInfo(settlementWindowId);
       setSettlementWindowsDetails(settlementWindow);
       setOpen(true);
@@ -102,7 +100,7 @@ function SettlementWindowsGrid(props) {
     try {
       const updatedSettlementWindow = await commitSettlementWindow(settlementWindowDetails.settlementWindow.settlementWindowId,
         {
-          participants: settlementWindowDetails.settlement.participants,
+          participants: settlementWindowDetails.settlement.participants || [],
           settlementId: settlementWindowDetails.settlementId,
           startDate,
           endDate
@@ -178,7 +176,7 @@ function SettlementWindowsGrid(props) {
             {settlementWindowsList.sort((a, b) => b.settlementWindowId - a.settlementWindowId).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(settlementWindow => (
               <TableRow key={settlementWindow.settlementWindowId}>
                 <TableCell component="th" scope="row">
-                  <Button variant='contained' color='primary' disabled={false} className={classes.button} onClick={() => getDetails(settlementWindow.settlementWindowId, settlementWindow.state)}>
+                  <Button variant='contained' color='primary' disabled={false} className={classes.button} onClick={() => getDetails(settlementWindow.settlementWindowId)}>
                     {settlementWindow.settlementWindowId}
                   </Button>
                 </TableCell>
@@ -230,7 +228,7 @@ function SettlementWindowsGrid(props) {
               </Grid>
               <Grid container spacing={8}>
                 <Grid item md={6}><Paper className={classes.paper}>Status</Paper></Grid>
-                <Grid item md={6}><Paper className={classes.paper}>{settlementWindowStatus}</Paper></Grid>
+                <Grid item md={6}><Paper className={classes.paper}>{settlementWindowDetails.settlementWindow.settlementWindowStateId}</Paper></Grid>
               </Grid>
               <Grid container spacing={8}>
                 <Grid item md={6}><Paper className={classes.paper}>Total Amount</Paper></Grid>
@@ -295,12 +293,12 @@ function SettlementWindowsGrid(props) {
                 </Button>
               </Grid>
               <Grid item md={2}>
-                <Button color='primary' variant='contained' onClick={() => setCommitOpen(true)} disabled={settlementWindowStatus !== 'PENDING_SETTLEMENT'}>
+                <Button color='primary' variant='contained' onClick={() => setCommitOpen(true)} disabled={settlementWindowDetails.settlementWindow.settlementWindowStateId !== 'PENDING_SETTLEMENT'}>
                   Commit Window
                 </Button>
               </Grid>
               <Grid item md={2}>
-                <Button color='primary' variant='contained' onClick={() => setCloseSettlementOpen(true)} disabled={settlementWindowStatus !== 'OPEN'}>
+                <Button color='primary' variant='contained' onClick={() => setCloseSettlementOpen(true)} disabled={settlementWindowDetails.settlementWindow.settlementWindowStateId !== 'OPEN'}>
                   Close Window
                 </Button>
               </Grid>
