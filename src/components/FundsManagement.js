@@ -12,6 +12,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
 import { getAccounts, processFundsIn, processFundsOut } from '../api';
+import { CurrencyFormat } from './InputControl';
 
 
 const styles = theme => ({
@@ -58,11 +59,16 @@ function AccountFundsManagement(props) {
         className={classes.textField}
         margin='normal'
         value={fundsInAmount}
+        onFocus={ev => ev.target.select()}
+        InputProps={{
+          inputComponent: CurrencyFormat, suffix: ` ${account.currency}`,
+          inputProps: { suffix: ` ${account.currency}` }
+        }}
         variant='outlined'
         onChange={ev => setFundsIn(Number(ev.target.value))}
       />
       <Button variant='contained' color='primary' disabled={busy} className={classes.button} onClick={actionFundsIn}>
-        Process
+        Apply
       </Button>
     </>
   )

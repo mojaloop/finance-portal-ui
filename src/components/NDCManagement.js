@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -11,6 +12,8 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
 import { getNetDebitCap, updateNetDebitCap } from '../api';
+import { CurrencyFormat } from './InputControl';
+
 
 const styles = theme => ({
   root: {
@@ -53,11 +56,16 @@ function AccountNDCManagement(props) {
         className={classes.textField}
         margin='normal'
         value={newNDC}
+        onFocus={ev => ev.target.select()}
+        InputProps={{
+          inputComponent: CurrencyFormat, suffix: ` ${account.currency}`,
+          inputProps: { suffix: ` ${account.currency}` }
+        }}
         variant='outlined'
-        onChange={ev => setNewNDC(Number(ev.target.value))}
+        onChange={ev => setNewNDC(ev.target.value)}
       />
       <Button variant='contained' color='primary' disabled={busy} className={classes.button} onClick={updateNDC}>
-        UPDATE
+        Apply
       </Button>
     </>
   );
