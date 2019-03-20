@@ -42,6 +42,7 @@ function AccountFundsManagement(props) {
     setBusy(true);
     try {
       const res = await processFn(fspName, account.id, fundsInAmount, account.currency);
+      setFundsIn(0);
       onChange(res);
     } catch (err) {
       window.alert('Error processing funds in');
