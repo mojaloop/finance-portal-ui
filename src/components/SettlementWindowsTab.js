@@ -10,12 +10,10 @@ import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+
 import { DateRangePicker } from './DatePicker';
 import { TablePaginationActionsWrapped } from './TablePaginationActions';
 import { DialogTitle, DialogContent, DialogActions } from './DialogUtils';
-import { truncateDate } from '../utils'
-import { triggerDownload, openInNewWindow } from '../requests';
-
 import Dialog from '@material-ui/core/Dialog';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
@@ -23,6 +21,8 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { SnackbarContentWrapper } from './SnackbarUtils';
 
 import { getSettlementWindows, getSettlementWindowInfo, commitSettlementWindow, closeSettlementWindow } from '../api';
+import { truncateDate } from '../utils'
+import { triggerDownload, openInNewWindow } from '../requests';
 
 const styles = theme => ({
   root: {
@@ -55,9 +55,9 @@ const styles = theme => ({
 
 function SettlementWindowsGrid(props) {
   const { settlementWindowsList, classes, startDate, endDate, refreshGridHandler } = props;
-  const [open, setOpen] = useState(false);
-  const [commitOpen, setCommitOpen] = useState(false);
-  const [closeSettlementOpen, setCloseSettlementOpen] = useState(false);
+  const [settlementWindowModalVisible, setSettlementWindowModalVisible] = useState(false);
+  const [commitSettlementDialogVisible, setCommitSettlementDialogVisible] = useState(false);
+  const [closeSettlementDialogOpen, setCloseSettlementDialogVisible] = useState(false);
   const [settlementWindowDetails, setSettlementWindowsDetails] = useState(undefined);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -74,28 +74,27 @@ function SettlementWindowsGrid(props) {
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, settlementWindowsList.length - page * rowsPerPage);
   const handleClose = () => {
-    setOpen(false);
+    setSettlementWindowModalVisible(false);
   };
   const handleCommitClose = () => {
-    setCommitOpen(false);
+    setCommitSettlementDialogVisible(false);
   };
 
-  const handleCloseClose = () => {
-    setCloseSettlementOpen(false);
+  const handleCloseDialogClose = () => {
+    setCloseSettlementDialogVisible(false);
   };
 
   const getDetails = async (settlementWindowId) => {
     try {
-      const settlementWindow = await getSettlementWindowInfo(settlementWindowId);
-      setSettlementWindowsDetails(settlementWindow);
-      setOpen(true);
+      setSettlementWindowsDetails(await getSettlementWindowInfo(settlementWindowId));
+      setSettlementWindowModalVisible(true);
     } catch (err) {
       window.alert('Error getting details');
     }
   };
 
   const confirmCommit = async () => {
-    setCommitOpen(false);
+    setCommitSettlementDialogVisible(false);
     handleClose();
     try {
       const updatedSettlementWindow = await commitSettlementWindow(settlementWindowDetails.settlementWindow.settlementWindowId,
@@ -127,7 +126,7 @@ function SettlementWindowsGrid(props) {
   };
 
   const confirmClose = async () => {
-    setCloseSettlementOpen(false);
+    setCloseSettlementDialogVisible(false);
     handleClose();
     try {
       const updatedSettlementWindow = await closeSettlementWindow(settlementWindowDetails.settlementWindow.settlementWindowId, { startDate, endDate });
@@ -213,14 +212,14 @@ function SettlementWindowsGrid(props) {
       <Dialog
         onClose={handleClose}
         aria-labelledby="dialog-title"
-        open={open}
+        open={settlementWindowModalVisible}
         maxWidth='lg'
       >
         <DialogTitle id="dialog-title" onClose={handleClose}>
           Settlement Window Details
           </DialogTitle>
         <DialogContent>
-          {settlementWindowDetails && settlementWindowDetails.settlementWindow && settlementWindowDetails.settlementWindow.settlementWindowId != null &&
+          {settlementWindowDetails && settlementWindowDetails.settlementWindow && settlementWindowDetails.settlementWindow.settlementWindowId !== null &&
             <Grid container spacing={8}>
               <Grid container spacing={8}>
                 <Grid item md={6}><Paper className={classes.paper}>Settlement Window ID</Paper></Grid>
@@ -275,7 +274,7 @@ function SettlementWindowsGrid(props) {
           }
         </DialogContent>
         <DialogActions>
-          {settlementWindowDetails && settlementWindowDetails.settlementWindow && settlementWindowDetails.settlementWindow.settlementWindowId != null &&
+          {settlementWindowDetails && settlementWindowDetails.settlementWindow && settlementWindowDetails.settlementWindow.settlementWindowId !== null &&
             <Grid container spacing={8}>
               <Grid item md={2}>
                 <Button color='primary' variant='contained' onClick={() => triggerDownload(`payment-file-sw/${settlementWindowDetails.settlementWindow.settlementWindowId}`)}>
@@ -293,12 +292,12 @@ function SettlementWindowsGrid(props) {
                 </Button>
               </Grid>
               <Grid item md={2}>
-                <Button color='primary' variant='contained' onClick={() => setCommitOpen(true)} disabled={settlementWindowDetails.settlementWindow.settlementWindowStateId !== 'PENDING_SETTLEMENT'}>
+                <Button color='primary' variant='contained' onClick={() => setCommitSettlementDialogVisible(true)} disabled={settlementWindowDetails.settlementWindow.settlementWindowStateId !== 'PENDING_SETTLEMENT'}>
                   Commit Window
                 </Button>
               </Grid>
               <Grid item md={2}>
-                <Button color='primary' variant='contained' onClick={() => setCloseSettlementOpen(true)} disabled={settlementWindowDetails.settlementWindow.settlementWindowStateId !== 'OPEN'}>
+                <Button color='primary' variant='contained' onClick={() => setCloseSettlementDialogVisible(true)} disabled={settlementWindowDetails.settlementWindow.settlementWindowStateId !== 'OPEN'}>
                   Close Window
                 </Button>
               </Grid>
@@ -315,7 +314,7 @@ function SettlementWindowsGrid(props) {
         disableEscapeKeyDown
         onClose={handleCommitClose}
         aria-labelledby="dialog-title"
-        open={commitOpen}
+        open={commitSettlementDialogVisible}
         maxWidth='xs'
       >
         <DialogTitle id="dialog-title" onClose={handleCommitClose}>
@@ -362,10 +361,10 @@ function SettlementWindowsGrid(props) {
         disableEscapeKeyDown
         onClose={handleCommitClose}
         aria-labelledby="dialog-title"
-        open={closeSettlementOpen}
+        open={closeSettlementDialogOpen}
         maxWidth='xs'
       >
-        <DialogTitle id="dialog-title" onClose={handleCloseClose}>
+        <DialogTitle id="dialog-title" onClose={handleCloseDialogClose}>
           Close Settlement Window
           </DialogTitle>
         <DialogContent>
@@ -375,7 +374,7 @@ function SettlementWindowsGrid(props) {
           <Button onClick={confirmClose} color='primary'>
             Yes
           </Button>
-          <Button onClick={handleCloseClose} color='secondary' variant='contained'>
+          <Button onClick={handleCloseDialogClose} color='secondary' variant='contained'>
             No
           </Button>
         </DialogActions>

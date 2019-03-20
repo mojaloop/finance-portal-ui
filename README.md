@@ -69,6 +69,7 @@ npm start
 * Properly handle all request failures, including timeouts
 * Big lint branch to apply all lint fixes
 * eslint-plugin-jsx-a11y
+* Add a reload/refresh button to the DateRangePicker?
 
 # Create-React-App default README follows
 
