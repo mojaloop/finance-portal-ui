@@ -1,0 +1,136 @@
+
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+
+import { withStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+
+import { DateRangePicker } from './DatePicker';
+import { getHistoricalData } from '../api';
+import { truncateDate } from '../utils'
+import Snackbar from '@material-ui/core/Snackbar';
+import { SnackbarContentWrapper } from './SnackbarUtils';
+
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+  },
+  margin: {
+    margin: theme.spacing.unit,
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+});
+
+
+function TransactionAverageList(props) {
+  const { averages } = props;
+  return (
+    <>
+      {Object.keys(averages).length === 0 ? "No data found" :
+        Object.keys(averages).map(currency =>
+          <Paper key={currency}>
+            <h4>{currency}</h4>
+            <Grid container spacing={0} >
+              <Grid item md={2}>
+                <Paper>Avg. Payments</Paper>
+              </Grid>
+              <Grid item md={2}>
+                <Paper>Avg. Payments Amt</Paper>
+              </Grid>
+              <Grid item md={2}>
+                <Paper>Avg. Receipts</Paper>
+              </Grid>
+              <Grid item md={2}>
+                <Paper>Avg. Receipts Amt</Paper>
+              </Grid>
+              <Grid item md={2}>
+                <Paper>Avg. NDC</Paper>
+              </Grid>
+              <Grid item md={2}>
+                <Paper>Avg. Position</Paper>
+              </Grid>
+
+              <Grid container>
+                <Grid item md={2}><Paper>{averages[currency].payments.num.toFixed(2)}</Paper></Grid>
+                <Grid item md={2}><Paper>{averages[currency].payments.value.toFixed(2)}</Paper></Grid>
+                <Grid item md={2}><Paper>{averages[currency].receipts.num.toFixed(2)}</Paper></Grid>
+                <Grid item md={2}><Paper>{averages[currency].receipts.value.toFixed(2)}</Paper></Grid>
+                <Grid item md={2}><Paper>{averages[currency].limit.toFixed(2)}</Paper></Grid>
+                <Grid item md={2}><Paper>{averages[currency].position.toFixed(2)}</Paper></Grid>
+              </Grid>
+            </Grid>
+          </Paper>
+        )
+      }
+    </>
+  )
+}
+
+function TransactionAverage(props) {
+  const { fspList, selectedFsp, classes } = props;
+
+  const to = truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24));
+  const from = truncateDate(new Date(Date.now() - 1000 * 60 * 60 * 24 * 30));
+  const [averages, setAverages] = useState(undefined);
+  const [snackBarParams, setSnackBarParams] = useState({ show: false, message: '', variant: 'success' });
+
+  const updateQuery = (startDate, endDate) => {
+    getHistoricalData(fspList.ids[selectedFsp], { startDate, endDate })
+      .then(data => setAverages(data.average))
+      .catch(err => {
+        setAverages({});
+        setSnackBarParams({ show: true, message: 'Failed to get averages!', variant: 'error', action: 'close' })
+      });
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    if (snackBarParams.callback) {
+      snackBarParams.callback();
+    }
+    setSnackBarParams({ ...snackBarParams, show: false });
+  };
+
+  useEffect(() => updateQuery(from, to), [selectedFsp]);
+
+  return (
+    <>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left"
+        }}
+        open={snackBarParams.show}
+        autoHideDuration={snackBarParams.action === 'close' ? 6000 : null}
+        onClose={handleCloseSnackbar}
+      >
+        <SnackbarContentWrapper
+          onClose={handleCloseSnackbar}
+          variant={snackBarParams.variant}
+          className={classes.margin}
+          message={snackBarParams.message}
+          action={snackBarParams.action}
+        />
+      </Snackbar>
+      <h2>Transaction Average</h2>
+      <DateRangePicker defStartDate={from} defEndDate={to} onChange={updateQuery} />
+      {averages && <TransactionAverageList averages={averages} />}
+    </>
+  )
+}
+
+TransactionAverage.propTypes = {
+  fspList: PropTypes.array.isRequired,
+  selectedFsp: PropTypes.number.isRequired,
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(TransactionAverage);
+

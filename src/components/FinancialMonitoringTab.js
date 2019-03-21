@@ -7,6 +7,7 @@ import Paper from '@material-ui/core/Paper';
 // TODO: export all components from components directory in an index.js, then import them all here
 // in a single statement
 import SettlementsList from './SettlementsList';
+import TransactionAverage from './TransactionAverage';
 import SettlementWindowInfo from './SettlementWindowInfo';
 import NDCManagement from './NDCManagement';
 import PositionInfo from './PositionInfo';
@@ -133,54 +134,63 @@ function FinancialMonitoringTab(props) {
             </Paper>
           </Grid>
           <Grid item md={8}>
-          {stopTransactions === undefined ? <></> :
-            <Grid container spacing={24}>
-              <Grid item md={12}>
-                <Paper className={classes.paper}>
-                  <h3>Disable transactions for this DFSP</h3>
-                  <Switch
-                    checked={stopTransactions === 0}
-                    onChange={updateIsActiveFlag}
-                  />
-                </Paper>
-              </Grid>
-            </Grid>
-          }
-          {settlementWindow === undefined ? <></> :
-            <Grid container spacing={24}>
-              <Grid item md={12}>
-                <Paper className={classes.paper}>
-                  <SettlementWindowInfo settlementWindow={settlementWindow} />
-                </Paper>
-              </Grid>
-              <Grid item md={12}>
-                <Paper className={classes.paper}>
-                  <PositionInfo positions={positions} settlementAccountBalance={settlementAccountBalance} />
-                </Paper>
-              </Grid>
-              {selectedFsp &&
+            {stopTransactions === undefined ? <></> :
+              <Grid container spacing={24}>
                 <Grid item md={12}>
                   <Paper className={classes.paper}>
-                    <SettlementsList selectedFsp={selectedFsp} fspList={fspList} />
+                    <h3>Disable transactions for this DFSP</h3>
+                    <Switch
+                      checked={stopTransactions === 0}
+                      onChange={updateIsActiveFlag}
+                    />
                   </Paper>
                 </Grid>
-              }
-            </Grid>
-          }
-          {selectedFsp === undefined  ? <></> :
-            <Grid container spacing={24}>
-              <Grid item md={12}>
-                <Paper className={classes.paper}>
-                  <NDCManagement fspName={fspList.ids[selectedFsp]} />
-                </Paper>
               </Grid>
-              <Grid item md={12}>
-                <Paper className={classes.paper}>
-                  <FundsManagement fspName={fspList.ids[selectedFsp]} />
-                </Paper>
+            }
+            {settlementWindow === undefined ? <></> :
+              <Grid container spacing={24}>
+                <Grid item md={12}>
+                  <Paper className={classes.paper}>
+                    <SettlementWindowInfo settlementWindow={settlementWindow} />
+                  </Paper>
+                </Grid>
+                <Grid item md={12}>
+                  <Paper className={classes.paper}>
+                    <PositionInfo positions={positions} settlementAccountBalance={settlementAccountBalance} />
+                  </Paper>
+                </Grid>
+                {selectedFsp &&
+                  <Grid item md={12}>
+                    <Paper className={classes.paper}>
+                      <SettlementsList selectedFsp={selectedFsp} fspList={fspList} />
+                    </Paper>
+                  </Grid>
+                }
               </Grid>
-            </Grid>
-          }
+            }
+            {selectedFsp &&
+              <Paper className={classes.paper}>
+                <Grid item md={12}>
+                  <Paper className={classes.paper}>
+                    <TransactionAverage selectedFsp={selectedFsp} fspList={fspList} />
+                  </Paper>
+                </Grid>
+              </Paper>
+            }
+            {selectedFsp === undefined ? <></> :
+              <Grid container spacing={24}>
+                <Grid item md={12}>
+                  <Paper className={classes.paper}>
+                    <NDCManagement fspName={fspList.ids[selectedFsp]} />
+                  </Paper>
+                </Grid>
+                <Grid item md={12}>
+                  <Paper className={classes.paper}>
+                    <FundsManagement fspName={fspList.ids[selectedFsp]} />
+                  </Paper>
+                </Grid>
+              </Grid>
+            }
           </Grid>
         </Grid>
       }

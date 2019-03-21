@@ -86,6 +86,10 @@ async function closeSettlementWindow(settlementWindowId, { startDate, endDate })
     return put(`settlement-window-close/${settlementWindowId}`, { startDate, endDate });
 }
 
+async function getHistoricalData(participantName, { startDate, endDate }) {
+    return get(`/historical-window-summary/${participantName}?fromDateTime=${stringifyDate(startDate)}&toDateTime=${stringifyDate(endDate)}`);
+}
+
 export {
     getAccounts,
     getCurrentWindow,
@@ -105,5 +109,6 @@ export {
     getParticipantIsActiveFlag,
     setParticipantIsActiveFlag,
     commitSettlementWindow,
-    closeSettlementWindow
+    closeSettlementWindow,
+    getHistoricalData
 };
