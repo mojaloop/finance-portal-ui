@@ -32,7 +32,7 @@ function TransactionAverageList(props) {
   return (
     <>
       {Object.keys(averages).length === 0 ? "No data found" :
-        Object.keys(averages).map(currency =>
+        Object.entries(averages).map(([currency, avg]) =>
           <Paper key={currency}>
             <h4>{currency}</h4>
             <Grid container spacing={0} >
@@ -56,12 +56,12 @@ function TransactionAverageList(props) {
               </Grid>
 
               <Grid container>
-                <Grid item md={2}><Paper>{averages[currency].payments.num.toFixed(2)}</Paper></Grid>
-                <Grid item md={2}><Paper>{averages[currency].payments.value.toFixed(2)}</Paper></Grid>
-                <Grid item md={2}><Paper>{averages[currency].receipts.num.toFixed(2)}</Paper></Grid>
-                <Grid item md={2}><Paper>{averages[currency].receipts.value.toFixed(2)}</Paper></Grid>
-                <Grid item md={2}><Paper>{averages[currency].limit.toFixed(2)}</Paper></Grid>
-                <Grid item md={2}><Paper>{averages[currency].position.toFixed(2)}</Paper></Grid>
+                <Grid item md={2}><Paper>{avg.payments.num.toFixed(2)}</Paper></Grid>
+                <Grid item md={2}><Paper>{avg.payments.value.toFixed(2)}</Paper></Grid>
+                <Grid item md={2}><Paper>{avg.receipts.num.toFixed(2)}</Paper></Grid>
+                <Grid item md={2}><Paper>{avg.receipts.value.toFixed(2)}</Paper></Grid>
+                <Grid item md={2}><Paper>{avg.limit.toFixed(2)}</Paper></Grid>
+                <Grid item md={2}><Paper>{avg.position.toFixed(2)}</Paper></Grid>
               </Grid>
             </Grid>
           </Paper>
