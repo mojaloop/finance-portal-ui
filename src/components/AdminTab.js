@@ -32,7 +32,6 @@ function AdminManagement(props) {
   const [busy, setBusy] = useState(false);
   const [newEmailAddress, setNewEmailAddress] = useState("");
 
-
   const updateEmail = async () => {
     setBusy(true);
     try {
@@ -63,7 +62,7 @@ function AdminManagement(props) {
 }
 
 function EmailAddress(props) {
-  const { emailAddress, classes, fsp, onChange = () => { } } = props;
+  const { emailAddress, classes, fsp, onChange = () => {} } = props;
   return (
     <Grid container spacing={8}>
       <Grid container spacing={8}>
@@ -95,47 +94,49 @@ function EmailAddress(props) {
 function EmailList(props) {
     const { fsp, classes } = props;
     const [emailAddresses, setEmailAddresses] = useState([]);
-  
+
     useEffect(() => {
       getEmailAddresses(fsp)
         .then(setEmailAddresses)
         .catch(err => window.alert('Failed to get email addresses')) // TODO: better error message, let user retry
     }, [fsp]);
-  
+
     const updateEmailAddress = updatedEmailAddress => {
       const newEmailAddress = [...emailAddresses.filter(a => updatedEmailAddress.type !== a.type), updatedEmailAddress];
       setEmailAddresses(newEmailAddress);
     };
 
     return (
-        <Grid container spacing={0}>
+      <Grid container spacing={0}>
         {emailAddresses.map(a => <EmailAddress key={a.type} emailAddress={a} classes={classes} fsp={fsp} onChange={updateEmailAddress} />)}
-        </Grid>
-      );
-      
+      </Grid>
+    );
+
   }
 
 function AdminTab(props) {
     const { classes } = props;
-    const [selectedFsp, setSelectedFsp] = useState(undefined); 
+    const [selectedFsp, setSelectedFsp] = useState(undefined);
     const [fspList, setFspList] = useState(undefined);
 
     useEffect(() => {
-        getDfsps()
-          .then(dfsps => {
-            // Augment fspList with a map of ids -> names and vice-versa.
-            dfsps.ids = Object.assign(...dfsps.map(fsp => ({ [fsp.id]: fsp.name })));
-            // Note that names are guaranteed unique by the db. We assume here that the concept of
-            // string uniqueness in mysql is no more strict than the concept of string uniqueness in
-            // node
-            dfsps.names = Object.assign(...dfsps.map(fsp => ({ [fsp.name]: fsp.id })));
-            setFspList(dfsps)
-          })
-          .catch(err => window.alert('Failed to get FSP list')); // TODO: better error message, let user retry
-      }, []);
+      // TODO: change getDfsps in api.js. I think that everywhere it's used it has associated
+      // promise chain
+      getDfsps()
+        .then(dfsps => {
+          // Augment fspList with a map of ids -> names and vice-versa.
+          dfsps.ids = Object.assign(...dfsps.map(fsp => ({ [fsp.id]: fsp.name })));
+          // Note that names are guaranteed unique by the db. We assume here that the concept of
+          // string uniqueness in mysql is no more strict than the concept of string uniqueness in
+          // node
+          dfsps.names = Object.assign(...dfsps.map(fsp => ({ [fsp.name]: fsp.id })));
+          setFspList(dfsps)
+        })
+        .catch(err => window.alert('Failed to get FSP list')); // TODO: better error message, let user retry
+    }, []);
 
     return (
-        <div className={classes.root}>
+      <div className={classes.root}>
         {fspList === undefined ||
           <Grid container spacing={24}>
             <Grid item md={4}>
@@ -152,7 +153,7 @@ function AdminTab(props) {
             }
           </Grid>
         }
-        </div>
+      </div>
     );
 }
 
