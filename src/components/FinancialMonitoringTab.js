@@ -85,6 +85,8 @@ function FinancialMonitoringTab(props) {
     function loadDfsps() {
       getDfsps()
         .then(dfsps => {
+          // TODO: Change dfsps.ids to something like dfsps.nameFromId; similarly dfsps.names ->
+          // dfsps.idFromName.
           // Augment fspList with a map of ids -> names and vice-versa.
           dfsps.ids = Object.assign(...dfsps.map(fsp => ({ [fsp.id]: fsp.name })));
           // Note that names are guaranteed unique by the db. We assume here that the concept of
