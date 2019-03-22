@@ -50,6 +50,7 @@ async function updateNetDebitCap(participantName, currency, newValue, accountId)
     return post(`netdebitcap/${participantName}`, { currency, newValue, accountId });
 }
 
+
 async function getEmailAddresses(participantName) {
     return get(`emailAddress/${participantName}`);
 }
@@ -57,6 +58,47 @@ async function getEmailAddresses(participantName) {
 async function updateEmailAddress(participantName, emailType, newValue) {
     return put(`emailAddress/${participantName}`, { emailType, newValue });
 }
+
+async function getSettlementWindows({ startDate, endDate }) {
+    return get(`settlement-windows?fromDateTime=${stringifyDate(startDate)}&toDateTime=${stringifyDate(endDate)}`);
+}
+
+async function getSettlementWindowInfo(settlementWindowId) {
+    return get(`settlement-windows/${settlementWindowId}`);
+}
+
+async function getSettlementList({ startDate, endDate }) {
+    return get(`settlements?fromDateTime=${stringifyDate(startDate)}&toDateTime=${stringifyDate(endDate)}`);
+}
+
+async function commitSettlement(settlementId, { participants, startDate, endDate }) {
+    return put(`settlements/${settlementId}`, { participants, startDate, endDate });
+}
+
+async function getSettlementAccountBalance(participantId) {
+    return get(`settlement-account/${participantId}`);
+}
+
+async function getParticipantIsActiveFlag(participantId) {
+    return get(`participants/${participantId}/isActive`);
+}
+
+async function setParticipantIsActiveFlag(participantId, participantName, isActive) {
+    return put(`participants/${participantId}/isActive/`, { participantName, isActive });
+}
+
+async function commitSettlementWindow(settlementWindowId, { participants, settlementId, startDate, endDate }) {
+    return put(`settlement-window-commit/${settlementWindowId}`, { participants, settlementId, startDate, endDate });
+}
+
+async function closeSettlementWindow(settlementWindowId, { startDate, endDate }) {
+    return put(`settlement-window-close/${settlementWindowId}`, { startDate, endDate });
+}
+
+async function getHistoricalData(participantName, { startDate, endDate }) {
+    return get(`/historical-window-summary/${participantName}?fromDateTime=${stringifyDate(startDate)}&toDateTime=${stringifyDate(endDate)}`);
+}
+
 export {
     getAccounts,
     getCurrentWindow,
@@ -69,5 +111,15 @@ export {
     getNetDebitCap,
     updateNetDebitCap,
     getEmailAddresses,
-    updateEmailAddress
+    updateEmailAddress,
+    getSettlementWindows,
+    getSettlementWindowInfo,
+    getSettlementList,
+    commitSettlement,
+    getSettlementAccountBalance,
+    getParticipantIsActiveFlag,
+    setParticipantIsActiveFlag,
+    commitSettlementWindow,
+    closeSettlementWindow,
+    getHistoricalData
 };

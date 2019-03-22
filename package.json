@@ -4,8 +4,11 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.2",
+    "@material-ui/icons": "^3.0.2",
+    "moment": "^2.24.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
+    "react-number-format": "^4.0.7",
     "react-scripts": "2.1.4"
   },
   "scripts": {

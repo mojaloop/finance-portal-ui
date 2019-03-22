@@ -8,7 +8,9 @@ bad idea, or future tasks don't fit, start a conversation about it. This documen
 associated UI, should be considered to be changeable and evolving- not prescriptive.
 
 See also:
+
 [StoriesOnBoard](https://mowali.storiesonboard.com/m/mowali-development)
+
 [JIRA](https://modusbox.atlassian.net/wiki/spaces/CV/pages/338855324/Portals)
 
 The following wireframe presents two views. On the left, a main view consisting of a navigation

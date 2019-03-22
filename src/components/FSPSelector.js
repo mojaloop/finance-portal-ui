@@ -6,11 +6,12 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
 
+// TODO: sort by fsp name rather than ID?
 function FSPSelector(props) {
   const { fspList, selectFsp } = props;
   return (
     <List>
-      {fspList.sort((a, b) => a.id > b.id).map(fsp =>
+      {fspList.sort((a, b) => a.id - b.id).map(fsp =>
         <ListItem key={fsp.id} button onClick={() => selectFsp(fsp.id)}>
           <ListItemText>[{fsp.id}] | {fsp.name}</ListItemText>
         </ListItem>

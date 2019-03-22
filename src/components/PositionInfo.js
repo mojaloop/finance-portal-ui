@@ -20,10 +20,26 @@ const styles = theme => ({
 
 
 function PositionInfo(props) {
-  const { classes, positions } = props;
+  const { classes, positions, settlementAccountBalance } = props;
   return (
     <div className={classes.root}>
-      <h2>Positions</h2>
+      <h2>Accounts</h2>
+      <h4>Settlement</h4>
+      <Grid container spacing={0}>
+        <Grid item md={3}>
+          <Paper>Currency</Paper>
+        </Grid>
+        <Grid item md={3}>
+          <Paper>Balance</Paper>
+        </Grid>
+        {settlementAccountBalance.map(p =>
+          <Grid container key={p.currency}>
+            <Grid item md={3}><Paper>{p.currency}</Paper></Grid>
+            <Grid item md={3}><Paper>{p.settlementBalance}</Paper></Grid>
+          </Grid>
+        )}
+      </Grid>
+      <h4>Position</h4>
       <Grid container spacing={0}>
         <Grid item md={3}>
           <Paper>Currency</Paper>
@@ -42,7 +58,7 @@ function PositionInfo(props) {
             <Grid item md={3}><Paper>{p.currency}</Paper></Grid>
             <Grid item md={3}><Paper>{p.position}</Paper></Grid>
             <Grid item md={3}><Paper>{p.limit}</Paper></Grid>
-            <Grid item md={3}><Paper>{Math.round(p.position / p.limit).toFixed(2)}%</Paper></Grid>
+            <Grid item md={3}><Paper>{(100.0 * p.position / p.limit).toFixed(2)}%</Paper></Grid>
           </Grid>
         )}
       </Grid>
@@ -51,7 +67,8 @@ function PositionInfo(props) {
 }
 
 PositionInfo.propTypes = {
-  positions: PropTypes.array.isRequired
+  positions: PropTypes.array.isRequired,
+  settlementAccountBalance: PropTypes.array.isRequired
 };
 
 export default withStyles(styles)(PositionInfo);
