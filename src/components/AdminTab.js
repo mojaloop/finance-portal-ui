@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 import FSPSelector from './FSPSelector';
-import { getDfsps, getEmailAddresses, updateEmailAddress} from '../api.js';
+import { getDfsps, getEmailAddresses, updateEmailAddress} from '../api';
 
 const styles = theme => ({
     root: {
@@ -37,6 +37,7 @@ function AdminManagement(props) {
     setBusy(true);
     try {
       const res = await updateEmailAddress(fspName, emailaddress.type, newEmailAddress);
+      window.alert(res);
       setNewEmailAddress("");
       onChange(res);
     } catch (err) {
@@ -51,6 +52,7 @@ function AdminManagement(props) {
         label='New Email Address'
         className={classes.textField}
         margin='normal'
+        value={newEmailAddress}
         variant='outlined'
         onChange={ev => setNewEmailAddress(ev.target.value)}
       />
@@ -101,14 +103,15 @@ function EmailList(props) {
         .catch(err => window.alert('Failed to get email addresses')) // TODO: better error message, let user retry
     }, [fsp]);
   
-    //TODO
-    //const updateEmailAddress = updatedEmailAddress => {
-    //  setEmailAddresses([...emailAddresses.filter(a => updatedEmailAddress.id !== a.id), updatedEmailAddress]);
-    //};
+    const updateEmailAddress = updatedEmailAddress => {
+      window.alert(updatedEmailAddress);
+      //const newEmailAddresses = [...emailAddresses.filter(a => updatedEmailAddress.type === a.type), updatedEmailAddress];
+      setEmailAddresses(emailAddresses);
+    };
 
     return (
         <Grid container spacing={0}>
-        {emailAddresses.map(a => <EmailAddress key={a.id} emailAddress={a} classes={classes} fsp={fsp} onChange={updateEmailAddress} />)}
+        {emailAddresses.map(a => <EmailAddress key={a.type} emailAddress={a} classes={classes} fsp={fsp} onChange={updateEmailAddress} />)}
         </Grid>
       );
       

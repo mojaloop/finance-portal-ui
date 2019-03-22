@@ -1,5 +1,5 @@
 
-import { get, post } from './requests';
+import { get, post, put } from './requests';
 
 const stringifyDate = dt => dt instanceof Date ? dt.toISOString() : dt;
 
@@ -55,7 +55,7 @@ async function getEmailAddresses(participantName) {
 }
 
 async function updateEmailAddress(participantName, emailType, newValue) {
-    return post(`emailAddress/${participantName}`, { emailType, newValue });
+    return put(`emailAddress/${participantName}`, { emailType, newValue });
 }
 export {
     getAccounts,
