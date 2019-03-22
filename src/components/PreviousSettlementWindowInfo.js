@@ -19,11 +19,11 @@ const styles = theme => ({
 });
 
 
-function SettlementWindowInfo(props) {
-  const { classes, settlementWindow: { payments, receipts } } = props;
+function PreviousSettlementWindowInfo(props) {
+  const { classes, previousSettlementWindow: { payments, receipts } } = props;
   return (
     <div className={classes.root}>
-      <h2>Current Settlement Window</h2>
+      <h2>Previous Settlement Window</h2>
       <Grid container spacing={0}>
 
         <Grid item md={4} />
@@ -66,8 +66,8 @@ function SettlementWindowInfo(props) {
   );
 }
 
-SettlementWindowInfo.propTypes = {
-  settlementWindow: PropTypes.object.isRequired
+PreviousSettlementWindowInfo.propTypes = {
+  previousSettlementWindow: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(SettlementWindowInfo);
+export default withStyles(styles)(PreviousSettlementWindowInfo);

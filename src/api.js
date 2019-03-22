@@ -19,6 +19,10 @@ async function getCurrentWindow(participantId) {
     return get(`current-window/${participantId}`);
 }
 
+async function getPreviousWindow(participantId) {
+    return get(`previous-window/${participantId}`);
+}
+
 async function getDfsps() {
     return get('dfsps');
 }
@@ -89,6 +93,7 @@ async function closeSettlementWindow(settlementWindowId, { startDate, endDate })
 export {
     getAccounts,
     getCurrentWindow,
+    getPreviousWindow,
     getDfsps,
     getPaymentFileList,
     getPositions,

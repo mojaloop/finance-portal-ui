@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 // TODO: export all components from components directory in an index.js, then import them all here
 // in a single statement
 import SettlementsList from './SettlementsList';
-import SettlementWindowInfo from './SettlementWindowInfo';
+import CurrentSettlementWindowInfo from './CurrentSettlementWindowInfo';
 import NDCManagement from './NDCManagement';
 import PositionInfo from './PositionInfo';
 import FundsManagement from './FundsManagement';
@@ -16,7 +16,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Switch from '@material-ui/core/Switch';
 import { SnackbarContentWrapper } from './SnackbarUtils';
 
-import { getDfsps, getPositions, getCurrentWindow, getSettlementAccountBalance, getParticipantIsActiveFlag, setParticipantIsActiveFlag } from '../api';
+import { getDfsps, getPositions, getCurrentWindow, getPreviousWindow, getSettlementAccountBalance, getParticipantIsActiveFlag, setParticipantIsActiveFlag } from '../api';
 
 const styles = theme => ({
   root: {
@@ -37,22 +37,25 @@ function FinancialMonitoringTab(props) {
 
   const [positions, setPositions] = useState(undefined);
   const [settlementAccountBalance, setSettlementAccountBalance] = useState(undefined);
-  const [settlementWindow, setSettlementWindow] = useState(undefined);
+  const [currentSettlementWindow, setCurrentSettlementWindow] = useState(undefined);
+  const [previousSettlementWindow, setPreviousSettlementWindow] = useState(undefined);
   const [selectedFsp, setSelectedFsp] = useState(undefined); // TODO: remove?
   const [fspList, setFspList] = useState(undefined);
   const [stopTransactions, setStopTransactions] = useState(undefined);
   const [snackBarParams, setSnackBarParams] = useState({ show: false, message: '', variant: 'success' });
 
   const selectFsp = async (dfspId) => {
-    const [positions, win, balance, isActive] = await Promise.all(([
+    const [positions, currentWindow, previousWindow, balance, isActive] = await Promise.all(([
       getPositions(dfspId),
       getCurrentWindow(dfspId),
+      getPreviousWindow(dfspId),
       getSettlementAccountBalance(dfspId),
       getParticipantIsActiveFlag(dfspId)
     ]));
     setSettlementAccountBalance(balance);
     setPositions(positions);
-    setSettlementWindow(win);
+    setCurrentSettlementWindow(currentWindow);
+    setPreviousSettlementWindow(previousWindow);
     setStopTransactions(isActive);
     setSelectedFsp(dfspId);
   };
@@ -146,11 +149,11 @@ function FinancialMonitoringTab(props) {
               </Grid>
             </Grid>
           }
-          {settlementWindow === undefined ? <></> :
+          {currentSettlementWindow === undefined ? <></> :
             <Grid container spacing={24}>
               <Grid item md={12}>
                 <Paper className={classes.paper}>
-                  <SettlementWindowInfo settlementWindow={settlementWindow} />
+                  <CurrentSettlementWindowInfo currentSettlementWindow={currentSettlementWindow} />
                 </Paper>
               </Grid>
               <Grid item md={12}>
@@ -165,6 +168,20 @@ function FinancialMonitoringTab(props) {
                   </Paper>
                 </Grid>
               }
+            </Grid>
+          }
+          {previousSettlementWindow === undefined ? <></> :
+            <Grid container spacing={24}>
+              <Grid item md={12}>
+                <Paper className={classes.paper}>
+                  <PreviousSettlementWindowInfo previousSettlementWindow={previousSettlementWindow} />
+                </Paper>
+              </Grid>
+              <Grid item md={12}>
+                <Paper className={classes.paper}>
+                  <PositionInfo positions={positions} settlementAccountBalance={settlementAccountBalance} />
+                </Paper>
+              </Grid>
             </Grid>
           }
           {selectedFsp === undefined  ? <></> :
