@@ -114,5 +114,6 @@ export {
     post,
     triggerDownload,
     fetchTimeoutController,
-    openInNewWindow
+    openInNewWindow,
+    HTTPResponseError
 };

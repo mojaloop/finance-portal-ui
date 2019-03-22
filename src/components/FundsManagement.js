@@ -12,6 +12,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
 import { getAccounts, processFundsIn, processFundsOut } from '../api';
+import { HTTPResponseError } from '../requests';
 import { CurrencyFormat } from './InputControl';
 
 
@@ -45,7 +46,11 @@ function AccountFundsManagement(props) {
       setFundsIn(0);
       onChange(res);
     } catch (err) {
-      window.alert('Error processing funds in');
+      window.alert(
+        (err instanceof HTTPResponseError && err.getData().resp.resp.message === 'Participant is currently set inactive') ?
+        `ERROR: ${err.getData().resp.resp.message}` : // TODO: why getData().resp.resp.message?!
+        'Error processing funds in'
+      );
     }
     setBusy(false);
   };
