@@ -37,7 +37,6 @@ function AdminManagement(props) {
     setBusy(true);
     try {
       const res = await updateEmailAddress(fspName, emailaddress.type, newEmailAddress);
-      window.alert("ggb" + JSON.stringify(res));
       setNewEmailAddress("");
       onChange(res);
     } catch (err) {
@@ -64,10 +63,7 @@ function AdminManagement(props) {
 }
 
 function EmailAddress(props) {
-  window.alert(JSON.stringify(props));
   const { emailAddress, classes, fsp, onChange = () => { } } = props;
-  window.alert("ggb5" + emailAddress.type);
-  window.alert("ggb6 " + emailAddress.value);
   return (
     <Grid container spacing={8}>
       <Grid container spacing={8}>
@@ -107,9 +103,7 @@ function EmailList(props) {
     }, [fsp]);
   
     const updateEmailAddress = updatedEmailAddress => {
-      window.alert("ggb2 " + JSON.stringify(updatedEmailAddress));
-      const newEmailAddress = [...emailAddresses.filter(a => updatedEmailAddress.type === a.type), updatedEmailAddress];
-      window.alert("ggb3 " + JSON.stringify(newEmailAddress));
+      const newEmailAddress = [...emailAddresses.filter(a => updatedEmailAddress.type !== a.type), updatedEmailAddress];
       setEmailAddresses(newEmailAddress);
     };
 
