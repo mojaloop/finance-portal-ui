@@ -47,7 +47,7 @@ function FinancialMonitoringTab(props) {
     const [positions, currentWindow, previousWindow, balance, isActive] = await Promise.all(([
       getPositions(dfspId),
       getCurrentWindow(dfspId),
-      getPreviousWindow(dfspId),
+      getPreviousWindow(fspList.ids[dfspId]),
       getSettlementAccountBalance(dfspId),
       getParticipantIsActiveFlag(dfspId)
     ]));

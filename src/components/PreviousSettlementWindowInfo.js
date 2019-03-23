@@ -20,47 +20,77 @@ const styles = theme => ({
 
 
 function PreviousSettlementWindowInfo(props) {
-  const { classes, previousSettlementWindow: { payments, receipts } } = props;
+  const { classes, previousSettlementWindow: { payments, receipts, limits, positions } } = props;
   return (
     <div className={classes.root}>
       <h2>Previous Settlement Window</h2>
-      <Grid container spacing={0}>
-
-        <Grid item md={4} />
-        <Grid item md={4}>
+      <h4>Payments</h4>
+      <Grid container justify="center" spacing={0}>
+        <Grid item md={3}>
+          <Paper>Currency</Paper>
+        </Grid>
+        <Grid item md={3}>
           <Paper>Number of transactions</Paper>
         </Grid>
-        <Grid item md={4}>
+        <Grid item md={3}>
           <Paper>Amount</Paper>
         </Grid>
-
-        <Grid item md={4}>
-          <Paper>Payments</Paper>
+        {Object.keys(payments).map(key =>
+          <Grid container justify="center" key={key}>
+            <Grid item md={3}><Paper>{key}</Paper></Grid>
+            <Grid item md={3}><Paper>{payments[key].num}</Paper></Grid>
+            <Grid item md={3}><Paper>{payments[key].value}</Paper></Grid>
+          </Grid>
+        )}
+      </Grid>
+      <h4>Receipts</h4>
+      <Grid container justify="center" spacing={0}>
+        <Grid item md={3}>
+          <Paper>Currency</Paper>
         </Grid>
-        <Grid item md={4}>
-          <Paper className={classes.paper}>
-            {payments.numTransactions}
-          </Paper>
+        <Grid item md={3}>
+          <Paper>Number of transactions</Paper>
         </Grid>
-        <Grid item md={4}>
-          <Paper className={classes.paper}>
-            {payments.senderAmount}
-          </Paper>
+        <Grid item md={3}>
+          <Paper>Amount</Paper>
         </Grid>
-
-        <Grid item md={4}>
-          <Paper>Receipts</Paper>
+        {Object.keys(receipts).map(key =>
+          <Grid container justify="center" key={key}>
+            <Grid item md={3}><Paper>{key}</Paper></Grid>
+            <Grid item md={3}><Paper>{receipts[key].num}</Paper></Grid>
+            <Grid item md={3}><Paper>{receipts[key].value}</Paper></Grid>
+          </Grid>
+        )}
+      </Grid>
+      <h4>Limits</h4>
+      <Grid container justify="center" spacing={0}>
+        <Grid item md={3}>
+          <Paper>Currency</Paper>
         </Grid>
-        <Grid item md={4}>
-          <Paper className={classes.paper}>
-            {receipts.numTransactions}
-          </Paper>
+        <Grid item md={3}>
+          <Paper>Amount</Paper>
         </Grid>
-        <Grid item md={4}>
-          <Paper className={classes.paper}>
-            {receipts.senderAmount}
-          </Paper>
+        {Object.keys(limits).map(key =>
+          <Grid container justify="center" key={key}>
+            <Grid item md={3}><Paper>{key}</Paper></Grid>
+            <Grid item md={3}><Paper>{limits[key].value}</Paper></Grid>
+          </Grid>
+        )}
+      </Grid>
+      <h4>Positions</h4>
+      <Grid container justify="center" spacing={0}>
+        <Grid item md={3}>
+          <Paper>Currency</Paper>
         </Grid>
+        <Grid item md={3}>
+          <Paper>Amount</Paper>
+        </Grid>
+        {Object.keys(positions).map(key =>
+          <Grid container justify="center" key={key}>
+            <Grid item md={3}><Paper>{key}</Paper></Grid>
+            <Grid item md={3}><Paper>{positions[key].value}</Paper></Grid>
+          </Grid>
+        )}
       </Grid>
     </div>
   );
