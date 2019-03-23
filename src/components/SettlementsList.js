@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
 import { DateRangePicker } from './DatePicker';
-import { getSettlements } from '../api';
+import { getSettlements, fetchTimeoutController } from '../api';
 import { truncateDate } from '../utils'
 
 
@@ -16,10 +16,10 @@ function SettlementsListList(props) {
   // Participant name
   // Participant country
   // Currency
-  const { fspList, settlements } = props;
+  const { fspNamesById, settlements } = props;
   // const returnSmallerDate = (pv, dt) => Math.min(new Date(dt.createdDate).getTime(), pv);
   // const settlementStart = settlements.reduce((pv, s) => Math.min(pv, s.settlementWindows.reduce(returnSmallerDate, Infinity)), Infinity);
-  const participantInfo = p => `${fspList.ids[p.id]} ${p.accounts.map(a => a.netSettlementAmount.amount + a.netSettlementAmount.currency)}`;
+  const participantInfo = p => `${fspNamesById[p.id]} ${p.accounts.map(a => a.netSettlementAmount.amount + a.netSettlementAmount.currency)}`;
   return (
     <>
       {settlements.length === 0 ? "No settlements found" :
@@ -36,32 +36,35 @@ function SettlementsListList(props) {
 }
 
 function SettlementsList(props) {
-  const { fspList, selectedFsp } = props;
+  const { fspNamesById, fsp } = props;
 
-  const to = truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24));
-  const from = truncateDate(new Date(Date.now() - 1000 * 60 * 60 * 24 * 7));
+  const [dates, setDates] = useState({
+    from: truncateDate(new Date(Date.now() - 1000 * 60 * 60 * 24 * 7)),
+    to: truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24))
+  });
   const [settlements, setSettlements] = useState(undefined);
 
-  const updateQuery = (startDate, endDate) => {
-    getSettlements(selectedFsp, { startDate, endDate })
+  useEffect(() => {
+    const ftc = fetchTimeoutController();
+    getSettlements(fsp, dates, { ftc })
       .then(setSettlements)
+      .catch(ftc.ignoreAbort())
       .catch(err => window.alert('Failed to get settlement list')); // TODO: better error message, let user retry
-  };
-
-  useEffect(() => updateQuery(from, to), []);
+    return ftc.abortFn;
+  }, [dates]);
 
   return (
     <>
       <h2>Settlements</h2>
-      <DateRangePicker defStartDate={from} defEndDate={to} onChange={updateQuery} />
-      {settlements && <SettlementsListList fspList={fspList} settlements={settlements} />}
+      <DateRangePicker defStartDate={dates.from} defEndDate={dates.to} onChange={setDates} />
+      {settlements && <SettlementsListList fspNamesById={fspNamesById} settlements={settlements} />}
     </>
   )
 }
 
 SettlementsList.propTypes = {
-  fspList: PropTypes.array.isRequired,
-  selectedFsp: PropTypes.number.isRequired
+  fspNamesById: PropTypes.object.isRequired,
+  fsp: PropTypes.object.isRequired
 };
 
 export default SettlementsList;

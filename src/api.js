@@ -1,125 +1,125 @@
 
-import { get, post, put } from './requests';
+import { get, post, put, fetchTimeoutController } from './requests';
 
 const stringifyDate = dt => dt instanceof Date ? dt.toISOString() : dt;
 
-async function getPaymentFileList({ startDate, endDate }) {
-    return get(`payment-file-list?fromDateTime=${stringifyDate(startDate)}&toDateTime=${stringifyDate(endDate)}`);
+async function getPaymentFileList({ from, to }, requestOpts) {
+    return get(`payment-file-list?fromDateTime=${stringifyDate(from)}&toDateTime=${stringifyDate(to)}`, requestOpts);
 };
 
-async function getSettlements(participantId, { startDate, endDate }) {
-    return get(`settlements/${participantId}?fromDateTime=${stringifyDate(startDate)}&toDateTime=${stringifyDate(endDate)}`);
+async function getSettlements(participantId, { from, to }, requestOpts) {
+    return get(`settlements/${participantId}?fromDateTime=${stringifyDate(from)}&toDateTime=${stringifyDate(to)}`, requestOpts);
 }
 
-async function getPositions(participantId) {
-    return get(`positions/${participantId}`);
+async function getPositions(participantId, requestOpts) {
+    return get(`positions/${participantId}`, requestOpts);
 }
 
-async function getCurrentWindow(participantId) {
-    return get(`current-window/${participantId}`);
+async function getCurrentWindow(participantId, requestOpts) {
+    return get(`current-window/${participantId}`, requestOpts);
 }
 
-async function getDfsps() {
-    return get('dfsps');
+async function getDfsps(requestOpts) {
+    return get('dfsps', requestOpts);
 }
 
 // Note that participantName is indeed distinct from participantId
-async function getAccounts(participantName) {
-    return get(`accounts/${participantName}`);
+async function getAccounts(participantName, requestOpts) {
+    return get(`accounts/${participantName}`, requestOpts);
 }
 
-async function processFundsIn(participantName, accountId, amount, currency) {
+async function processFundsIn(participantName, accountId, amount, currency, requestOpts) {
     return post(`funds-in/${participantName}/${accountId}`, {
         amount,
         currency
-    });
+    }, requestOpts);
 }
 
-async function processFundsOut(participantName, accountId, amount, currency) {
+async function processFundsOut(participantName, accountId, amount, currency, requestOpts) {
     return post(`funds-out/${participantName}/${accountId}`, {
         amount,
         currency
-    });
+    }, requestOpts);
 }
 
-async function getNetDebitCap(participantName) {
-    return get(`netdebitcap/${participantName}`);
+async function getNetDebitCap(participantName, requestOpts) {
+    return get(`netdebitcap/${participantName}`, requestOpts);
 }
 
-async function updateNetDebitCap(participantName, currency, newValue, accountId) {
-    return post(`netdebitcap/${participantName}`, { currency, newValue, accountId });
+async function updateNetDebitCap(participantName, currency, newValue, accountId, requestOpts) {
+    return post(`netdebitcap/${participantName}`, { currency, newValue, accountId }, requestOpts);
 }
 
-
-async function getEmailAddresses(participantName) {
-    return get(`emailAddress/${participantName}`);
+async function getEmailAddresses(participantName, requestOpts) {
+    return get(`emailAddress/${participantName}`, requestOpts);
 }
 
-async function updateEmailAddress(participantName, emailType, newValue) {
-    return put(`emailAddress/${participantName}`, { emailType, newValue });
+async function updateEmailAddress(participantName, emailType, newValue, requestOpts) {
+    return put(`emailAddress/${participantName}`, { emailType, newValue }, requestOpts);
 }
 
-async function getSettlementWindows({ startDate, endDate }) {
-    return get(`settlement-windows?fromDateTime=${stringifyDate(startDate)}&toDateTime=${stringifyDate(endDate)}`);
+async function getSettlementWindows({ from, to }, requestOpts) {
+    return get(`settlement-windows?fromDateTime=${stringifyDate(from)}&toDateTime=${stringifyDate(to)}`, requestOpts);
 }
 
-async function getSettlementWindowInfo(settlementWindowId) {
-    return get(`settlement-windows/${settlementWindowId}`);
+async function getSettlementWindowInfo(settlementWindowId, requestOpts) {
+    return get(`settlement-windows/${settlementWindowId}`, requestOpts);
 }
 
-async function getSettlementList({ startDate, endDate }) {
-    return get(`settlements?fromDateTime=${stringifyDate(startDate)}&toDateTime=${stringifyDate(endDate)}`);
+async function getSettlementList({ from, to }, requestOpts) {
+    return get(`settlements?fromDateTime=${stringifyDate(from)}&toDateTime=${stringifyDate(to)}`, requestOpts);
 }
 
-async function commitSettlement(settlementId, { participants, startDate, endDate }) {
-    return put(`settlements/${settlementId}`, { participants, startDate, endDate });
+async function commitSettlement(settlementId, { participants, from, to }, requestOpts) {
+    return put(`settlements/${settlementId}`, { participants, from, to }, requestOpts);
 }
 
-async function getSettlementAccountBalance(participantId) {
-    return get(`settlement-account/${participantId}`);
+async function getSettlementAccountBalance(participantId, requestOpts) {
+    return get(`settlement-account/${participantId}`, requestOpts);
 }
 
-async function getParticipantIsActiveFlag(participantId) {
-    return get(`participants/${participantId}/isActive`);
+async function getParticipantIsActiveFlag(participantId, requestOpts) {
+    return get(`participants/${participantId}/isActive`, requestOpts);
 }
 
-async function setParticipantIsActiveFlag(participantId, participantName, isActive) {
-    return put(`participants/${participantId}/isActive/`, { participantName, isActive });
+async function setParticipantIsActiveFlag(participantId, participantName, isActive, requestOpts) {
+    return put(`participants/${participantId}/isActive/`, { participantName, isActive }, requestOpts);
 }
 
-async function commitSettlementWindow(settlementWindowId, { participants, settlementId, startDate, endDate }) {
-    return put(`settlement-window-commit/${settlementWindowId}`, { participants, settlementId, startDate, endDate });
+async function commitSettlementWindow(settlementWindowId, { participants, settlementId, from, to }, requestOpts) {
+    return put(`settlement-window-commit/${settlementWindowId}`, { participants, settlementId, from, to }, requestOpts);
 }
 
-async function closeSettlementWindow(settlementWindowId, { startDate, endDate }) {
-    return put(`settlement-window-close/${settlementWindowId}`, { startDate, endDate });
+async function closeSettlementWindow(settlementWindowId, { from, to }, requestOpts) {
+    return put(`settlement-window-close/${settlementWindowId}`, { from, to }, requestOpts);
 }
 
-async function getHistoricalData(participantName, { startDate, endDate }) {
-    return get(`/historical-window-summary/${participantName}?fromDateTime=${stringifyDate(startDate)}&toDateTime=${stringifyDate(endDate)}`);
+async function getHistoricalData(participantName, { from, to }, requestOpts) {
+    return get(`/historical-window-summary/${participantName}?fromDateTime=${stringifyDate(from)}&toDateTime=${stringifyDate(to)}`, requestOpts);
 }
 
 export {
+    closeSettlementWindow,
+    commitSettlement,
+    commitSettlementWindow,
+    fetchTimeoutController,
     getAccounts,
     getCurrentWindow,
     getDfsps,
+    getEmailAddresses,
+    getHistoricalData,
+    getNetDebitCap,
+    getParticipantIsActiveFlag,
     getPaymentFileList,
     getPositions,
+    getSettlementAccountBalance,
+    getSettlementList,
     getSettlements,
+    getSettlementWindowInfo,
+    getSettlementWindows,
     processFundsIn,
     processFundsOut,
-    getNetDebitCap,
-    updateNetDebitCap,
-    getEmailAddresses,
-    updateEmailAddress,
-    getSettlementWindows,
-    getSettlementWindowInfo,
-    getSettlementList,
-    commitSettlement,
-    getSettlementAccountBalance,
-    getParticipantIsActiveFlag,
     setParticipantIsActiveFlag,
-    commitSettlementWindow,
-    closeSettlementWindow,
-    getHistoricalData
+    updateEmailAddress,
+    updateNetDebitCap
 };

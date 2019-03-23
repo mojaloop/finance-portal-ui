@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 import { DateRangePicker } from './DatePicker';
-import { getHistoricalData } from '../api';
+import { getHistoricalData, fetchTimeoutController } from '../api';
 import { truncateDate } from '../utils'
 import Snackbar from '@material-ui/core/Snackbar';
 import { SnackbarContentWrapper } from './SnackbarUtils';
@@ -72,21 +72,14 @@ function TransactionAverageList(props) {
 }
 
 function TransactionAverage(props) {
-  const { fspList, selectedFsp, classes } = props;
+  const { fsp, classes } = props;
 
-  const to = truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24));
-  const from = truncateDate(new Date(Date.now() - 1000 * 60 * 60 * 24 * 30));
+  const [dates, setDates] = useState({
+    from: truncateDate(new Date(Date.now() - 1000 * 60 * 60 * 24 * 30)),
+    to: truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24))
+  });
   const [averages, setAverages] = useState(undefined);
   const [snackBarParams, setSnackBarParams] = useState({ show: false, message: '', variant: 'success' });
-
-  const updateQuery = (startDate, endDate) => {
-    getHistoricalData(fspList.ids[selectedFsp], { startDate, endDate })
-      .then(data => setAverages(data.average))
-      .catch(err => {
-        setAverages({});
-        setSnackBarParams({ show: true, message: 'Failed to get averages!', variant: 'error', action: 'close' })
-      });
-  };
 
   const handleCloseSnackbar = (event, reason) => {
     if (reason === "clickaway") {
@@ -98,7 +91,17 @@ function TransactionAverage(props) {
     setSnackBarParams({ ...snackBarParams, show: false });
   };
 
-  useEffect(() => updateQuery(from, to), [selectedFsp]);
+  useEffect(() => {
+    const ftc = fetchTimeoutController();
+    getHistoricalData(fsp.name, dates, { ftc })
+      .then(data => setAverages(data.average))
+      .catch(ftc.ignoreAbort())
+      .catch(err => {
+        setAverages({});
+        setSnackBarParams({ show: true, message: 'Failed to get averages!', variant: 'error', action: 'close' })
+      });
+    return ftc.abortFn;
+  }, [fsp, dates]);
 
   return (
     <>
@@ -120,15 +123,14 @@ function TransactionAverage(props) {
         />
       </Snackbar>
       <h2>Transaction Average</h2>
-      <DateRangePicker defStartDate={from} defEndDate={to} onChange={updateQuery} />
+      <DateRangePicker defStartDate={dates.from} defEndDate={dates.to} onChange={setDates} />
       {averages && <TransactionAverageList averages={averages} />}
     </>
   )
 }
 
 TransactionAverage.propTypes = {
-  fspList: PropTypes.array.isRequired,
-  selectedFsp: PropTypes.number.isRequired,
+  fsp: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired
 };
 

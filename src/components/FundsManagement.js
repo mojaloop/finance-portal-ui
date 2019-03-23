@@ -11,7 +11,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
-import { getAccounts, processFundsIn, processFundsOut } from '../api';
+import { getAccounts, processFundsIn, processFundsOut, fetchTimeoutController } from '../api';
 import { HTTPResponseError } from '../requests';
 import { CurrencyFormat } from './InputControl';
 
@@ -114,9 +114,12 @@ function FundsManagement(props) {
   const [accounts, setAccounts] = useState([]);
 
   useEffect(() => {
-    getAccounts(fspName)
+    const ftc = fetchTimeoutController();
+    getAccounts(fspName, { ftc })
       .then(accounts => setAccounts(accounts.filter(a => a.ledgerAccountType === 'SETTLEMENT')))
+      .catch(ftc.ignoreAbort())
       .catch(err => window.alert('Failed to get accounts')) // TODO: better error message, let user retry
+    return ftc.abortFn;
   }, [fspName]);
 
   const updateAccount = updatedAccount => {

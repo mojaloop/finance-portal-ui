@@ -11,7 +11,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
-import { getNetDebitCap, updateNetDebitCap } from '../api';
+import { getNetDebitCap, updateNetDebitCap, fetchTimeoutController } from '../api';
 import { CurrencyFormat } from './InputControl';
 
 
@@ -83,9 +83,12 @@ function NDCManagement(props) {
   const [accounts, setAccounts] = useState([]);
 
   useEffect(() => {
-    getNetDebitCap(fspName)
+    const ftc = fetchTimeoutController();
+    getNetDebitCap(fspName, { ftc })
       .then(setAccounts)
+      .catch(ftc.ignoreAbort())
       .catch(err => window.alert('Failed to get NDC')) // TODO: better error message, let user retry
+    return ftc.abortFn;
   }, [fspName]);
 
   const updateAccount = updatedAccount => {

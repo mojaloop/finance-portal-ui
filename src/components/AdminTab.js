@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 import FSPSelector from './FSPSelector';
-import { getDfsps, getEmailAddresses, updateEmailAddress} from '../api';
+import { getDfsps, getEmailAddresses, updateEmailAddress, fetchTimeoutController } from '../api';
 
 const styles = theme => ({
     root: {
@@ -96,9 +96,12 @@ function EmailList(props) {
     const [emailAddresses, setEmailAddresses] = useState([]);
 
     useEffect(() => {
-      getEmailAddresses(fsp)
+      const ftc = fetchTimeoutController();
+      getEmailAddresses(fsp, { ftc })
         .then(setEmailAddresses)
+        .catch(ftc.ignoreAbort())
         .catch(err => window.alert('Failed to get email addresses')) // TODO: better error message, let user retry
+      return ftc.abortFn;
     }, [fsp]);
 
     const updateEmailAddress = updatedEmailAddress => {
@@ -120,9 +123,10 @@ function AdminTab(props) {
     const [fspList, setFspList] = useState(undefined);
 
     useEffect(() => {
+      const ftc = fetchTimeoutController();
       // TODO: change getDfsps in api.js. I think that everywhere it's used it has associated
       // promise chain
-      getDfsps()
+      getDfsps({ ftc })
         .then(dfsps => {
           // Augment fspList with a map of ids -> names and vice-versa.
           dfsps.ids = Object.assign(...dfsps.map(fsp => ({ [fsp.id]: fsp.name })));
@@ -132,7 +136,9 @@ function AdminTab(props) {
           dfsps.names = Object.assign(...dfsps.map(fsp => ({ [fsp.name]: fsp.id })));
           setFspList(dfsps)
         })
+        .catch(ftc.ignoreAbort())
         .catch(err => window.alert('Failed to get FSP list')); // TODO: better error message, let user retry
+      return ftc.abortFn;
     }, []);
 
     return (
