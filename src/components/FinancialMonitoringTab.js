@@ -90,27 +90,25 @@ function FSPDetailsImpl(props) {
       </AppBar>
       {tab === 0 &&
         <>
-          <Grid container spacing={24}>
-            {settlementWindow &&
+          {settlementWindow && settlementAccountBalance && positions &&
+            <Grid container spacing={24}>
               <Grid item md={12}>
                 <Paper className={classes.paper}>
                   <SettlementWindowInfo settlementWindow={settlementWindow} />
                 </Paper>
               </Grid>
-            }
-            {settlementAccountBalance && positions &&
               <Grid item md={12}>
                 <Paper className={classes.paper}>
                   <PositionInfo positions={positions} settlementAccountBalance={settlementAccountBalance} />
                 </Paper>
               </Grid>
-            }
-            <Grid item md={12}>
-              <Paper className={classes.paper}>
-                <SettlementsList fsp={fsp} fspNamesById={fspNamesById} />
-              </Paper>
+              <Grid item md={12}>
+                <Paper className={classes.paper}>
+                  <SettlementsList fsp={fsp} fspNamesById={fspNamesById} />
+                </Paper>
+              </Grid>
             </Grid>
-          </Grid>
+          }
         </>
       }
       {tab === 1 &&
