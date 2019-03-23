@@ -19,6 +19,9 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
 import { getDfsps, getPositions, getCurrentWindow, getSettlementAccountBalance,
   getParticipantIsActiveFlag, setParticipantIsActiveFlag, fetchTimeoutController } from '../api';
@@ -26,18 +29,20 @@ import { getDfsps, getPositions, getCurrentWindow, getSettlementAccountBalance,
 const styles = theme => ({
   root: {
     flexGrow: 1,
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+  },
+  paper: {
+    padding: theme.spacing.unit * 3,
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
   },
   margin: {
     margin: theme.spacing.unit,
   },
   table: {
     minWidth: 800,
-  },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    textAlign: 'center',
-    color: theme.palette.text.secondary,
-  },
+  }
 });
 
 function FSPDetailsImpl(props) {
@@ -47,6 +52,7 @@ function FSPDetailsImpl(props) {
   const [settlementAccountBalance, setSettlementAccountBalance] = useState(undefined);
   const [settlementWindow, setSettlementWindow] = useState(undefined);
   const [stopTransactions, setStopTransactions] = useState(undefined);
+  const [tab, setTab] = useState(0);
 
   useEffect(() => {
     const ftc = fetchTimeoutController();
@@ -75,59 +81,72 @@ function FSPDetailsImpl(props) {
 
   return (
     <>
-      {stopTransactions === undefined ? <></> :
-        <Grid container spacing={24}>
+      <AppBar position="static">
+        <Tabs value={tab} onChange={(_, val) => setTab(val)}>
+          <Tab label="Current Window" />
+          <Tab label="Window History" />
+          <Tab label="Financial Controls" />
+        </Tabs>
+      </AppBar>
+      {tab === 0 &&
+        <>
+          <Grid container spacing={24}>
+            {settlementWindow &&
+              <Grid item md={12}>
+                <Paper className={classes.paper}>
+                  <SettlementWindowInfo settlementWindow={settlementWindow} />
+                </Paper>
+              </Grid>
+            }
+            {settlementAccountBalance && positions &&
+              <Grid item md={12}>
+                <Paper className={classes.paper}>
+                  <PositionInfo positions={positions} settlementAccountBalance={settlementAccountBalance} />
+                </Paper>
+              </Grid>
+            }
+            <Grid item md={12}>
+              <Paper className={classes.paper}>
+                <SettlementsList fsp={fsp} fspNamesById={fspNamesById} />
+              </Paper>
+            </Grid>
+          </Grid>
+        </>
+      }
+      {tab === 1 &&
+        <Paper className={classes.paper}>
           <Grid item md={12}>
             <Paper className={classes.paper}>
-              <h3>Disable transactions for this DFSP</h3>
-              <Switch
-                checked={stopTransactions === 0}
-                onChange={updateIsActiveFlag}
-              />
+              <TransactionAverage fsp={fsp} />
+            </Paper>
+          </Grid>
+        </Paper>
+      }
+      {tab === 2 &&
+        <Grid container spacing={24}>
+          {stopTransactions === undefined ? <></> :
+            <Grid item md={12}>
+              <Paper className={classes.paper}>
+                <h3>Disable transactions for this DFSP</h3>
+                <Switch
+                  checked={stopTransactions === 0}
+                  onChange={updateIsActiveFlag}
+                />
+              </Paper>
+            </Grid>
+          }
+          <Grid item md={12}>
+            <Paper className={classes.paper}>
+              <NDCManagement fspName={fsp.name} />
+            </Paper>
+          </Grid>
+          <Grid item md={12}>
+            <Paper className={classes.paper}>
+              <FundsManagement fspName={fsp.name} />
             </Paper>
           </Grid>
         </Grid>
       }
-      <Grid container spacing={24}>
-        {settlementWindow &&
-          <Grid item md={12}>
-            <Paper className={classes.paper}>
-              <SettlementWindowInfo settlementWindow={settlementWindow} />
-            </Paper>
-          </Grid>
-        }
-        {settlementAccountBalance && positions &&
-          <Grid item md={12}>
-            <Paper className={classes.paper}>
-              <PositionInfo positions={positions} settlementAccountBalance={settlementAccountBalance} />
-            </Paper>
-          </Grid>
-        }
-        <Grid item md={12}>
-          <Paper className={classes.paper}>
-            <SettlementsList fsp={fsp} fspNamesById={fspNamesById} />
-          </Paper>
-        </Grid>
-      </Grid>
-      <Paper className={classes.paper}>
-        <Grid item md={12}>
-          <Paper className={classes.paper}>
-            <TransactionAverage fsp={fsp} />
-          </Paper>
-        </Grid>
-      </Paper>
-      <Grid container spacing={24}>
-        <Grid item md={12}>
-          <Paper className={classes.paper}>
-            <NDCManagement fspName={fsp.name} />
-          </Paper>
-        </Grid>
-        <Grid item md={12}>
-          <Paper className={classes.paper}>
-            <FundsManagement fspName={fsp.name} />
-          </Paper>
-        </Grid>
-      </Grid>
     </>
   )
 }
@@ -219,7 +238,7 @@ function FinancialMonitoringTab(props) {
       </Snackbar>
 
       {fspList === undefined ||
-        <Grid container spacing={24}>
+        <Paper className={classes.root}>
           <Table className={classes.table}>
             <TableBody>
               {fspList.map(fsp => (
@@ -240,7 +259,7 @@ function FinancialMonitoringTab(props) {
               ))}
             </TableBody>
           </Table>
-        </Grid>
+        </Paper>
       }
     </div>
   );
