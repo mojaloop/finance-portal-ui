@@ -28,6 +28,10 @@ async function getAccounts(participantName, requestOpts) {
     return get(`accounts/${participantName}`, requestOpts);
 }
 
+async function getParticipantAccountById(participantName, accountId) {
+    return get(`accounts/${participantName}/${accountId}`);
+}
+
 async function processFundsIn(participantName, accountId, amount, currency, requestOpts) {
     return post(`funds-in/${participantName}/${accountId}`, {
         amount,
@@ -40,6 +44,10 @@ async function processFundsOut(participantName, accountId, amount, currency, req
         amount,
         currency
     }, requestOpts);
+}
+
+async function getTransfer(transferId) {
+    return get(`transfer/${transferId}`);
 }
 
 async function getNetDebitCap(participantName, requestOpts) {
@@ -109,6 +117,7 @@ export {
     getEmailAddresses,
     getHistoricalData,
     getNetDebitCap,
+    getParticipantAccountById,
     getParticipantIsActiveFlag,
     getPaymentFileList,
     getPositions,
@@ -117,6 +126,7 @@ export {
     getSettlements,
     getSettlementWindowInfo,
     getSettlementWindows,
+    getTransfer,
     processFundsIn,
     processFundsOut,
     setParticipantIsActiveFlag,

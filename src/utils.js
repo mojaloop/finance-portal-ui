@@ -25,7 +25,10 @@ const truncateDate = (dt, { year = false, month = false, day = false, hour = tru
     });
 };
 
+const sleep = durationMs => new Promise(resolve => setTimeout(resolve, durationMs));
+
 export {
     setDate,
-    truncateDate
+    truncateDate,
+    sleep
 };
