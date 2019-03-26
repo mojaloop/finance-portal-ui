@@ -5,13 +5,18 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import { SnackbarContentWrapper } from './SnackbarUtils';
+import Snackbar from '@material-ui/core/Snackbar';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
-import { getAccounts, processFundsIn, processFundsOut } from '../api';
+import { sleep } from '../utils';
+import { getAccounts, getParticipantAccountById, processFundsIn, processFundsOut,
+  fetchTimeoutController, getTransfer } from '../api';
+import { HTTPResponseError } from '../requests';
 import { CurrencyFormat } from './InputControl';
 
 
@@ -33,26 +38,58 @@ const styles = theme => ({
 
 // Handles funds in and funds out requests
 function AccountFundsManagement(props) {
-  const { fspName, classes, account, processFn, onChange = () => {} } = props;
+  const { transferCompleteState, fspName, classes, account, processFn, setSnackBarParams, onChange = () => {} } = props;
 
   const [busy, setBusy] = useState(false);
   const [fundsInAmount, setFundsIn] = useState(0);
+  const transferNotCommittedMessage = 'Transfer not committed';
 
   const actionFundsIn = async () => {
     setBusy(true);
     try {
-      const res = await processFn(fspName, account.id, fundsInAmount, account.currency);
+      const { transferId } = await processFn(fspName, account.id, fundsInAmount, account.currency);
+
+      // Now we'll make a couple of attempts to check the transfer status with some delays in
+      // between
+      const ignore404 = err => {
+        if (err instanceof HTTPResponseError && err.getData().resp.message === 'Transfer not found') {
+          return {};
+        }
+        throw err;
+      };
+
+      const f = res => (res && res.transferStateId === transferCompleteState) ?
+        res : sleep(500).then(() => getTransfer(transferId)).catch(ignore404);
+
+      const transferState = await f({}).then(f).then(f).then(f).then(f);
+
+      if (transferState.transferStateId !== transferCompleteState) {
+          throw new Error(transferNotCommittedMessage);
+      }
       setFundsIn(0);
-      onChange(res);
+      onChange(await getParticipantAccountById(fspName, account.id));
     } catch (err) {
-      window.alert('Error processing funds in');
+      let message = 'Error processing transaction';
+      // TODO: in the following line, why getData().resp.resp.message?!
+      if (err instanceof HTTPResponseError && err.getData().resp.resp.message === 'Participant is currently set inactive') {
+        message = `ERROR: ${err.getData().resp.resp.message}`;
+      }
+      else if (err.message === transferNotCommittedMessage) {
+        message = `Transaction unsuccessful. Please refresh the page before trying again.`;
+      }
+
+      setSnackBarParams({
+        show: true,
+        message,
+        variant: 'error',
+        action: 'close'
+      });
     }
     setBusy(false);
   };
 
   // TODO: put a slider in, have the user move the slider to make the transfer. Have the slider
   // shift back to its original position whenever the funds in amount is changed.
-  // TODO: force a currency input, currently if the user enters any text there is no problem.
   return (
     <>
       <TextField
@@ -66,7 +103,7 @@ function AccountFundsManagement(props) {
           inputProps: { suffix: ` ${account.currency}` }
         }}
         variant='outlined'
-        onChange={ev => setFundsIn(Number(ev.target.value))}
+        onChange={ev => setFundsIn(ev.target.value)}
       />
       <Button variant='contained' color='primary' disabled={busy} className={classes.button} onClick={actionFundsIn}>
         Apply
@@ -77,9 +114,11 @@ function AccountFundsManagement(props) {
 
 AccountFundsManagement.propTypes = {
   classes: PropTypes.object.isRequired,
+  transferCompleteState: PropTypes.string.isRequired,
   fspName: PropTypes.string.isRequired,
   account: PropTypes.object.isRequired,
-  processFn: PropTypes.func.isRequired
+  processFn: PropTypes.func.isRequired,
+  setSnackBarParams: PropTypes.func.isRequired
 };
 
 
@@ -107,11 +146,15 @@ AccountFundsManagement.propTypes = {
 function FundsManagement(props) {
   const { fspName, classes } = props;
   const [accounts, setAccounts] = useState([]);
+  const [snackBarParams, setSnackBarParams] = useState({ show: false, message: '', variant: 'success' });
 
   useEffect(() => {
-    getAccounts(fspName)
+    const ftc = fetchTimeoutController();
+    getAccounts(fspName, { ftc })
       .then(accounts => setAccounts(accounts.filter(a => a.ledgerAccountType === 'SETTLEMENT')))
+      .catch(ftc.ignoreAbort())
       .catch(err => window.alert('Failed to get accounts')) // TODO: better error message, let user retry
+    return ftc.abortFn;
   }, [fspName]);
 
   const updateAccount = updatedAccount => {
@@ -124,10 +167,38 @@ function FundsManagement(props) {
     // }
   };
 
+  // TODO: this function is the same everywhere we use the snackbar. Can we parametrise it?
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    if (snackBarParams.callback) {
+      snackBarParams.callback();
+    }
+    setSnackBarParams({ ...snackBarParams, show: false });
+  };
+
   // TODO: is the value field the balance??
   return (
     <>
     <h2>Funds Management</h2>
+    <Snackbar
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "left"
+      }}
+      open={snackBarParams.show}
+      autoHideDuration={snackBarParams.action === 'close' ? 6000 : null}
+      onClose={handleCloseSnackbar}
+    >
+      <SnackbarContentWrapper
+        onClose={handleCloseSnackbar}
+        variant={snackBarParams.variant}
+        className={classes.margin}
+        message={snackBarParams.message}
+        action={snackBarParams.action}
+      />
+    </Snackbar>
     <Table>
       <TableHead>
         <TableRow>
@@ -148,20 +219,24 @@ function FundsManagement(props) {
           <TableCell align="right">{a.ledgerAccountType}</TableCell>
           <TableCell align="center">
             <AccountFundsManagement
+              transferCompleteState={'COMMITTED'}
               processFn={processFundsIn}
               fspName={fspName}
               account={a}
               classes={classes}
               onChange={updateAccount}
+              setSnackBarParams={setSnackBarParams}
             />
           </TableCell>
           <TableCell align="center">
             <AccountFundsManagement
+              transferCompleteState={'RESERVED'}
               processFn={processFundsOut}
               fspName={fspName}
               account={a}
               classes={classes}
               onChange={updateAccount}
+              setSnackBarParams={setSnackBarParams}
             />
           </TableCell>
         </TableRow>

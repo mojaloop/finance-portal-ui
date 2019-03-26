@@ -51,9 +51,19 @@ function triggerDownload(path, { endpoint = defaultEndpoint } = {}) {
 }
 
 function fetchTimeoutController({ timeoutMs = 5000, controller = new AbortController() } = {}) {
+    let reason = 'timeout';
     return {
         timeout: setTimeout(() => controller.abort(), timeoutMs),
-        controller
+        controller,
+        abortFn: (() => {
+            reason= 'user';
+            controller.abort();
+        }),
+        ignoreAbort: (abortReason = 'user') => err => {
+            if (err.name !== 'AbortError' || abortReason !== reason) {
+                throw err;
+            }
+        }
     };
 }
 
@@ -114,5 +124,6 @@ export {
     post,
     triggerDownload,
     fetchTimeoutController,
-    openInNewWindow
+    openInNewWindow,
+    HTTPResponseError
 };

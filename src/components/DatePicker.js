@@ -63,19 +63,27 @@ function DateRangePickerImpl(props) {
   const {
     classes,
     onChange = () => {},
+    onStartChange = () => {},
+    onEndChange = () => {},
     defStartDate = new Date(),
     defEndDate = new Date(Date.now() + 1000 * 60 * 60 * 24)
   } = props;
 
-  const [endDate, setEndDate] = useState(truncateDate(defEndDate)); // tomorrow
-  const [startDate, setStartDate] = useState(truncateDate(defStartDate));
+  const [toDate, setToDate] = useState(truncateDate(defEndDate)); // tomorrow
+  const [fromDate, setFromDate] = useState(truncateDate(defStartDate));
 
-  const updateDates = (start, end) => {
-    start = new Date(start);
-    end = new Date(end);
-    setStartDate(start);
-    setEndDate(end);
-    onChange(start, end);
+  const updateDates = (from, to) => {
+    from = new Date(from);
+    to = new Date(to);
+    if (from !== fromDate) {
+      onStartChange(from);
+    }
+    if (to !== toDate) {
+      onEndChange(to);
+    }
+    setFromDate(from);
+    setToDate(to);
+    onChange({ from, to });
   };
 
   // TODO:
@@ -83,8 +91,8 @@ function DateRangePickerImpl(props) {
   // - if a user selects a (from,to) pair where from < to, bracket the selection
   return (
     <Grid container className={classes.grid} justify="space-around">
-      <DatePicker defDate={startDate} desc="From" onChange={dt => updateDates(dt, endDate)} />
-      <DatePicker defDate={endDate} desc="To" onChange={dt => updateDates(startDate, dt)} />
+      <DatePicker defDate={fromDate} desc="From" onChange={dt => updateDates(dt, toDate)} />
+      <DatePicker defDate={toDate} desc="To" onChange={dt => updateDates(fromDate, dt)} />
     </Grid>
   )
 }

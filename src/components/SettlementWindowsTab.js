@@ -20,7 +20,8 @@ import TablePagination from '@material-ui/core/TablePagination';
 import Snackbar from '@material-ui/core/Snackbar';
 import { SnackbarContentWrapper } from './SnackbarUtils';
 
-import { getSettlementWindows, getSettlementWindowInfo, commitSettlementWindow, closeSettlementWindow } from '../api';
+import { getSettlementWindows, getSettlementWindowInfo, commitSettlementWindow,
+  closeSettlementWindow, fetchTimeoutController } from '../api';
 import { truncateDate } from '../utils'
 import { triggerDownload, openInNewWindow } from '../requests';
 
@@ -386,21 +387,21 @@ function SettlementWindowsGrid(props) {
 
 function SettlementWindowsTab(props) {
   const { classes } = props;
-  const to = truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24));
-  const from = truncateDate(new Date(Date.now() - 1000 * 60 * 60 * 24 * 6));
+
+  const [dates, setDates] = useState({
+    from: truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24)),
+    to: truncateDate(new Date(Date.now() - 1000 * 60 * 60 * 24 * 6))
+  });
   const [settlementWindowsList, setSettlementWindowsList] = useState(undefined);
-  const [startDate, setStartDate] = useState(from);
-  const [endDate, setEndDate] = useState(to);
 
-  const updateQuery = (startDate, endDate) => {
-    setStartDate(startDate);
-    setEndDate(endDate);
-    getSettlementWindows({ startDate, endDate })
+  useEffect(() => {
+    const ftc = fetchTimeoutController();
+    getSettlementWindows(dates, { ftc })
       .then(setSettlementWindowsList)
+      .catch(ftc.ignoreAbort())
       .catch(err => window.alert('Failed to get settlement windows')); // TODO: better error message, let user retry
-  };
-
-  useEffect(() => updateQuery(from, to), []);
+    return ftc.abortFn;
+  }, [dates]);
 
   return (
     <div className={classes.root}>
@@ -408,13 +409,13 @@ function SettlementWindowsTab(props) {
         <Grid container spacing={24}>
           <Grid item md={10}>
             <Paper className={classes.paper}>
-              <DateRangePicker defStartDate={from} defEndDate={to} onChange={updateQuery} />
+              <DateRangePicker defStartDate={dates.from} defEndDate={dates.to} onChange={setDates} />
             </Paper>
           </Grid>
 
           <Grid item md={10}>
             <Paper className={classes.paper}>
-              <SettlementWindowsGrid settlementWindowsList={settlementWindowsList} classes={classes} endDate={endDate} startDate={startDate} refreshGridHandler={setSettlementWindowsList} />
+              <SettlementWindowsGrid settlementWindowsList={settlementWindowsList} classes={classes} endDate={dates.to} startDate={dates.from} refreshGridHandler={setSettlementWindowsList} />
             </Paper>
           </Grid>
         </Grid>
