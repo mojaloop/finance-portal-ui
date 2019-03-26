@@ -61,7 +61,7 @@ function FSPDetailsImpl(props) {
     Promise.all([
       getPositions(fsp.id, { ftc }).then(setPositions),
       getCurrentWindow(fsp.id, { ftc }).then(setCurrentSettlementWindow),
-      getPreviousWindow(fsp.name).then(setPreviousSettlementWindow),
+      getPreviousWindow(fsp.name, { ftc }).then(setPreviousSettlementWindow),
       getSettlementAccountBalance(fsp.id, { ftc }).then(setSettlementAccountBalance),
       getParticipantIsActiveFlag(fsp.id, { ftc }).then(setStopTransactions)
     ]).then(ftc.ignoreAbort());
