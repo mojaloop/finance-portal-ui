@@ -23,7 +23,7 @@ import { SnackbarContentWrapper } from './SnackbarUtils';
 import { getSettlementWindows, getSettlementWindowInfo, commitSettlementWindow,
   closeSettlementWindow, fetchTimeoutController } from '../api';
 import { truncateDate } from '../utils'
-import { triggerDownload, openInNewWindow } from '../requests';
+import { triggerDownload, downloadReport } from '../requests';
 
 const styles = theme => ({
   root: {
@@ -167,22 +167,22 @@ function SettlementWindowsGrid(props) {
           <TableHead>
             <TableRow>
               <TableCell><h3>SettlementWindow Id</h3></TableCell>
-              <TableCell align="right"><h3>State</h3></TableCell>
-              <TableCell align="right"><h3>Created Date</h3></TableCell>
-              <TableCell align="right"><h3>Changed Date</h3></TableCell>
+              <TableCell align='right'><h3>State</h3></TableCell>
+              <TableCell align='right'><h3>Created Date</h3></TableCell>
+              <TableCell align='right'><h3>Changed Date</h3></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {settlementWindowsList.sort((a, b) => b.settlementWindowId - a.settlementWindowId).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(settlementWindow => (
               <TableRow key={settlementWindow.settlementWindowId}>
-                <TableCell component="th" scope="row">
+                <TableCell component='th' scope='row'>
                   <Button variant='contained' color='primary' disabled={false} className={classes.button} onClick={() => getDetails(settlementWindow.settlementWindowId)}>
                     {settlementWindow.settlementWindowId}
                   </Button>
                 </TableCell>
-                <TableCell align="right">{settlementWindow.state}</TableCell>
-                <TableCell align="right">{settlementWindow.createdDate}</TableCell>
-                <TableCell align="right">{settlementWindow.changedDate}</TableCell>
+                <TableCell align='right'>{settlementWindow.state}</TableCell>
+                <TableCell align='right'>{settlementWindow.createdDate}</TableCell>
+                <TableCell align='right'>{settlementWindow.changedDate}</TableCell>
               </TableRow>
             ))}
             {emptyRows > 0 && (
@@ -212,13 +212,13 @@ function SettlementWindowsGrid(props) {
       </Paper>
       <Dialog
         onClose={handleClose}
-        aria-labelledby="dialog-title"
+        aria-labelledby='dialog-title'
         open={settlementWindowModalVisible}
         maxWidth='lg'
       >
-        <DialogTitle id="dialog-title" onClose={handleClose}>
+        <DialogTitle id='dialog-title' onClose={handleClose}>
           Settlement Window Details
-          </DialogTitle>
+        </DialogTitle>
         <DialogContent>
           {settlementWindowDetails && settlementWindowDetails.settlementWindow && settlementWindowDetails.settlementWindow.settlementWindowId !== null &&
             <Grid container spacing={8}>
@@ -255,18 +255,18 @@ function SettlementWindowsGrid(props) {
                 <TableHead>
                   <TableRow>
                     <TableCell>FSP ID</TableCell>
-                    <TableCell align="right">In Amount</TableCell>
-                    <TableCell align="right">Out Amount</TableCell>
-                    <TableCell align="right">Net Amount</TableCell>
+                    <TableCell align='right'>In Amount</TableCell>
+                    <TableCell align='right'>Out Amount</TableCell>
+                    <TableCell align='right'>Net Amount</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {settlementWindowDetails.participantAmount.sort((a, b) => a.fspId > b.fspId).map((row, index) => (
                     <TableRow key={index}>
-                      <TableCell align="left">{row.fspId}</TableCell>
-                      <TableCell align="right">{row.inAmount}</TableCell>
-                      <TableCell align="right">{row.outAmount}</TableCell>
-                      <TableCell align="right">{row.netAmount}</TableCell>
+                      <TableCell align='left'>{row.fspId}</TableCell>
+                      <TableCell align='right'>{row.inAmount}</TableCell>
+                      <TableCell align='right'>{row.outAmount}</TableCell>
+                      <TableCell align='right'>{row.netAmount}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -283,13 +283,18 @@ function SettlementWindowsGrid(props) {
                 </Button>
               </Grid>
               <Grid item md={2}>
-                <Button onClick={() => openInNewWindow(`report/312?settlementId=${settlementWindowDetails.settlementWindow.settlementWindowId}`)} color='primary' variant='contained'>
+                <Button onClick={() => downloadReport(`/report?reportId=312&START_DATE_TIME=${startDate}&END_DATE_TIME=${endDate}`)} color='primary' variant='contained'>
                   HUB 312 Report
                 </Button>
               </Grid>
               <Grid item md={2}>
-                <Button onClick={() => openInNewWindow(`report/315?settlementId=${settlementWindowDetails.settlementWindow.settlementWindowId}`)} color='primary' variant='contained'>
+                <Button onClick={() => downloadReport(`/report?reportId=315&settlementWindowId=${settlementWindowDetails.settlementWindow.settlementWindowId}&participantId=7`)} color='primary' variant='contained'>
                   HUB 315 Report
+                </Button>
+              </Grid>
+              <Grid item md={2}>
+                <Button onClick={() => downloadReport(`/report?reportId=644`)} color='primary' variant='contained'>
+                  HUB 644 Report
                 </Button>
               </Grid>
               <Grid item md={2}>
@@ -314,19 +319,19 @@ function SettlementWindowsGrid(props) {
         disableBackdropClick
         disableEscapeKeyDown
         onClose={handleCommitClose}
-        aria-labelledby="dialog-title"
+        aria-labelledby='dialog-title'
         open={commitSettlementDialogVisible}
         maxWidth='xs'
       >
-        <DialogTitle id="dialog-title" onClose={handleCommitClose}>
+        <DialogTitle id='dialog-title' onClose={handleCommitClose}>
           Commit Settlement Window
-          </DialogTitle>
+        </DialogTitle>
         <DialogContent>
           Are you sure, you want to commit this settlement window?
           {settlementWindowDetails && settlementWindowDetails.relatedSettlementWindows && settlementWindowDetails.relatedSettlementWindows.length > 0 &&
             <div>
               There are following additional settlement windows involved in this settlement
-           </div>
+            </div>
           }
           {settlementWindowDetails && settlementWindowDetails.relatedSettlementWindows && settlementWindowDetails.relatedSettlementWindows.length > 0 &&
             <Grid item md={10}>
@@ -339,7 +344,7 @@ function SettlementWindowsGrid(props) {
                 <TableBody>
                   {settlementWindowDetails.relatedSettlementWindows.sort((a, b) => a.settlementWindowId > b.settlementWindowId).map((row, index) => (
                     <TableRow key={index}>
-                      <TableCell align="left">{row.settlementWindowId}</TableCell>
+                      <TableCell align='left'>{row.settlementWindowId}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -361,13 +366,13 @@ function SettlementWindowsGrid(props) {
         disableBackdropClick
         disableEscapeKeyDown
         onClose={handleCommitClose}
-        aria-labelledby="dialog-title"
+        aria-labelledby='dialog-title'
         open={closeSettlementDialogOpen}
         maxWidth='xs'
       >
-        <DialogTitle id="dialog-title" onClose={handleCloseDialogClose}>
+        <DialogTitle id='dialog-title' onClose={handleCloseDialogClose}>
           Close Settlement Window
-          </DialogTitle>
+        </DialogTitle>
         <DialogContent>
           Are you sure, you want to close this settlement window?
         </DialogContent>
