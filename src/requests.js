@@ -118,6 +118,38 @@ function openInNewWindow(path, { endpoint = defaultEndpoint } = {}) {
     window.open(buildUrl(endpoint, path), '_blank');
 }
 
+async function downloadReport(path, { endpoint = defaultEndpoint, logger = () => {}, ftc = fetchTimeoutController() } = {}) {
+    try {
+        const opts = {
+            method: 'GET',
+            headers: {
+                'content-type': 'octet-stream'
+            }
+        }
+    
+        fetch(buildUrl(endpoint, path), opts)
+            .then(async res => {
+                if (res.status !== 200) { throw new Error(`Status: ${res.statusText}`) }
+                const content = await res.text();
+                const data = new Blob([content], {type: 'text/csv'});
+                const csvURL = window.URL.createObjectURL(data);
+                const filename = `report_${Date.now()}.csv`;
+                const tempLink = document.createElement('a');
+                tempLink.href = csvURL;
+                tempLink.setAttribute('download', filename);
+                tempLink.click();
+            })
+            .catch(e => {
+                logger(util.format('Error attempting download. URL:', path, 'Error:', e));
+                throw e;
+            });
+
+    } catch (e) {
+        logger(util.format('Error attempting POST. URL:', path, 'Error:', e));
+        throw e;     
+    }
+}
+
 export {
     get,
     put,
@@ -125,5 +157,6 @@ export {
     triggerDownload,
     fetchTimeoutController,
     openInNewWindow,
-    HTTPResponseError
+    HTTPResponseError,
+    downloadReport
 };
