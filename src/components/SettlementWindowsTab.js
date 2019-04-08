@@ -288,11 +288,6 @@ function SettlementWindowsGrid(props) {
                 </Button>
               </Grid>
               <Grid item md={2}>
-                <Button onClick={() => downloadReport(`/report?reportId=315&settlementWindowId=${settlementWindowDetails.settlementWindow.settlementWindowId}&participantId=7`)} color='primary' variant='contained'>
-                  HUB 315 Report
-                </Button>
-              </Grid>
-              <Grid item md={2}>
                 <Button onClick={() => downloadReport(`/report?reportId=644`)} color='primary' variant='contained'>
                   HUB 644 Report
                 </Button>
