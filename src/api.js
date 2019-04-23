@@ -110,6 +110,10 @@ async function getHistoricalData(participantName, { from, to }, requestOpts) {
     return get(`/historical-window-summary/${participantName}?fromDateTime=${stringifyDate(from)}&toDateTime=${stringifyDate(to)}`, requestOpts);
 }
 
+async function validateTransferId(transferId, requestOpts) {
+    return get(`/validate-transfer/${transferId}`, requestOpts);
+}
+
 export {
     closeSettlementWindow,
     commitSettlement,
@@ -136,5 +140,6 @@ export {
     processFundsOut,
     setParticipantIsActiveFlag,
     updateEmailAddress,
-    updateNetDebitCap
+    updateNetDebitCap,
+    validateTransferId
 };
