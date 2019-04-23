@@ -98,7 +98,9 @@ function TransferVerificationTab(props) {
     const ftc = fetchTimeoutController({timeoutMs: 40000});
     validateTransferId(transferId, { ftc })
       .then(transferDetails => {
-        if(!transferDetails || transferDetails.isValidTransfer !== true){
+        if(!transferDetails || transferDetails.transfer == null){
+          setSnackBarParams({ show: true, message: `Transfer not found`, variant: 'error', action: 'close' })
+        } else if(transferDetails.isValidTransfer !== true){
           setSnackBarParams({ show: true, message: `Transfer can't be validated`, variant: 'error', action: 'close' })
         }
         setTransferDetails(transferDetails);
