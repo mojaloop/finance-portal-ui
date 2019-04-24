@@ -10,6 +10,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { withStyles } from '@material-ui/core/styles';
 import SettlementWindowsTab from './components/SettlementWindowsTab';
+import TransferVerificationTab from './components/TransferVerificationTab';
 
 // TODO: consider adding an error boundary?
 //       https://reactjs.org/docs/error-boundaries.html
@@ -45,11 +46,13 @@ function App(props) {
               <Tab label="Financial Monitoring" />
               <Tab label="Settlement Windows" />
               <Tab label="Administration" />
+              <Tab label="Transfer Verification" />
             </Tabs>
           </AppBar>
           {tab === 0 && <FinancialMonitoringTab />}
           {tab === 1 && <SettlementWindowsTab />}
           {tab === 2 && <AdminTab />}
+          {tab === 3 && <TransferVerificationTab />}
         </>
       )}
     </div>
