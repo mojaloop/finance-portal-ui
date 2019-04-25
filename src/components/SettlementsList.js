@@ -23,13 +23,13 @@ function SettlementsListList(props) {
   return (
     <>
       {settlements.length === 0 ? "No settlements found" :
-          <List>
-            {settlements.map(settlement =>
-              <ListItem key={settlement.id}>
-                <ListItemText>[{settlement.id}] | {settlement.state} | {settlement.participants.map(participantInfo).join(', ')}</ListItemText>
-              </ListItem>
+      <List>
+        {settlements.map(settlement =>
+          <ListItem key={settlement.id}>
+            <ListItemText>[{settlement.id}] | {settlement.state} | {settlement.participants.map(participantInfo).join(', ')}</ListItemText>
+          </ListItem>
             )}
-          </List>
+      </List>
       }
     </>
   )

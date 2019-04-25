@@ -84,11 +84,11 @@ function FSPDetailsImpl(props) {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position='static'>
         <Tabs value={tab} onChange={(_, val) => setTab(val)}>
-          <Tab label="Current Window" />
-          <Tab label="Window History" />
-          <Tab label="Financial Controls" />
+          <Tab label='Current Window' />
+          <Tab label='Window History' />
+          <Tab label='Financial Controls' />
         </Tabs>
       </AppBar>
       {tab === 0 &&
@@ -131,15 +131,15 @@ function FSPDetailsImpl(props) {
       {tab === 2 &&
         <Grid container spacing={24}>
           {stopTransactions === undefined ? <></> :
-            <Grid item md={12}>
-              <Paper className={classes.paper}>
-                <h3>Disable transactions for this DFSP</h3>
-                <Switch
-                  checked={stopTransactions === 0}
-                  onChange={updateIsActiveFlag}
+          <Grid item md={12}>
+            <Paper className={classes.paper}>
+              <h3>Disable transactions for this DFSP</h3>
+              <Switch
+                checked={stopTransactions === 0}
+                onChange={updateIsActiveFlag}
                 />
-              </Paper>
-            </Grid>
+            </Paper>
+          </Grid>
           }
           <Grid item md={12}>
             <Paper className={classes.paper}>
@@ -250,7 +250,7 @@ function FinancialMonitoringTab(props) {
               {fspList.map(fsp => (
                 <Fragment key={fsp.id}>
                   <TableRow>
-                    <TableCell component="th" scope="row" onClick={() => handleClickFsp(fsp)}>
+                    <TableCell component='th' scope='row' onClick={() => handleClickFsp(fsp)}>
                       {fsp.name}
                     </TableCell>
                   </TableRow>
