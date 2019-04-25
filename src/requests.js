@@ -1,3 +1,4 @@
+'use strict';
 
 // TODO: prevent any plaintext requests in production
 
@@ -67,6 +68,7 @@ function fetchTimeoutController({ timeoutMs = 5000, controller = new AbortContro
     };
 }
 
+
 async function get(path, { endpoint = defaultEndpoint, logger = () => {}, ftc = fetchTimeoutController() } = {}) {
     try {
         const opts = {
@@ -88,7 +90,8 @@ async function put(path, body, { endpoint = defaultEndpoint, logger = () => {}, 
         const opts = {
             method: 'PUT',
             headers: { 'content-type': 'application/json', 'accept': 'application/json' },
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            signal: ftc.controller.signal
         };
 
         return await fetch(buildUrl(endpoint, path), opts).then(throwOrJson);
@@ -104,7 +107,8 @@ async function post(path, body, { endpoint = defaultEndpoint, logger = () => {},
         const opts = {
             method: 'POST',
             headers: { 'content-type': 'application/json', 'accept': 'application/json' },
-            body: JSON.stringify(body)
+            body: JSON.stringify(body),
+            signal: ftc.controller.signal
         };
 
         return await fetch(buildUrl(endpoint, path), opts).then(throwOrJson);
