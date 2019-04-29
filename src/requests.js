@@ -1,8 +1,9 @@
-'use strict';
 
 // TODO: prevent any plaintext requests in production
 
 const util = require('util');
+
+const credentials = (process.NODE_ENV === 'development') ? 'include' : 'same-origin'; // 'same-origin', include', 'omit'
 
 const defaultEndpoint = (process.env.NODE_ENV === 'development') ? 'http://localhost:3002' : new URL('admin-portal-backend', window.location.origin).href;
 
@@ -74,6 +75,7 @@ async function get(path, { endpoint = defaultEndpoint, logger = () => {}, ftc = 
         const opts = {
             method: 'GET',
             headers: { 'accept': 'application/json' },
+            credentials,
             signal: ftc.controller.signal
         };
 
@@ -91,6 +93,7 @@ async function put(path, body, { endpoint = defaultEndpoint, logger = () => {}, 
             method: 'PUT',
             headers: { 'content-type': 'application/json', 'accept': 'application/json' },
             body: JSON.stringify(body),
+            credentials,
             signal: ftc.controller.signal
         };
 
@@ -108,6 +111,7 @@ async function post(path, body, { endpoint = defaultEndpoint, logger = () => {},
             method: 'POST',
             headers: { 'content-type': 'application/json', 'accept': 'application/json' },
             body: JSON.stringify(body),
+            credentials,
             signal: ftc.controller.signal
         };
 
@@ -126,11 +130,12 @@ async function downloadReport(path, { endpoint = defaultEndpoint, logger = () =>
     try {
         const opts = {
             method: 'GET',
+            credentials,
             headers: {
                 'content-type': 'octet-stream'
             }
         }
-    
+
         fetch(buildUrl(endpoint, path), opts)
             .then(async res => {
                 if (res.status !== 200) { throw new Error(`Status: ${res.statusText}`) }
