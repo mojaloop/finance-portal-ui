@@ -3,7 +3,7 @@
 
 const util = require('util');
 
-const credentials = (process.NODE_ENV === 'development') ? 'include' : 'same-origin'; // 'same-origin', include', 'omit'
+const credentials = (process.env.NODE_ENV === 'development') ? 'include' : 'same-origin'; // 'same-origin', include', 'omit'
 
 const defaultEndpoint = (process.env.NODE_ENV === 'development') ? 'http://localhost:3002' : new URL('admin-portal-backend', window.location.origin).href;
 
