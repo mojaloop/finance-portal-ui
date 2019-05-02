@@ -389,8 +389,8 @@ function SettlementWindowsTab(props) {
   const { classes } = props;
 
   const [dates, setDates] = useState({
-    from: truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24)),
-    to: truncateDate(new Date(Date.now() - 1000 * 60 * 60 * 24 * 6))
+    from: truncateDate(new Date(Date.now() - 1000 * 60 * 60 * 24)),
+    to: truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24 * 6))
   });
   const [settlementWindowsList, setSettlementWindowsList] = useState(undefined);
 
