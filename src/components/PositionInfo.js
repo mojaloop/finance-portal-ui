@@ -51,7 +51,7 @@ function PositionInfo(props) {
           <Paper>NDC</Paper>
         </Grid>
         <Grid item md={3}>
-          <Paper>Position/Limit</Paper>
+          <Paper>Percentage of NDC Used</Paper>
         </Grid>
         {positions.map(p =>
           <Grid container key={p.participantLimitId}>

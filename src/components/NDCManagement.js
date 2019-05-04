@@ -52,7 +52,7 @@ function AccountNDCManagement(props) {
   return (
     <>
       <TextField
-        label='NetDebitCap'
+        label='Net Debit Cap'
         className={classes.textField}
         margin='normal'
         value={newNDC}
@@ -65,7 +65,7 @@ function AccountNDCManagement(props) {
         onChange={ev => setNewNDC(ev.target.value)}
       />
       <Button variant='contained' color='primary' disabled={busy} className={classes.button} onClick={updateNDC}>
-        Apply
+        Update
       </Button>
     </>
   );

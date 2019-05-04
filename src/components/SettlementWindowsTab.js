@@ -223,7 +223,7 @@ function SettlementWindowsGrid(props) {
           {settlementWindowDetails && settlementWindowDetails.settlementWindow && settlementWindowDetails.settlementWindow.settlementWindowId !== null &&
             <Grid container spacing={8}>
               <Grid container spacing={8}>
-                <Grid item md={6}><Paper className={classes.paper}>Settlement Window ID</Paper></Grid>
+                <Grid item md={6}><Paper className={classes.paper}>SettlementWindow Id</Paper></Grid>
                 <Grid item md={6}><Paper className={classes.paper}>{settlementWindowDetails.settlementWindow.settlementWindowId}</Paper></Grid>
               </Grid>
               <Grid container spacing={8}>
@@ -279,7 +279,7 @@ function SettlementWindowsGrid(props) {
             <Grid container spacing={8}>
               <Grid item md={2}>
                 <Button color='primary' variant='contained' onClick={() => triggerDownload(`payment-file-sw/${settlementWindowDetails.settlementWindow.settlementWindowId}`)}>
-                  Download PM
+                  Payment Matrix
                 </Button>
               </Grid>
               <Grid item md={2}>
@@ -294,7 +294,7 @@ function SettlementWindowsGrid(props) {
               </Grid>
               <Grid item md={2}>
                 <Button color='primary' variant='contained' onClick={() => setCommitSettlementDialogVisible(true)} disabled={settlementWindowDetails.settlementWindow.settlementWindowStateId !== 'PENDING_SETTLEMENT'}>
-                  Commit Window
+                  Settled Window
                 </Button>
               </Grid>
               <Grid item md={2}>
@@ -333,7 +333,7 @@ function SettlementWindowsGrid(props) {
               <Table className={classes.tableDetails}>
                 <TableHead>
                   <TableRow>
-                    <TableCell>SettlementWindow ID</TableCell>
+                    <TableCell>SettlementWindow Id</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
