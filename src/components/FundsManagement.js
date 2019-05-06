@@ -106,7 +106,7 @@ function AccountFundsManagement(props) {
         onChange={ev => setFundsIn(ev.target.value)}
       />
       <Button variant='contained' color='primary' disabled={busy} className={classes.button} onClick={actionFundsIn}>
-        Apply
+        Process
       </Button>
     </>
   )
@@ -204,8 +204,8 @@ function FundsManagement(props) {
         <TableRow>
           <TableCell><h3>Account ID</h3></TableCell>
           <TableCell align="right"><h3>Currency</h3></TableCell>
-          <TableCell align="right"><h3>Balance</h3></TableCell>
-          <TableCell align="right"><h3>Ledger Type</h3></TableCell>
+          <TableCell align="right"><h3>Value</h3></TableCell>
+          <TableCell align="right"><h3> Type</h3></TableCell>
           <TableCell align="center"><h3>Funds In</h3></TableCell>
           <TableCell align="center"><h3>Funds Out</h3></TableCell>
         </TableRow>

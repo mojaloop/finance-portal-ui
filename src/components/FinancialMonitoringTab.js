@@ -133,7 +133,7 @@ function FSPDetailsImpl(props) {
           {stopTransactions === undefined ? <></> :
           <Grid item md={12}>
             <Paper className={classes.paper}>
-              <h3>Disable transactions for this DFSP</h3>
+              <h3>Stop the Transactions</h3>
               <Switch
                 checked={stopTransactions === 0}
                 onChange={updateIsActiveFlag}
