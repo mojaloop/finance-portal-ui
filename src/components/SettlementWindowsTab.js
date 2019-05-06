@@ -283,7 +283,7 @@ function SettlementWindowsGrid(props) {
                 </Button>
               </Grid>
               <Grid item md={2}>
-                <Button onClick={() => downloadReport(`/report?reportId=312&START_DATE_TIME=${startDate}&END_DATE_TIME=${endDate}`)} color='primary' variant='contained'>
+                <Button onClick={() => downloadReport(`/report?reportId=312&START_DATE_TIME=${startDate.toISOString().slice(0, - 5)}&END_DATE_TIME=${endDate.toISOString().slice(0, - 5)}`)} color='primary' variant='contained'>
                   HUB 312 Report
                 </Button>
               </Grid>
@@ -389,8 +389,8 @@ function SettlementWindowsTab(props) {
   const { classes } = props;
 
   const [dates, setDates] = useState({
-    from: truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24)),
-    to: truncateDate(new Date(Date.now() - 1000 * 60 * 60 * 24 * 6))
+    from: truncateDate(new Date(Date.now() - 1000 * 60 * 60 * 24)),
+    to: truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24 * 6))
   });
   const [settlementWindowsList, setSettlementWindowsList] = useState(undefined);
 
