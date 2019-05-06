@@ -294,7 +294,7 @@ function SettlementWindowsGrid(props) {
               </Grid>
               <Grid item md={2}>
                 <Button color='primary' variant='contained' onClick={() => setCommitSettlementDialogVisible(true)} disabled={settlementWindowDetails.settlementWindow.settlementWindowStateId !== 'PENDING_SETTLEMENT'}>
-                  Settled Window
+                  Settle Window
                 </Button>
               </Grid>
               <Grid item md={2}>
