@@ -102,17 +102,12 @@ function FSPDetailsImpl(props) {
               </Grid>
               <Grid item md={12}>
                 <Paper className={classes.paper}>
-                  <PreviousSettlementWindowInfo previousSettlementWindow={previousSettlementWindow} />
-                </Paper>
-              </Grid>
-              <Grid item md={12}>
-                <Paper className={classes.paper}>
                   <PositionInfo positions={positions} settlementAccountBalance={settlementAccountBalance} />
                 </Paper>
               </Grid>
               <Grid item md={12}>
                 <Paper className={classes.paper}>
-                  <SettlementsList fsp={fsp} fspNamesById={fspNamesById} />
+                  <SettlementsList fsp={fsp.id} fspNamesById={fspNamesById} />
                 </Paper>
               </Grid>
             </Grid>
@@ -120,13 +115,18 @@ function FSPDetailsImpl(props) {
         </>
       }
       {tab === 1 &&
-        <Paper className={classes.paper}>
+        <Grid container spacing={24}>
+          <Grid item md={12}>
+            <Paper className={classes.paper}>
+              <PreviousSettlementWindowInfo previousSettlementWindow={previousSettlementWindow} />
+            </Paper>
+          </Grid>
           <Grid item md={12}>
             <Paper className={classes.paper}>
               <TransactionAverage fsp={fsp} />
             </Paper>
           </Grid>
-        </Paper>
+        </Grid>
       }
       {tab === 2 &&
         <Grid container spacing={24}>

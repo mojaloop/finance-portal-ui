@@ -23,7 +23,7 @@ function PreviousSettlementWindowInfo(props) {
   return (
     <div className={classes.root}>
       <h2>Previous Settlement Window</h2>
-      <h4>Payments</h4>
+      <h4>Outgoing Transactions</h4>
       <Grid container justify="center" spacing={0}>
         <Grid item md={3}>
           <Paper>Currency</Paper>
@@ -42,7 +42,7 @@ function PreviousSettlementWindowInfo(props) {
           </Grid>
         )}
       </Grid>
-      <h4>Receipts</h4>
+      <h4>Incoming Transactions</h4>
       <Grid container justify="center" spacing={0}>
         <Grid item md={3}>
           <Paper>Currency</Paper>

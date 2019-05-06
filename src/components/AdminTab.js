@@ -111,7 +111,7 @@ function EmailList(props) {
 
     return (
       <Grid container spacing={0}>
-        {emailAddresses.map(a => <EmailAddress key={a.type} emailAddress={a} classes={classes} fsp={fsp} onChange={updateEmailAddress} />)}
+        {emailAddresses.sort((a, b) => a.type > b.type).map(a => <EmailAddress key={a.type} emailAddress={a} classes={classes} fsp={fsp} onChange={updateEmailAddress} />)}
       </Grid>
     );
 
