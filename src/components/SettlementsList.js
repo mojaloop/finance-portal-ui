@@ -64,7 +64,7 @@ function SettlementsList(props) {
 
 SettlementsList.propTypes = {
   fspNamesById: PropTypes.object.isRequired,
-  fsp: PropTypes.object.isRequired
+  fsp: PropTypes.number.isRequired
 };
 
 export default SettlementsList;
