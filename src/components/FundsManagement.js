@@ -18,6 +18,8 @@ import { getAccounts, getParticipantAccountById, processFundsIn, processFundsOut
   fetchTimeoutController, getTransfer } from '../api';
 import { HTTPResponseError } from '../requests';
 import { CurrencyFormat } from './InputControl';
+import ConfirmDailog from "./ConfirmDailog"
+import "@reach/dialog/styles.css"
 
 
 const styles = theme => ({
@@ -91,24 +93,30 @@ function AccountFundsManagement(props) {
   // TODO: put a slider in, have the user move the slider to make the transfer. Have the slider
   // shift back to its original position whenever the funds in amount is changed.
   return (
-    <>
-      <TextField
-        label='Amount'
-        className={classes.textField}
-        margin='normal'
-        value={fundsInAmount}
-        onFocus={ev => ev.target.select()}
-        InputProps={{
-          inputComponent: CurrencyFormat, suffix: ` ${account.currency}`,
-          inputProps: { suffix: ` ${account.currency}` }
-        }}
-        variant='outlined'
-        onChange={ev => setFundsIn(ev.target.value)}
-      />
-      <Button variant='contained' color='primary' disabled={busy} className={classes.button} onClick={actionFundsIn}>
-        Process
-      </Button>
-    </>
+    <ConfirmDailog title='Confirm' description='Are you sure you want to process this?'>
+      {confirm => {
+        return (
+          <div>
+            <TextField 
+              label='Amount' 
+              className={classes.textField} 
+              margin='normal' value={fundsInAmount} 
+              onFocus={ev => ev.target.select()} 
+              InputProps={{
+              inputComponent: CurrencyFormat, suffix: ` ${account.currency}`,
+              inputProps: { suffix: ` ${account.currency}` }
+            }} 
+              variant='outlined' 
+              onChange={ev => setFundsIn(ev.target.value)}
+          />
+            <Button variant='contained' color='primary' disabled={busy} className={classes.button} onClick={confirm(actionFundsIn)}>
+            Process
+            </Button>
+          </div>
+        )
+      }
+      }
+    </ConfirmDailog>
   )
 }
 
@@ -181,68 +189,68 @@ function FundsManagement(props) {
   // TODO: is the value field the balance??
   return (
     <>
-    <h2>Funds Management</h2>
-    <Snackbar
-      anchorOrigin={{
+      <h2>Funds Management</h2>
+      <Snackbar
+        anchorOrigin={{
         vertical: "bottom",
         horizontal: "left"
       }}
-      open={snackBarParams.show}
-      autoHideDuration={snackBarParams.action === 'close' ? 6000 : null}
-      onClose={handleCloseSnackbar}
-    >
-      <SnackbarContentWrapper
+        open={snackBarParams.show}
+        autoHideDuration={snackBarParams.action === 'close' ? 6000 : null}
         onClose={handleCloseSnackbar}
-        variant={snackBarParams.variant}
-        className={classes.margin}
-        message={snackBarParams.message}
-        action={snackBarParams.action}
+    >
+        <SnackbarContentWrapper
+          onClose={handleCloseSnackbar}
+          variant={snackBarParams.variant}
+          className={classes.margin}
+          message={snackBarParams.message}
+          action={snackBarParams.action}
       />
-    </Snackbar>
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell><h3>Account ID</h3></TableCell>
-          <TableCell align="right"><h3>Currency</h3></TableCell>
-          <TableCell align="right"><h3>Value</h3></TableCell>
-          <TableCell align="right"><h3> Type</h3></TableCell>
-          <TableCell align="center"><h3>Funds In</h3></TableCell>
-          <TableCell align="center"><h3>Funds Out</h3></TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-      {accounts.sort((a, b) => a.currency.localeCompare(b.currency)).map(a =>
-        <TableRow key={a.id}>
-          <TableCell>{a.id}</TableCell>
-          <TableCell align="right">{a.currency}</TableCell>
-          <TableCell align="right">{a.value}</TableCell>
-          <TableCell align="right">{a.ledgerAccountType}</TableCell>
-          <TableCell align="center">
-            <AccountFundsManagement
-              transferCompleteState={'COMMITTED'}
-              processFn={processFundsIn}
-              fspName={fspName}
-              account={a}
-              classes={classes}
-              onChange={updateAccount}
-              setSnackBarParams={setSnackBarParams}
+      </Snackbar>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell><h3>Account ID</h3></TableCell>
+            <TableCell align='right'><h3>Currency</h3></TableCell>
+            <TableCell align='right'><h3>Value</h3></TableCell>
+            <TableCell align='right'><h3> Type</h3></TableCell>
+            <TableCell align='center'><h3>Funds In</h3></TableCell>
+            <TableCell align='center'><h3>Funds Out</h3></TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {accounts.sort((a, b) => a.currency.localeCompare(b.currency)).map(a =>
+            <TableRow key={a.id}>
+              <TableCell>{a.id}</TableCell>
+              <TableCell align='right'>{a.currency}</TableCell>
+              <TableCell align='right'>{a.value}</TableCell>
+              <TableCell align='right'>{a.ledgerAccountType}</TableCell>
+              <TableCell align='center'>
+                <AccountFundsManagement
+                transferCompleteState={'COMMITTED'}
+                processFn={processFundsIn}
+                fspName={fspName}
+                account={a}
+                classes={classes}
+                onChange={updateAccount}
+                setSnackBarParams={setSnackBarParams}
             />
-          </TableCell>
-          <TableCell align="center">
-            <AccountFundsManagement
-              transferCompleteState={'RESERVED'}
-              processFn={processFundsOut}
-              fspName={fspName}
-              account={a}
-              classes={classes}
-              onChange={updateAccount}
-              setSnackBarParams={setSnackBarParams}
+              </TableCell>
+              <TableCell align='center'>
+                <AccountFundsManagement
+                transferCompleteState={'RESERVED'}
+                processFn={processFundsOut}
+                fspName={fspName}
+                account={a}
+                classes={classes}
+                onChange={updateAccount}
+                setSnackBarParams={setSnackBarParams}
             />
-          </TableCell>
-        </TableRow>
+              </TableCell>
+            </TableRow>
       )}
-      </TableBody>
-    </Table>
+        </TableBody>
+      </Table>
     </>
   );
 }
