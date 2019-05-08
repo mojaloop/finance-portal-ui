@@ -33,6 +33,13 @@ function AdminManagement(props) {
   const [newEmailAddress, setNewEmailAddress] = useState("");
 
   const updateEmail = async () => {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const result = re.test(String(newEmailAddress).toLowerCase());
+
+    if (!result) {
+      window.alert('Invalid email!');
+      return;
+    }
     setBusy(true);
     try {
       const res = await updateEmailAddress(fspName, emailaddress.type, newEmailAddress);
