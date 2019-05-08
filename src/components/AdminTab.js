@@ -105,7 +105,7 @@ function EmailList(props) {
     useEffect(() => {
       const ftc = fetchTimeoutController();
       getEmailAddresses(fsp, { ftc })
-        .then(setEmailAddresses())
+        .then(setEmailAddresses)
         .catch(ftc.ignoreAbort())
         .catch(err => window.alert('Failed to get email addresses')) // TODO: better error message, let user retry
       return ftc.abortFn;
@@ -118,7 +118,7 @@ function EmailList(props) {
 
     return (
       <Grid container spacing={0}>
-        {emailAddresses.sort((a,b) => (a.type > b.type) ? 1 : ((b.type > a.type) ? -1 : 0)).map(a => <EmailAddress key={a.type} emailAddress={a} classes={classes} fsp={fsp} onChange={updateEmailAddress} />)}
+        {emailAddresses.sort((a, b) => (a.type > b.type) ? 1 : ((b.type > a.type) ? -1 : 0)).map(a => <EmailAddress key={a.type} emailAddress={a} classes={classes} fsp={fsp} onChange={updateEmailAddress} />)}
       </Grid>
     );
 
