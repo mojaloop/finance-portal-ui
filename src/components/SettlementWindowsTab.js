@@ -337,7 +337,7 @@ function SettlementWindowsGrid(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {settlementWindowDetails.relatedSettlementWindows.sort((a, b) => a.settlementWindowId > b.settlementWindowId).map((row, index) => (
+                  {settlementWindowDetails.relatedSettlementWindows.sort((a, b) => a.settlementWindowId - b.settlementWindowId).map((row, index) => (
                     <TableRow key={index}>
                       <TableCell align='left'>{row.settlementWindowId}</TableCell>
                     </TableRow>
