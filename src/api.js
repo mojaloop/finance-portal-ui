@@ -102,8 +102,8 @@ async function commitSettlementWindow(settlementWindowId, { participants, settle
     return put(`settlement-window-commit/${settlementWindowId}`, { participants, settlementId, from, to }, requestOpts);
 }
 
-async function closeSettlementWindow(settlementWindowId, { from, to }, requestOpts) {
-    return put(`settlement-window-close/${settlementWindowId}`, { from, to }, requestOpts);
+async function closeSettlementWindow(settlementWindowId, {startDate, endDate }, requestOpts) {
+    return put(`settlement-window-close/${settlementWindowId}`, {startDate, endDate }, requestOpts);
 }
 
 async function getHistoricalData(participantName, { from, to }, requestOpts) {
