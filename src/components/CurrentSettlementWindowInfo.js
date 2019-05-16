@@ -24,43 +24,43 @@ function CurrentSettlementWindowInfo(props) {
   return (
     <div className={classes.root}>
       <h2>Current Settlement Window</h2>
-      <Grid container spacing={0}>
-
-        <Grid item md={4} />
-        <Grid item md={4}>
+      <h4>Outgoing Transactions</h4>
+      <Grid container justify="center" spacing={0}>
+        <Grid item md={3}>
+          <Paper>Currency</Paper>
+        </Grid>
+        <Grid item md={3}>
           <Paper>Number of transactions</Paper>
         </Grid>
-        <Grid item md={4}>
+        <Grid item md={3}>
           <Paper>Amount</Paper>
         </Grid>
-
-        <Grid item md={4}>
-          <Paper>Payments</Paper>
+        {payments.map(payment =>
+          <Grid container justify="center" key={payment.currencyId}>
+            <Grid item md={3}><Paper>{payment.currencyId}</Paper></Grid>
+            <Grid item md={3}><Paper>{payment.numTransactions}</Paper></Grid>
+            <Grid item md={3}><Paper>{payment.senderAmount}</Paper></Grid>
+          </Grid>
+        )}
+      </Grid>
+      <h4>Incoming Transactions</h4>
+      <Grid container justify="center" spacing={0}>
+        <Grid item md={3}>
+          <Paper>Currency</Paper>
         </Grid>
-        <Grid item md={4}>
-          <Paper className={classes.paper}>
-            {payments.numTransactions}
-          </Paper>
+        <Grid item md={3}>
+          <Paper>Number of transactions</Paper>
         </Grid>
-        <Grid item md={4}>
-          <Paper className={classes.paper}>
-            {payments.senderAmount}
-          </Paper>
+        <Grid item md={3}>
+          <Paper>Amount</Paper>
         </Grid>
-
-        <Grid item md={4}>
-          <Paper>Receipts</Paper>
-        </Grid>
-        <Grid item md={4}>
-          <Paper className={classes.paper}>
-            {receipts.numTransactions}
-          </Paper>
-        </Grid>
-        <Grid item md={4}>
-          <Paper className={classes.paper}>
-            {receipts.senderAmount}
-          </Paper>
-        </Grid>
+        {receipts.length > 0 && receipts.map(receipt =>
+          <Grid container justify="center" key={receipt.currencyId}>
+            <Grid item md={3}><Paper>{receipt.currencyId}</Paper></Grid>
+            <Grid item md={3}><Paper>{receipt.numTransactions}</Paper></Grid>
+            <Grid item md={3}><Paper>{receipt.senderAmount}</Paper></Grid>
+          </Grid>
+        )}
       </Grid>
     </div>
   );
