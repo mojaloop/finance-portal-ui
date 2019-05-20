@@ -19,7 +19,8 @@ const styles = theme => ({
 
 
 function PreviousSettlementWindowInfo(props) {
-  const { classes, previousSettlementWindow: { payments, receipts, limits, positions } } = props;
+  const { classes, previousSettlementWindow: { payments, receipts, limits, netPositions } } = props;
+
   return (
     <div className={classes.root}>
       <h2>Previous Settlement Window</h2>
@@ -84,10 +85,10 @@ function PreviousSettlementWindowInfo(props) {
         <Grid item md={3}>
           <Paper>Amount</Paper>
         </Grid>
-        {Object.keys(positions).map(key =>
-          <Grid container justify="center" key={key}>
-            <Grid item md={3}><Paper>{key}</Paper></Grid>
-            <Grid item md={3}><Paper>{positions[key].value}</Paper></Grid>
+        {netPositions.map(entry =>
+          <Grid container justify="center" key={Object.keys(entry)[0]}>
+            <Grid item md={3}><Paper>{Object.keys(entry)[0]}</Paper></Grid>
+            <Grid item md={3}><Paper>{entry[Object.keys(entry)[0]]}</Paper></Grid>
           </Grid>
         )}
       </Grid>
