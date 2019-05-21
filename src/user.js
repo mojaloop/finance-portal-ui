@@ -1,4 +1,6 @@
 
+import { get, post, put, fetchTimeoutController } from './requests';
+
 const userInfoKey = 'login';
 
 // TODO Greg: good to make sure the object that goes into setUserInfo is the same as the object
@@ -23,7 +25,18 @@ function setUserInfo(userInfo) {
     localStorage.setItem(userInfoKey, JSON.stringify(userInfo));
 }
 
+function deleteUserInfo(userInfo) {
+    localStorage.removeItem(userInfoKey);
+    return;
+}
+
+async function logout() {
+    return put(`/logout`);
+}
+
 export {
+    deleteUserInfo,
     getUserInfo,
+    logout,
     setUserInfo
 };

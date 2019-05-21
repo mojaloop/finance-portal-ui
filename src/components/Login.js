@@ -39,16 +39,13 @@ function Login(props) {
   const attemptLogin = async () => {
     setBusy(true);
     try {
-      // TODO Greg- you should modify the request appropriately such that it hits the WSO2 identity
-      // server and provides the correct data. Change the endpoint pointed at with the following
-        // parameter to the function:
-      // const res = await post('login', { username, password }, { endpoint: 'auth.com/login' });
       const res = await post('login', { username, password });
       loginSuccessful(res);
     } catch (err) {
       // TODO: indicate failure to the user
-      setBusy(false);
+      window.alert('Login failed!');
     }
+    setBusy(false);
   };
 
   return (
@@ -72,7 +69,7 @@ function Login(props) {
         type='password'
         onChange={ev => setPassword(ev.target.value)}
       />
-      <Button variant='contained' color='primary' disabled={busy} className={classes.button} onClick={attemptLogin}>
+      <Button variant='contained' color='primary' disabled={busy} className={classes.button} onClick={attemptLogin} id='btnLogin'>
         Login
       </Button>
     </>
