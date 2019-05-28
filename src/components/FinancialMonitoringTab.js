@@ -114,7 +114,7 @@ function FSPDetailsImpl(props) {
           }
         </>
       }
-      {tab === 1 &&
+      {tab === 1 && previousSettlementWindow &&
         <Grid container spacing={24}>
           <Grid item md={12}>
             <Paper className={classes.paper}>
