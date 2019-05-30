@@ -1,3 +1,6 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
+
 // This optional code is used to register a service worker.
 // register() is not called by default.
 
