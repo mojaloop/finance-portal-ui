@@ -9,7 +9,7 @@ function CurrencyFormat(props) {
     <NumberFormat
       {...other}
       getInputRef={inputRef}
-      onValueChange={values => {
+      onValueChange={(values) => {
         onChange({
           target: {
             value: values.value,
@@ -25,5 +25,5 @@ function CurrencyFormat(props) {
 }
 
 export {
-    CurrencyFormat
-}
+  CurrencyFormat,
+};

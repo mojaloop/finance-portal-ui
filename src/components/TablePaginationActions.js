@@ -18,22 +18,23 @@ const actionsStyles = theme => ({
 
 
 function TablePaginationActions(props) {
+  const {
+    classes, count, page, rowsPerPage, theme,
+  } = props;
 
-  const { classes, count, page, rowsPerPage, theme } = props;
-
-  const handleFirstPageButtonClick = event => {
+  const handleFirstPageButtonClick = (event) => {
     props.onChangePage(event, 0);
   };
 
-  const handleBackButtonClick = event => {
+  const handleBackButtonClick = (event) => {
     props.onChangePage(event, props.page - 1);
   };
 
-  const handleNextButtonClick = event => {
+  const handleNextButtonClick = (event) => {
     props.onChangePage(event, props.page + 1);
   };
 
-  const handleLastPageButtonClick = event => {
+  const handleLastPageButtonClick = (event) => {
     props.onChangePage(
       event,
       Math.max(0, Math.ceil(props.count / props.rowsPerPage) - 1),
@@ -72,8 +73,7 @@ function TablePaginationActions(props) {
       </IconButton>
     </div>
   );
-
-};
+}
 
 TablePaginationActions.propTypes = {
   classes: PropTypes.object.isRequired,
@@ -89,6 +89,5 @@ const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: tru
 );
 
 export {
-  TablePaginationActionsWrapped
-}
-
+  TablePaginationActionsWrapped,
+};

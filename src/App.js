@@ -1,17 +1,19 @@
 
 import React, { useState } from 'react';
 import './App.css';
-import Login from './components/Login';
-import AdminTab from './components/AdminTab.js';
-import FinancialMonitoringTab from './components/FinancialMonitoringTab';
-import { deleteUserInfo, getUserInfo, logout, setUserInfo } from './user';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { withStyles } from '@material-ui/core/styles';
+import { Button, Toolbar } from '@material-ui/core';
+import Login from './components/Login';
+import AdminTab from './components/AdminTab.js';
+import FinancialMonitoringTab from './components/FinancialMonitoringTab';
+import {
+  deleteUserInfo, getUserInfo, logout, setUserInfo,
+} from './user';
 import SettlementWindowsTab from './components/SettlementWindowsTab';
 import TransferVerificationTab from './components/TransferVerificationTab';
-import { Button, Toolbar } from '@material-ui/core';
 
 // TODO: consider adding an error boundary?
 //       https://reactjs.org/docs/error-boundaries.html
@@ -26,7 +28,7 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
   },
   grow: {
-    flexGrow: 1
+    flexGrow: 1,
   },
 });
 
@@ -35,12 +37,12 @@ function App(props) {
   const [user, setUser] = useState(getUserInfo());
   const [tab, setTab] = useState(0);
 
-  const loginSuccessful = result => {
+  const loginSuccessful = (result) => {
     setUserInfo(result);
     setUser(result);
   };
 
-  const processLogout = result => {
+  const processLogout = (result) => {
     deleteUserInfo(result);
     logout();
     window.location = '/';
@@ -58,14 +60,14 @@ function App(props) {
                 <Tab label="Administration" />
                 <Tab label="Transfer Verification" />
               </Tabs>
-              <Button id='btnLogout' variant='outlined' color='inherit' onClick={processLogout}>Logout</Button>
+              <Button id="btnLogout" variant="outlined" color="inherit" onClick={processLogout}>Logout</Button>
             </Toolbar>
           </AppBar>
           {tab === 0 && <FinancialMonitoringTab />}
           {tab === 1 && <SettlementWindowsTab />}
           {tab === 2 && <AdminTab />}
           {tab === 3 && <TransferVerificationTab />}
-         
+
         </>
       )}
     </div>
