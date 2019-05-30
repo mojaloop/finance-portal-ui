@@ -7,7 +7,6 @@
       4,
       { "SwitchCase": 1 }
     ],
-    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "react-hooks/rules-of-hooks": "error"
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }]
   }
 }
