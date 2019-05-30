@@ -22,7 +22,7 @@ import {
 } from '../api';
 import { HTTPResponseError } from '../requests';
 import { CurrencyFormat } from './InputControl';
-import ConfirmDailog from './ConfirmDailog';
+import ConfirmDialog from './ConfirmDialog';
 import '@reach/dialog/styles.css';
 
 
@@ -99,7 +99,7 @@ function AccountFundsManagement(props) {
   // TODO: put a slider in, have the user move the slider to make the transfer. Have the slider
   // shift back to its original position whenever the funds in amount is changed.
   return (
-    <ConfirmDailog title="Confirm" description="Are you sure you want to process this?">
+    <ConfirmDialog title="Confirm" description="Are you sure you want to process this?">
       {confirm => (
         <div>
           <TextField
@@ -122,7 +122,7 @@ function AccountFundsManagement(props) {
         </div>
       )
             }
-    </ConfirmDailog>
+    </ConfirmDialog>
   );
 }
 
