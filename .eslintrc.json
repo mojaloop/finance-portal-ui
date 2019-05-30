@@ -1,0 +1,13 @@
+{
+  "extends": "airbnb",
+  "plugins": ["react-hooks"],
+  "rules": {
+    "indent": [
+      "error",
+      4,
+      { "SwitchCase": 1 }
+    ],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react-hooks/rules-of-hooks": "error"
+  }
+}
