@@ -1,3 +1,5 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -8,7 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import { DateRangePicker } from './DatePicker';
 import { getSettlements, fetchTimeoutController } from '../api';
-import { truncateDate } from '../utils'
+import { truncateDate } from '../utils';
 
 
 function SettlementsListList(props) {
@@ -22,17 +24,25 @@ function SettlementsListList(props) {
   const participantInfo = p => `${fspNamesById[p.id]} ${p.accounts.map(a => a.netSettlementAmount.amount + a.netSettlementAmount.currency)}`;
   return (
     <>
-      {settlements.length === 0 ? "No settlements found" :
-      <List>
-        {settlements.map(settlement =>
-          <ListItem key={settlement.id}>
-            <ListItemText>[{settlement.id}] | {settlement.state} | {settlement.participants.map(participantInfo).join(', ')}</ListItemText>
-          </ListItem>
-            )}
-      </List>
-      }
+      {settlements.length === 0 ? 'No settlements found' : (
+        <List>
+          {settlements.map(settlement => (
+            <ListItem key={settlement.id}>
+              <ListItemText>
+[
+                {settlement.id}
+] |
+                {settlement.state}
+                {' '}
+|
+                {settlement.participants.map(participantInfo).join(', ')}
+              </ListItemText>
+            </ListItem>
+          ))}
+        </List>
+      )}
     </>
-  )
+  );
 }
 
 function SettlementsList(props) {
@@ -40,7 +50,7 @@ function SettlementsList(props) {
 
   const [dates, setDates] = useState({
     from: truncateDate(new Date(Date.now() - 1000 * 60 * 60 * 24 * 7)),
-    to: truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24))
+    to: truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24)),
   });
   const [settlements, setSettlements] = useState(undefined);
 
@@ -59,12 +69,12 @@ function SettlementsList(props) {
       <DateRangePicker defStartDate={dates.from} defEndDate={dates.to} onChange={setDates} />
       {settlements && <SettlementsListList fspNamesById={fspNamesById} settlements={settlements} />}
     </>
-  )
+  );
 }
 
 SettlementsList.propTypes = {
   fspNamesById: PropTypes.object.isRequired,
-  fsp: PropTypes.number.isRequired
+  fsp: PropTypes.number.isRequired,
 };
 
 export default SettlementsList;

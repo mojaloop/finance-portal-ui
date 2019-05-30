@@ -1,3 +1,5 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -6,10 +8,10 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
+import Snackbar from '@material-ui/core/Snackbar';
 import { DateRangePicker } from './DatePicker';
 import { getHistoricalData, fetchTimeoutController } from '../api';
-import { truncateDate } from '../utils'
-import Snackbar from '@material-ui/core/Snackbar';
+import { truncateDate } from '../utils';
 import { SnackbarContentWrapper } from './SnackbarUtils';
 
 const styles = theme => ({
@@ -31,11 +33,11 @@ function TransactionAverageList(props) {
   const { averages } = props;
   return (
     <>
-      {Object.keys(averages).length === 0 ? "No data found" :
-        Object.entries(averages).map(([currency, avg]) =>
+      {Object.keys(averages).length === 0 ? 'No data found'
+        : Object.entries(averages).map(([currency, avg]) => (
           <Paper key={currency}>
             <h4>{currency}</h4>
-            <Grid container spacing={0} >
+            <Grid container spacing={0}>
               <Grid item md={2}>
                 <Paper>Avg. Payments</Paper>
               </Grid>
@@ -65,10 +67,10 @@ function TransactionAverageList(props) {
               </Grid>
             </Grid>
           </Paper>
-        )
-      }
+        ))
+        }
     </>
-  )
+  );
 }
 
 function TransactionAverage(props) {
@@ -76,13 +78,13 @@ function TransactionAverage(props) {
 
   const [dates, setDates] = useState({
     from: truncateDate(new Date(Date.now() - 1000 * 60 * 60 * 24 * 30)),
-    to: truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24))
+    to: truncateDate(new Date(Date.now() + 1000 * 60 * 60 * 24)),
   });
   const [averages, setAverages] = useState(undefined);
   const [snackBarParams, setSnackBarParams] = useState({ show: false, message: '', variant: 'success' });
 
   const handleCloseSnackbar = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
     if (snackBarParams.callback) {
@@ -96,9 +98,11 @@ function TransactionAverage(props) {
     getHistoricalData(fsp.name, dates, { ftc })
       .then(data => setAverages(data.average))
       .catch(ftc.ignoreAbort())
-      .catch(err => {
+      .catch((err) => {
         setAverages({});
-        setSnackBarParams({ show: true, message: 'Failed to get averages!', variant: 'error', action: 'close' })
+        setSnackBarParams({
+          show: true, message: 'Failed to get averages!', variant: 'error', action: 'close',
+        });
       });
     return ftc.abortFn;
   }, [fsp, dates]);
@@ -107,8 +111,8 @@ function TransactionAverage(props) {
     <>
       <Snackbar
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left"
+          vertical: 'bottom',
+          horizontal: 'left',
         }}
         open={snackBarParams.show}
         autoHideDuration={snackBarParams.action === 'close' ? 6000 : null}
@@ -123,20 +127,21 @@ function TransactionAverage(props) {
         />
       </Snackbar>
       <h2>Transaction Average</h2>
-      {averages &&
+      {averages
+        && (
         <>
           <DateRangePicker defStartDate={dates.from} defEndDate={dates.to} onChange={setDates} />
           <TransactionAverageList averages={averages} />
         </>
-      }
+        )
+        }
     </>
-  )
+  );
 }
 
 TransactionAverage.propTypes = {
   fsp: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(TransactionAverage);
-

@@ -1,3 +1,5 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -51,25 +53,25 @@ function Login(props) {
   return (
     <>
       <TextField
-        id='login-username'
-        label='Username'
+        id="login-username"
+        label="Username"
         className={classes.textField}
-        margin='normal'
+        margin="normal"
         value={username}
-        variant='outlined'
+        variant="outlined"
         onChange={ev => setUsername(ev.target.value)}
       />
       <TextField
-        id='login-password'
-        label='Password'
+        id="login-password"
+        label="Password"
         className={classes.textField}
-        margin='normal'
-        variant='outlined'
+        margin="normal"
+        variant="outlined"
         value={password}
-        type='password'
+        type="password"
         onChange={ev => setPassword(ev.target.value)}
       />
-      <Button variant='contained' color='primary' disabled={busy} className={classes.button} onClick={attemptLogin} id='btnLogin'>
+      <Button variant="contained" color="primary" disabled={busy} className={classes.button} onClick={attemptLogin} id="btnLogin">
         Login
       </Button>
     </>
@@ -78,7 +80,7 @@ function Login(props) {
 
 Login.propTypes = {
   classes: PropTypes.object.isRequired,
-  loginSuccessful: PropTypes.func.isRequired
+  loginSuccessful: PropTypes.func.isRequired,
 };
 
 export default withStyles(styles)(Login);

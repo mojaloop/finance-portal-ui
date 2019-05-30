@@ -1,3 +1,5 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
 
 import React from 'react';
 import NumberFormat from 'react-number-format';
@@ -9,7 +11,7 @@ function CurrencyFormat(props) {
     <NumberFormat
       {...other}
       getInputRef={inputRef}
-      onValueChange={values => {
+      onValueChange={(values) => {
         onChange({
           target: {
             value: values.value,
@@ -25,5 +27,5 @@ function CurrencyFormat(props) {
 }
 
 export {
-    CurrencyFormat
-}
+  CurrencyFormat,
+};

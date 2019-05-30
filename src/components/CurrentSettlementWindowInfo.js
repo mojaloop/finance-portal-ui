@@ -1,3 +1,5 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -35,13 +37,13 @@ function CurrentSettlementWindowInfo(props) {
         <Grid item md={3}>
           <Paper>Amount</Paper>
         </Grid>
-        {payments.map(payment =>
+        {payments.map(payment => (
           <Grid container justify="center" key={payment.currencyId}>
             <Grid item md={3}><Paper>{payment.currencyId}</Paper></Grid>
             <Grid item md={3}><Paper>{payment.numTransactions}</Paper></Grid>
             <Grid item md={3}><Paper>{payment.senderAmount}</Paper></Grid>
           </Grid>
-        )}
+        ))}
       </Grid>
       <h4>Incoming Transactions</h4>
       <Grid container justify="center" spacing={0}>
@@ -54,20 +56,20 @@ function CurrentSettlementWindowInfo(props) {
         <Grid item md={3}>
           <Paper>Amount</Paper>
         </Grid>
-        {receipts.length > 0 && receipts.map(receipt =>
+        {receipts.length > 0 && receipts.map(receipt => (
           <Grid container justify="center" key={receipt.currencyId}>
             <Grid item md={3}><Paper>{receipt.currencyId}</Paper></Grid>
             <Grid item md={3}><Paper>{receipt.numTransactions}</Paper></Grid>
             <Grid item md={3}><Paper>{receipt.senderAmount}</Paper></Grid>
           </Grid>
-        )}
+        ))}
       </Grid>
     </div>
   );
 }
 
 CurrentSettlementWindowInfo.propTypes = {
-  currentSettlementWindow: PropTypes.object.isRequired
+  currentSettlementWindow: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(CurrentSettlementWindowInfo);

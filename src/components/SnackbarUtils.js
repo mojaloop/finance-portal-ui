@@ -1,3 +1,6 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -17,55 +20,57 @@ const variantIcon = {
   success: CheckCircleIcon,
   warning: WarningIcon,
   error: ErrorIcon,
-  info: InfoIcon
+  info: InfoIcon,
 };
 
 const actionIcon = {
   close: CloseIcon,
-  retry: RetryIcon
+  retry: RetryIcon,
 };
 
 const styles = theme => ({
   success: {
-    backgroundColor: green[600]
+    backgroundColor: green[600],
   },
   error: {
-    backgroundColor: theme.palette.error.dark
+    backgroundColor: theme.palette.error.dark,
   },
   info: {
-    backgroundColor: theme.palette.primary.dark
+    backgroundColor: theme.palette.primary.dark,
   },
   warning: {
-    backgroundColor: amber[700]
+    backgroundColor: amber[700],
   },
   icon: {
-    fontSize: 20
+    fontSize: 20,
   },
   iconVariant: {
     opacity: 0.9,
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing.unit,
   },
   message: {
-    display: "flex",
-    alignItems: "center"
-  }
+    display: 'flex',
+    alignItems: 'center',
+  },
 });
 
 function SnackbarContentImpl(props) {
-  const { classes, className, message, onClose, variant, action = 'close', ...other } = props;
+  const {
+    classes, className, message, onClose, variant, action = 'close', ...other
+  } = props;
   const Icon = variantIcon[variant];
-  const ActionIcon = actionIcon[action]
+  const ActionIcon = actionIcon[action];
 
   return (
     <SnackbarContent
       className={classNames(classes[variant], className)}
       aria-describedby="client-snackbar"
-      message={
+      message={(
         <span id="client-snackbar" className={classes.message}>
           <Icon className={classNames(classes.icon, classes.iconVariant)} />
           {message}
         </span>
-      }
+            )}
       action={[
         <IconButton
           key="close"
@@ -75,7 +80,7 @@ function SnackbarContentImpl(props) {
           onClick={onClose}
         >
           <ActionIcon className={classes.icon} />
-        </IconButton>
+        </IconButton>,
       ]}
       {...other}
     />
@@ -87,11 +92,11 @@ SnackbarContentImpl.propTypes = {
   className: PropTypes.string,
   message: PropTypes.node,
   onClose: PropTypes.func,
-  variant: PropTypes.oneOf(["success", "warning", "error", "info"]).isRequired
+  variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
 };
 
 const SnackbarContentWrapper = withStyles(styles)(SnackbarContentImpl);
 
 export {
-  SnackbarContentWrapper
+  SnackbarContentWrapper,
 };

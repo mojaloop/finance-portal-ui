@@ -1,3 +1,5 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
 
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -32,12 +34,12 @@ function PositionInfo(props) {
         <Grid item md={3}>
           <Paper>Balance</Paper>
         </Grid>
-        {settlementAccountBalance.map(p =>
+        {settlementAccountBalance.map(p => (
           <Grid container key={p.currency}>
             <Grid item md={3}><Paper>{p.currency}</Paper></Grid>
             <Grid item md={3}><Paper>{p.settlementBalance}</Paper></Grid>
           </Grid>
-        )}
+        ))}
       </Grid>
       <h4>Position</h4>
       <Grid container spacing={0}>
@@ -53,14 +55,19 @@ function PositionInfo(props) {
         <Grid item md={3}>
           <Paper>Percentage of NDC Used</Paper>
         </Grid>
-        {positions.map(p =>
+        {positions.map(p => (
           <Grid container key={p.participantLimitId}>
             <Grid item md={3}><Paper>{p.currency}</Paper></Grid>
             <Grid item md={3}><Paper>{p.position}</Paper></Grid>
             <Grid item md={3}><Paper>{p.limit}</Paper></Grid>
-            <Grid item md={3}><Paper>{(100.0 * p.position / p.limit).toFixed(2)}%</Paper></Grid>
+            <Grid item md={3}>
+              <Paper>
+                {(100.0 * p.position / p.limit).toFixed(2)}
+%
+              </Paper>
+            </Grid>
           </Grid>
-        )}
+        ))}
       </Grid>
     </div>
   );
@@ -68,7 +75,7 @@ function PositionInfo(props) {
 
 PositionInfo.propTypes = {
   positions: PropTypes.array.isRequired,
-  settlementAccountBalance: PropTypes.array.isRequired
+  settlementAccountBalance: PropTypes.array.isRequired,
 };
 
 export default withStyles(styles)(PositionInfo);

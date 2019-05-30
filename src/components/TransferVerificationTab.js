@@ -1,3 +1,5 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -17,7 +19,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { SnackbarContentWrapper } from './SnackbarUtils';
 
 import {
-  validateTransferId, fetchTimeoutController
+  validateTransferId, fetchTimeoutController,
 } from '../api';
 
 const styles = theme => ({
@@ -41,10 +43,10 @@ const styles = theme => ({
     minWidth: 800,
   },
   tableDetails: {
-    minWidth: 100
+    minWidth: 100,
   },
   detailsDialog: {
-    minWidth: 200
+    minWidth: 200,
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -55,7 +57,7 @@ const styles = theme => ({
 function TransferDetailsGrid(props) {
   const { transferDetails, classes } = props;
   const { transfer } = transferDetails;
-  
+
   return (
     <>
       <Paper className={classes.root}>
@@ -63,26 +65,25 @@ function TransferDetailsGrid(props) {
           <TableHead>
             <TableRow>
               <TableCell><h3>Transfer Id</h3></TableCell>
-              <TableCell align='right'><h3>Payer</h3></TableCell>
-              <TableCell align='right'><h3>Payee</h3></TableCell>
-              <TableCell align='right'><h3>Created Date</h3></TableCell>
-              <TableCell align='right'><h3>Is Transfer Valid</h3></TableCell>
+              <TableCell align="right"><h3>Payer</h3></TableCell>
+              <TableCell align="right"><h3>Payee</h3></TableCell>
+              <TableCell align="right"><h3>Created Date</h3></TableCell>
+              <TableCell align="right"><h3>Is Transfer Valid</h3></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell component='th' scope='row'>{transfer.transferId}</TableCell>
-              <TableCell align='right'>{transfer.payer}</TableCell>
-              <TableCell align='right'>{transfer.payee}</TableCell>
-              <TableCell align='right'>{transfer.createdDate}</TableCell>
-              <TableCell align='right'>{`${transferDetails.isValidTransfer}`}</TableCell>
+              <TableCell component="th" scope="row">{transfer.transferId}</TableCell>
+              <TableCell align="right">{transfer.payer}</TableCell>
+              <TableCell align="right">{transfer.payee}</TableCell>
+              <TableCell align="right">{transfer.createdDate}</TableCell>
+              <TableCell align="right">{`${transferDetails.isValidTransfer}`}</TableCell>
             </TableRow>
           </TableBody>
         </Table>
       </Paper>
     </>
   );
-
 }
 
 function TransferVerificationTab(props) {
@@ -95,28 +96,33 @@ function TransferVerificationTab(props) {
 
   const validateTransfer = async () => {
     setBusy(true);
-    const ftc = fetchTimeoutController({timeoutMs: 40000});
+    const ftc = fetchTimeoutController({ timeoutMs: 40000 });
     validateTransferId(transferId, { ftc })
-      .then(transferDetails => {
-        if(!transferDetails || transferDetails.transfer == null){
-          setSnackBarParams({ show: true, message: `Transfer not found`, variant: 'error', action: 'close' })
-        } else if(transferDetails.isValidTransfer !== true){
-          setSnackBarParams({ show: true, message: `Transfer can't be validated`, variant: 'error', action: 'close' })
+      .then((transferDetails) => {
+        if (!transferDetails || transferDetails.transfer == null) {
+          setSnackBarParams({
+            show: true, message: 'Transfer not found', variant: 'error', action: 'close',
+          });
+        } else if (transferDetails.isValidTransfer !== true) {
+          setSnackBarParams({
+            show: true, message: 'Transfer can\'t be validated', variant: 'error', action: 'close',
+          });
         }
         setTransferDetails(transferDetails);
         setBusy(false);
       })
       .catch(ftc.ignoreAbort())
-      .catch(err => {
+      .catch((err) => {
         setBusy(false);
-        setSnackBarParams({ show: true, message: 'Failed to get details!', variant: 'error', action: 'close' })
+        setSnackBarParams({
+          show: true, message: 'Failed to get details!', variant: 'error', action: 'close',
+        });
       });
     return ftc.abortFn;
-
   };
 
   const handleCloseSnackbar = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
     if (snackBarParams.callback) {
@@ -132,31 +138,33 @@ function TransferVerificationTab(props) {
           <Paper className={classes.paper}>
             <TextField
               required
-              label='Transfer ID'
+              label="Transfer ID"
               className={classes.textField}
-              margin='normal'
+              margin="normal"
               value={transferId}
               onFocus={ev => ev.target.select()}
-              variant='outlined'
+              variant="outlined"
               onChange={ev => setTransferId(ev.target.value)}
             />
-            <Button variant='contained' color='primary' disabled={busy} className={classes.button} onClick={validateTransfer}>
+            <Button variant="contained" color="primary" disabled={busy} className={classes.button} onClick={validateTransfer}>
               Validate
             </Button>
           </Paper>
         </Grid>
       </Grid>
-      {transferDetails && transferDetails.transfer && <Grid item md={10}>
-        <Paper className={classes.paper}>
-          <TransferDetailsGrid transferDetails={transferDetails} classes={classes} />
-        </Paper>
-      </Grid>
-      }
+      {transferDetails && transferDetails.transfer && (
+        <Grid item md={10}>
+          <Paper className={classes.paper}>
+            <TransferDetailsGrid transferDetails={transferDetails} classes={classes} />
+          </Paper>
+        </Grid>
+      )
+            }
 
       <Snackbar
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left"
+          vertical: 'bottom',
+          horizontal: 'left',
         }}
         open={snackBarParams.show}
         autoHideDuration={snackBarParams.action === 'close' ? 6000 : null}
@@ -175,7 +183,7 @@ function TransferVerificationTab(props) {
 }
 
 TransferVerificationTab.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(TransferVerificationTab);

@@ -1,3 +1,5 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
 
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
@@ -6,16 +8,8 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 // TODO: export all components from components directory in an index.js, then import them all here
 // in a single statement
-import SettlementsList from './SettlementsList';
-import TransactionAverage from './TransactionAverage';
-import CurrentSettlementWindowInfo from './CurrentSettlementWindowInfo';
-import PreviousSettlementWindowInfo from './PreviousSettlementWindowInfo';
-import NDCManagement from './NDCManagement';
-import PositionInfo from './PositionInfo';
-import FundsManagement from './FundsManagement';
 import Snackbar from '@material-ui/core/Snackbar';
 import Switch from '@material-ui/core/Switch';
-import { SnackbarContentWrapper } from './SnackbarUtils';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -23,9 +17,19 @@ import TableRow from '@material-ui/core/TableRow';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import { SnackbarContentWrapper } from './SnackbarUtils';
+import FundsManagement from './FundsManagement';
+import PositionInfo from './PositionInfo';
+import NDCManagement from './NDCManagement';
+import PreviousSettlementWindowInfo from './PreviousSettlementWindowInfo';
+import CurrentSettlementWindowInfo from './CurrentSettlementWindowInfo';
+import TransactionAverage from './TransactionAverage';
+import SettlementsList from './SettlementsList';
 
-import { getDfsps, getPositions, getCurrentWindow, getPreviousWindow, getSettlementAccountBalance,
-  getParticipantIsActiveFlag, setParticipantIsActiveFlag, fetchTimeoutController } from '../api';
+import {
+  getDfsps, getPositions, getCurrentWindow, getPreviousWindow, getSettlementAccountBalance,
+  getParticipantIsActiveFlag, setParticipantIsActiveFlag, fetchTimeoutController,
+} from '../api';
 
 const styles = theme => ({
   root: {
@@ -43,11 +47,13 @@ const styles = theme => ({
   },
   table: {
     minWidth: 800,
-  }
+  },
 });
 
 function FSPDetailsImpl(props) {
-  const { classes, fsp, fspNamesById, setSnackBarParams } = props;
+  const {
+    classes, fsp, fspNamesById, setSnackBarParams,
+  } = props;
 
   const [positions, setPositions] = useState(undefined);
   const [settlementAccountBalance, setSettlementAccountBalance] = useState(undefined);
@@ -63,37 +69,43 @@ function FSPDetailsImpl(props) {
       getCurrentWindow(fsp.id, { ftc }).then(setCurrentSettlementWindow),
       getPreviousWindow(fsp.name, { ftc }).then(setPreviousSettlementWindow),
       getSettlementAccountBalance(fsp.id, { ftc }).then(setSettlementAccountBalance),
-      getParticipantIsActiveFlag(fsp.id, { ftc }).then(setStopTransactions)
+      getParticipantIsActiveFlag(fsp.id, { ftc }).then(setStopTransactions),
     ]).then(ftc.ignoreAbort());
     return ftc.abortFn;
   }, [fsp]);
 
-  const updateIsActiveFlag = event => {
-    let isActive = event.target.checked ? 0 : 1;
+  const updateIsActiveFlag = (event) => {
+    const isActive = event.target.checked ? 0 : 1;
     setStopTransactions(isActive);
     setParticipantIsActiveFlag(fsp.id, fsp.name, isActive)
       .then(setStopTransactions)
       .then(() => {
-        setSnackBarParams({ show: true, message: 'Update Successful!', variant: 'success', action: 'close' })
+        setSnackBarParams({
+          show: true, message: 'Update Successful!', variant: 'success', action: 'close',
+        });
       })
-      .catch(err => {
+      .catch((err) => {
         setStopTransactions(isActive === 1 ? 0 : 1);
-        setSnackBarParams({ show: true, message: 'Failed to update!', variant: 'error', action: 'close' })
+        setSnackBarParams({
+          show: true, message: 'Failed to update!', variant: 'error', action: 'close',
+        });
       });
   };
 
   return (
     <>
-      <AppBar position='static'>
+      <AppBar position="static">
         <Tabs value={tab} onChange={(_, val) => setTab(val)}>
-          <Tab label='Current Window' />
-          <Tab label='Window History' />
-          <Tab label='Financial Controls' />
+          <Tab label="Current Window" />
+          <Tab label="Window History" />
+          <Tab label="Financial Controls" />
         </Tabs>
       </AppBar>
-      {tab === 0 &&
+      {tab === 0
+        && (
         <>
-          {currentSettlementWindow && previousSettlementWindow && settlementAccountBalance && positions &&
+          {currentSettlementWindow && previousSettlementWindow && settlementAccountBalance && positions
+            && (
             <Grid container spacing={24}>
               <Grid item md={12}>
                 <Paper className={classes.paper}>
@@ -111,10 +123,13 @@ function FSPDetailsImpl(props) {
                 </Paper>
               </Grid>
             </Grid>
+            )
           }
         </>
-      }
-      {tab === 1 && previousSettlementWindow &&
+        )
+        }
+      {tab === 1 && previousSettlementWindow
+        && (
         <Grid container spacing={24}>
           <Grid item md={12}>
             <Paper className={classes.paper}>
@@ -127,20 +142,24 @@ function FSPDetailsImpl(props) {
             </Paper>
           </Grid>
         </Grid>
-      }
-      {tab === 2 &&
+        )
+        }
+      {tab === 2
+        && (
         <Grid container spacing={24}>
-          {stopTransactions === undefined ? <></> :
-          <Grid item md={12}>
-            <Paper className={classes.paper}>
-              <h3>Stop the Transactions</h3>
-              <Switch
-                checked={stopTransactions === 0}
-                onChange={updateIsActiveFlag}
-                />
-            </Paper>
-          </Grid>
-          }
+          {stopTransactions === undefined ? <></>
+            : (
+              <Grid item md={12}>
+                <Paper className={classes.paper}>
+                  <h3>Stop the Transactions</h3>
+                  <Switch
+                    checked={stopTransactions === 0}
+                    onChange={updateIsActiveFlag}
+                  />
+                </Paper>
+              </Grid>
+            )
+                }
           <Grid item md={12}>
             <Paper className={classes.paper}>
               <NDCManagement fspName={fsp.name} />
@@ -152,15 +171,16 @@ function FSPDetailsImpl(props) {
             </Paper>
           </Grid>
         </Grid>
-      }
+        )
+        }
     </>
-  )
+  );
 }
 
 FSPDetailsImpl.propTypes = {
   classes: PropTypes.object.isRequired,
   fspNamesById: PropTypes.object.isRequired,
-  fsp: PropTypes.object.isRequired
+  fsp: PropTypes.object.isRequired,
 };
 
 const FSPDetails = withStyles(styles)(FSPDetailsImpl);
@@ -172,7 +192,7 @@ function FinancialMonitoringTab(props) {
   const [fspList, setFspList] = useState(undefined);
   const [snackBarParams, setSnackBarParams] = useState({ show: false, message: '', variant: 'success' });
 
-  const handleClickFsp = fsp => {
+  const handleClickFsp = (fsp) => {
     if (!selectedFsp) {
       setSelectedFsp(fsp);
       return;
@@ -185,7 +205,7 @@ function FinancialMonitoringTab(props) {
   };
 
   const handleCloseSnackbar = (event, reason) => {
-    if (reason === "clickaway") {
+    if (reason === 'clickaway') {
       return;
     }
     if (snackBarParams.callback) {
@@ -200,7 +220,7 @@ function FinancialMonitoringTab(props) {
       // TODO: change getDfsps to include the promise chain, as I think this promise chain exists
       // everywhere it's used
       getDfsps()
-        .then(dfsps => {
+        .then((dfsps) => {
           // TODO: Change dfsps.ids to something like dfsps.nameFromId; similarly dfsps.names ->
           // dfsps.idFromName.
           // Augment fspList with a map of ids -> names and vice-versa.
@@ -211,12 +231,15 @@ function FinancialMonitoringTab(props) {
           dfsps.names = Object.assign(...dfsps.map(fsp => ({ [fsp.name]: fsp.id })));
           setFspList(dfsps.sort((a, b) => a.id - b.id));
         })
-        .catch(err => {
+        .catch((err) => {
           if (err.name === 'AbortError') {
-            setSnackBarParams({ show: true, message: 'Timeout getting FSPs. Retry?', variant: 'error', callback: loadDfsps, action: 'retry' })
-          }
-          else {
-            setSnackBarParams({ show: true, message: 'An error occurred trying to get the FSP list. Retry?', variant: 'error', callback: loadDfsps, action: 'retry' })
+            setSnackBarParams({
+              show: true, message: 'Timeout getting FSPs. Retry?', variant: 'error', callback: loadDfsps, action: 'retry',
+            });
+          } else {
+            setSnackBarParams({
+              show: true, message: 'An error occurred trying to get the FSP list. Retry?', variant: 'error', callback: loadDfsps, action: 'retry',
+            });
           }
         });
     }
@@ -227,8 +250,8 @@ function FinancialMonitoringTab(props) {
     <div className={classes.root}>
       <Snackbar
         anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left"
+          vertical: 'bottom',
+          horizontal: 'left',
         }}
         open={snackBarParams.show}
         autoHideDuration={snackBarParams.action === 'close' ? 6000 : null}
@@ -243,36 +266,40 @@ function FinancialMonitoringTab(props) {
         />
       </Snackbar>
 
-      {fspList === undefined ||
+      {fspList === undefined
+        || (
         <Paper className={classes.root}>
           <Table className={classes.table}>
             <TableBody>
               {fspList.map(fsp => (
                 <Fragment key={fsp.id}>
                   <TableRow>
-                    <TableCell component='th' scope='row' onClick={() => handleClickFsp(fsp)}>
+                    <TableCell component="th" scope="row" onClick={() => handleClickFsp(fsp)}>
                       {fsp.name}
                     </TableCell>
                   </TableRow>
-                  {selectedFsp && fsp.name === selectedFsp.name &&
+                  {selectedFsp && fsp.name === selectedFsp.name
+                    && (
                     <TableRow>
                       <TableCell>
                         <FSPDetails fsp={selectedFsp} fspNamesById={fspList.ids} setSnackBarParams={setSnackBarParams} />
                       </TableCell>
                     </TableRow>
-                  }
+                    )
+                                }
                 </Fragment>
               ))}
             </TableBody>
           </Table>
         </Paper>
-      }
+        )
+            }
     </div>
   );
 }
 
 FinancialMonitoringTab.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(FinancialMonitoringTab);

@@ -1,3 +1,5 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
@@ -32,7 +34,9 @@ const styles = theme => ({
 
 
 function AccountNDCManagement(props) {
-  const { fspName, classes, account, onChange = () => { } } = props;
+  const {
+    fspName, classes, account, onChange = () => { },
+  } = props;
 
   const [busy, setBusy] = useState(false);
   const [newNDC, setNewNDC] = useState(0);
@@ -52,19 +56,20 @@ function AccountNDCManagement(props) {
   return (
     <>
       <TextField
-        label='Net Debit Cap'
+        label="Net Debit Cap"
         className={classes.textField}
-        margin='normal'
+        margin="normal"
         value={newNDC}
         onFocus={ev => ev.target.select()}
         InputProps={{
-          inputComponent: CurrencyFormat, suffix: ` ${account.currency}`,
-          inputProps: { suffix: ` ${account.currency}` }
+          inputComponent: CurrencyFormat,
+          suffix: ` ${account.currency}`,
+          inputProps: { suffix: ` ${account.currency}` },
         }}
-        variant='outlined'
+        variant="outlined"
         onChange={ev => setNewNDC(ev.target.value)}
       />
-      <Button variant='contained' color='primary' disabled={busy} className={classes.button} onClick={updateNDC}>
+      <Button variant="contained" color="primary" disabled={busy} className={classes.button} onClick={updateNDC}>
         Update
       </Button>
     </>
@@ -74,7 +79,7 @@ function AccountNDCManagement(props) {
 AccountNDCManagement.propTypes = {
   classes: PropTypes.object.isRequired,
   fspName: PropTypes.string.isRequired,
-  account: PropTypes.object.isRequired
+  account: PropTypes.object.isRequired,
 };
 
 
@@ -87,11 +92,11 @@ function NDCManagement(props) {
     getNetDebitCap(fspName, { ftc })
       .then(setAccounts)
       .catch(ftc.ignoreAbort())
-      .catch(err => window.alert('Failed to get NDC')) // TODO: better error message, let user retry
+      .catch(err => window.alert('Failed to get NDC')); // TODO: better error message, let user retry
     return ftc.abortFn;
   }, [fspName]);
 
-  const updateAccount = updatedAccount => {
+  const updateAccount = (updatedAccount) => {
     const newAccounts = [...accounts.filter(a => updatedAccount.id !== a.id), updatedAccount];
     setAccounts(newAccounts);
   };
@@ -110,7 +115,7 @@ function NDCManagement(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {accounts.sort((a, b) => a.currency.localeCompare(b.currency)).map(a =>
+          {accounts.sort((a, b) => a.currency.localeCompare(b.currency)).map(a => (
             <TableRow key={a.id}>
               <TableCell>{a.id}</TableCell>
               <TableCell align="right">{a.currency}</TableCell>
@@ -125,7 +130,7 @@ function NDCManagement(props) {
                 />
               </TableCell>
             </TableRow>
-          )}
+          ))}
         </TableBody>
       </Table>
     </>
@@ -133,7 +138,7 @@ function NDCManagement(props) {
 }
 
 NDCManagement.propTypes = {
-  fspName: PropTypes.string.isRequired
+  fspName: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(NDCManagement);

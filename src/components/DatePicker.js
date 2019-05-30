@@ -1,3 +1,5 @@
+/* eslint-disable */
+// TODO: Remove previous line and work through linting issues at next edit
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
@@ -10,8 +12,8 @@ import { truncateDate } from '../utils';
 
 // We deliberately lose some information (hh:mm:ss.ms) here. We're just not interested in sub-day
 // granularity.
-const dateToStr = dt => {
-  const pad = (s => s.length > 1 ? s : '0' + s);
+const dateToStr = (dt) => {
+  const pad = (s => (s.length > 1 ? s : `0${s}`));
   return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate().toString())}`;
 };
 
@@ -33,7 +35,9 @@ const styles = theme => ({
 
 
 function DatePickerImpl(props) {
-  const { defDate, desc, classes, onChange } = props;
+  const {
+    defDate, desc, classes, onChange,
+  } = props;
 
   return (
     <form className={classes.container} noValidate>
@@ -49,11 +53,11 @@ function DatePickerImpl(props) {
         onChange={ev => onChange(ev.target.value)}
       />
     </form>
-  )
+  );
 }
 
 DatePickerImpl.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 // defDate should be a string in the format
@@ -66,7 +70,7 @@ function DateRangePickerImpl(props) {
     onStartChange = () => {},
     onEndChange = () => {},
     defStartDate = new Date(),
-    defEndDate = new Date(Date.now() + 1000 * 60 * 60 * 24)
+    defEndDate = new Date(Date.now() + 1000 * 60 * 60 * 24),
   } = props;
 
   const [toDate, setToDate] = useState(truncateDate(defEndDate)); // tomorrow
@@ -94,13 +98,13 @@ function DateRangePickerImpl(props) {
       <DatePicker defDate={fromDate} desc="From" onChange={dt => updateDates(dt, toDate)} />
       <DatePicker defDate={toDate} desc="To" onChange={dt => updateDates(fromDate, dt)} />
     </Grid>
-  )
+  );
 }
 
 const DateRangePicker = withStyles(styles)(DateRangePickerImpl);
 
 export {
-    DatePicker,
-    DateRangePicker,
-    dateToStr
+  DatePicker,
+  DateRangePicker,
+  dateToStr,
 };
