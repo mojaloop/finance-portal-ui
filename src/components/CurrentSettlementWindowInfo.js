@@ -1,6 +1,3 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -20,6 +17,26 @@ const styles = theme => ({
   },
 });
 
+function consolidateTransactionsByCurrency(transactions) {
+  return transactions.reduce((totalPayments, payment) => {
+    if (totalPayments.length > 0) {
+      const currencies = totalPayments.map(transaction => transaction.currencyId);
+      if (currencies.includes(payment.currencyId)) {
+        const currencyIndex = currencies.indexOf(payment.currencyId);
+        totalPayments[currencyIndex].numTransactions // eslint-disable-line no-param-reassign
+        += payment.numTransactions;
+        totalPayments[currencyIndex] // eslint-disable-line no-param-reassign
+          .senderAmount = (parseFloat(totalPayments[currencyIndex].senderAmount)
+          + parseFloat(payment.senderAmount)).toFixed(4);
+      } else {
+        totalPayments.push(payment);
+      }
+      return totalPayments;
+    }
+    return totalPayments.concat(payment);
+  }, []);
+}
+
 
 function CurrentSettlementWindowInfo(props) {
   const { classes, currentSettlementWindow: { payments, receipts } } = props;
@@ -37,7 +54,7 @@ function CurrentSettlementWindowInfo(props) {
         <Grid item md={3}>
           <Paper>Amount</Paper>
         </Grid>
-        {payments.map(payment => (
+        {consolidateTransactionsByCurrency(payments).map(payment => (
           <Grid container justify="center" key={payment.currencyId}>
             <Grid item md={3}><Paper>{payment.currencyId}</Paper></Grid>
             <Grid item md={3}><Paper>{payment.numTransactions}</Paper></Grid>
@@ -69,7 +86,8 @@ function CurrentSettlementWindowInfo(props) {
 }
 
 CurrentSettlementWindowInfo.propTypes = {
-  currentSettlementWindow: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  currentSettlementWindow: PropTypes.objectOf(PropTypes.array).isRequired,
 };
 
 export default withStyles(styles)(CurrentSettlementWindowInfo);
