@@ -73,7 +73,7 @@ function CurrentSettlementWindowInfo(props) {
         <Grid item md={3}>
           <Paper>Amount</Paper>
         </Grid>
-        {receipts.length > 0 && receipts.map(receipt => (
+        {receipts.length > 0 && consolidateTransactionsByCurrency(receipts).map(receipt => (
           <Grid container justify="center" key={receipt.currencyId}>
             <Grid item md={3}><Paper>{receipt.currencyId}</Paper></Grid>
             <Grid item md={3}><Paper>{receipt.numTransactions}</Paper></Grid>
