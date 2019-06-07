@@ -3,18 +3,24 @@ import PropTypes from 'prop-types';
 import { Dialog } from '@reach/dialog';
 
 export default function ConfirmDialog(props) {
-    const { children, title, description, onConfirm = () => {}, onReject = () => {} } = props;
-    return (
-      <>
-        <Dialog>
-          <h1>{title}</h1>
-          <p>{description}</p>
-          {children}
-          <button type="button" onClick={onReject}>Cancel</button>
-          <button type="button" onClick={onConfirm}>OK</button>
-        </Dialog>
-      </>
-    );
+  const {
+    children,
+    title,
+    description,
+    onConfirm,
+    onReject,
+  } = props;
+  return (
+    <>
+      <Dialog>
+        <h1>{title}</h1>
+        <p>{description}</p>
+        {children}
+        <button type="button" onClick={onReject}>Cancel</button>
+        <button type="button" onClick={onConfirm}>OK</button>
+      </Dialog>
+    </>
+  );
 }
 
 ConfirmDialog.propTypes = {
@@ -23,6 +29,12 @@ ConfirmDialog.propTypes = {
   children: PropTypes.arrayOf(PropTypes.element),
   onConfirm: PropTypes.func,
   onReject: PropTypes.func,
+};
+
+ConfirmDialog.defaultProps = {
+  children: [],
+  onConfirm: () => {},
+  onReject: () => {},
 };
 
 // vim: ts=2:sw=2:expandtab
