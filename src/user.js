@@ -1,9 +1,4 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
-import {
-  get, post, put, fetchTimeoutController,
-} from './requests';
+import { put } from './requests';
 
 const userInfoKey = 'login';
 
@@ -29,7 +24,7 @@ function setUserInfo(userInfo) {
   localStorage.setItem(userInfoKey, JSON.stringify(userInfo));
 }
 
-function deleteUserInfo(userInfo) {
+function deleteUserInfo() {
   localStorage.removeItem(userInfoKey);
 }
 
