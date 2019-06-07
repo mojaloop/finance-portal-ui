@@ -44,9 +44,9 @@ function App(props) {
     setUser(result);
   };
 
-  const processLogout = (result) => {
-    deleteUserInfo(result);
-    logout();
+  const processLogout = async () => {
+    deleteUserInfo();
+    await logout(); // await because the response will change/clear the cookie
     window.location = '/';
   };
 

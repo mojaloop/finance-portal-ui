@@ -29,7 +29,7 @@ function setUserInfo(userInfo) {
   localStorage.setItem(userInfoKey, JSON.stringify(userInfo));
 }
 
-function deleteUserInfo(userInfo) {
+function deleteUserInfo() {
   localStorage.removeItem(userInfoKey);
 }
 
