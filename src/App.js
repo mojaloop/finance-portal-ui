@@ -1,7 +1,7 @@
-/* eslint-disable */
 // TODO: Remove previous line and work through linting issues at next edit
 
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import './App.css';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -9,7 +9,7 @@ import Tab from '@material-ui/core/Tab';
 import { withStyles } from '@material-ui/core/styles';
 import { Button, Toolbar } from '@material-ui/core';
 import Login from './components/Login';
-import AdminTab from './components/AdminTab.js';
+import AdminTab from './components/AdminTab';
 import FinancialMonitoringTab from './components/FinancialMonitoringTab';
 import {
   deleteUserInfo, getUserInfo, logout, setUserInfo,
@@ -22,7 +22,6 @@ import TransferVerificationTab from './components/TransferVerificationTab';
 // TODO: do we need to add styling to all the components? (Or should we get rid of this material
 //       thing?)
 // TODO: consider a big "DEVELOPMENT MODE" header when in development mode
-// TODO: read more about PropTypes and available validation
 
 const styles = theme => ({
   root: {
@@ -76,4 +75,10 @@ function App(props) {
   );
 }
 
+App.propTypes = {
+  classes: PropTypes.func.isRequired,
+};
+
 export default withStyles(styles)(App);
+
+// vim: ts=2:sw=2:expandtab
