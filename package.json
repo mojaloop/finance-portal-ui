@@ -11,7 +11,8 @@
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-number-format": "^4.0.7",
-    "react-scripts": "2.1.4"
+    "react-scripts": "2.1.4",
+    "react-uid": "^2.2.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -1,12 +1,11 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
+import { useUIDSeed } from 'react-uid';
 import { post } from '../requests';
+
 
 const styles = theme => ({
   container: {
@@ -45,33 +44,42 @@ function Login(props) {
       loginSuccessful(res);
     } catch (err) {
       // TODO: indicate failure to the user
-      window.alert('Login failed!');
+      window.alert('Login failed!'); // eslint-disable-line no-alert
     }
     setBusy(false);
   };
 
+  const keyPressValidation = (event) => {
+    if (event.key === 'Enter') {
+      attemptLogin();
+    }
+  };
+
+  const loginIdGenerator = useUIDSeed();
   return (
     <>
       <TextField
-        id="login-username"
         label="Username"
+        id={loginIdGenerator('login-username')}
         className={classes.textField}
         margin="normal"
+        onKeyPress={keyPressValidation}
         value={username}
         variant="outlined"
         onChange={ev => setUsername(ev.target.value)}
       />
       <TextField
-        id="login-password"
+        id={loginIdGenerator('login-password')}
         label="Password"
         className={classes.textField}
         margin="normal"
         variant="outlined"
+        onKeyPress={keyPressValidation}
         value={password}
         type="password"
         onChange={ev => setPassword(ev.target.value)}
       />
-      <Button variant="contained" color="primary" disabled={busy} className={classes.button} onClick={attemptLogin} id="btnLogin">
+      <Button variant="contained" color="primary" disabled={busy} className={classes.button} onClick={attemptLogin} id={loginIdGenerator('login-btn')}>
         Login
       </Button>
     </>
@@ -79,7 +87,7 @@ function Login(props) {
 }
 
 Login.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   loginSuccessful: PropTypes.func.isRequired,
 };
 

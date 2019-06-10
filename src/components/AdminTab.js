@@ -1,6 +1,3 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
@@ -8,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import { useUIDSeed } from 'react-uid';
 
 import FSPSelector from './FSPSelector';
 import {
@@ -40,11 +38,11 @@ function AdminManagement(props) {
   const [newEmailAddress, setNewEmailAddress] = useState('');
 
   const updateEmail = async () => {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     const result = re.test(String(newEmailAddress).toLowerCase());
 
     if (!result) {
-      window.alert('Invalid email!');
+      window.alert('Invalid email!'); // eslint-disable-line no-alert
       return;
     }
     setBusy(true);
@@ -53,22 +51,30 @@ function AdminManagement(props) {
       setNewEmailAddress('');
       onChange(res);
     } catch (err) {
-      window.alert('Error processing email address update');
+      window.alert('Error processing email address update'); // eslint-disable-line no-alert
     }
     setBusy(false);
   };
-
+  const adminUIDGenerator = useUIDSeed();
   return (
     <>
       <TextField
         label="New Email Address"
+        id={adminUIDGenerator(`text-email-address-${fspName}-${emailaddress.type}`)}
         className={classes.textField}
         margin="normal"
         value={newEmailAddress}
         variant="outlined"
         onChange={ev => setNewEmailAddress(ev.target.value)}
       />
-      <Button variant="contained" color="primary" disabled={busy} className={classes.button} onClick={updateEmail}>
+      <Button
+        variant="contained"
+        id={adminUIDGenerator(`button-email-address-${fspName}-${emailaddress.type}`)}
+        color="primary"
+        disabled={busy}
+        className={classes.button}
+        onClick={updateEmail}
+      >
         UPDATE
       </Button>
     </>
@@ -116,18 +122,32 @@ function EmailList(props) {
     getEmailAddresses(fsp, { ftc })
       .then(setEmailAddresses)
       .catch(ftc.ignoreAbort())
-      .catch(err => window.alert('Failed to get email addresses')); // TODO: better error message, let user retry
+      .catch(() => window.alert('Failed to get email addresses')); // eslint-disable-line no-alert
     return ftc.abortFn;
   }, [fsp]);
 
-  const updateEmailAddress = (updatedEmailAddress) => {
-    const newEmailAddress = [...emailAddresses.filter(a => updatedEmailAddress.type !== a.type), updatedEmailAddress];
+  const updateEmailAddressAction = (updatedEmailAddress) => {
+    const newEmailAddress = [...emailAddresses
+      .filter(a => updatedEmailAddress.type !== a.type), updatedEmailAddress];
     setEmailAddresses(newEmailAddress);
   };
+  // const emailUIDGenerator = useUIDSeed();
 
   return (
     <Grid container spacing={0}>
-      {emailAddresses.sort((a, b) => ((a.type > b.type) ? 1 : ((b.type > a.type) ? -1 : 0))).map(a => <EmailAddress key={a.type} emailAddress={a} classes={classes} fsp={fsp} onChange={updateEmailAddress} />)}
+      {emailAddresses.sort((a, b) => {
+        if (a.type > b.type) return 1;
+        if (b.type > a.type) return -1;
+        return 0;
+      }).map(a => (
+        <EmailAddress
+          key={a.type}
+          emailAddress={a}
+          classes={classes}
+          fsp={fsp}
+          onChange={updateEmailAddressAction}
+        />
+      ))}
     </Grid>
   );
 }
@@ -144,15 +164,19 @@ function AdminTab(props) {
     getDfsps({ ftc })
       .then((dfsps) => {
         // Augment fspList with a map of ids -> names and vice-versa.
-        dfsps.ids = Object.assign(...dfsps.map(fsp => ({ [fsp.id]: fsp.name })));
+        dfsps.ids = Object.assign( // eslint-disable-line no-param-reassign
+          ...dfsps.map(fsp => ({ [fsp.id]: fsp.name })),
+        );
         // Note that names are guaranteed unique by the db. We assume here that the concept of
         // string uniqueness in mysql is no more strict than the concept of string uniqueness in
         // node
-        dfsps.names = Object.assign(...dfsps.map(fsp => ({ [fsp.name]: fsp.id })));
+        dfsps.names = Object.assign( // eslint-disable-line no-param-reassign
+          ...dfsps.map(fsp => ({ [fsp.name]: fsp.id })),
+        );
         setFspList(dfsps);
       })
       .catch(ftc.ignoreAbort())
-      .catch(err => window.alert('Failed to get FSP list')); // TODO: better error message, let user retry
+      .catch(() => window.alert('Failed to get FSP list')); // eslint-disable-line no-alert
     return ftc.abortFn;
   }, []);
 
@@ -182,8 +206,28 @@ function AdminTab(props) {
   );
 }
 
-AdminTab.propTypes = {
-  classes: PropTypes.object.isRequired,
+AdminManagement.propTypes = {
+  fspName: PropTypes.string.isRequired,
+  emailaddress: PropTypes.objectOf(PropTypes.string).isRequired,
+  onChange: PropTypes.func.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
+
+EmailList.propTypes = {
+  fsp: PropTypes.string.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+};
+
+EmailAddress.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  emailAddress: PropTypes.objectOf(PropTypes.string).isRequired,
+  fsp: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
+
+AdminTab.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+};
+
 
 export default withStyles(styles)(AdminTab);

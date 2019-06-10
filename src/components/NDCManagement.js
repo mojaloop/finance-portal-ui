@@ -1,6 +1,3 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
@@ -12,6 +9,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import { useUIDSeed } from 'react-uid';
 
 import { getNetDebitCap, updateNetDebitCap, fetchTimeoutController } from '../api';
 import { CurrencyFormat } from './InputControl';
@@ -48,16 +46,19 @@ function AccountNDCManagement(props) {
       setNewNDC(0);
       onChange(res);
     } catch (err) {
-      window.alert('Error processing updating NDC');
+      window.alert('Error processing updating NDC'); // eslint-disable-line
     }
     setBusy(false);
   };
+
+  const NDCUIDGenerator = useUIDSeed();
 
   return (
     <>
       <TextField
         label="Net Debit Cap"
         className={classes.textField}
+        id={NDCUIDGenerator('ndcManagement-NDC')}
         margin="normal"
         value={newNDC}
         onFocus={ev => ev.target.select()}
@@ -69,17 +70,25 @@ function AccountNDCManagement(props) {
         variant="outlined"
         onChange={ev => setNewNDC(ev.target.value)}
       />
-      <Button variant="contained" color="primary" disabled={busy} className={classes.button} onClick={updateNDC}>
-        Update
+      <Button
+        variant="contained"
+        id={NDCUIDGenerator('ndcManagement-NDC')}
+        color="primary"
+        disabled={busy}
+        className={classes.button}
+        onClick={updateNDC}
+      >
+        Apply
       </Button>
     </>
   );
 }
 
 AccountNDCManagement.propTypes = {
-  classes: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   fspName: PropTypes.string.isRequired,
-  account: PropTypes.object.isRequired,
+  account: PropTypes.objectOf(PropTypes.shape).isRequired,
 };
 
 
@@ -92,7 +101,8 @@ function NDCManagement(props) {
     getNetDebitCap(fspName, { ftc })
       .then(setAccounts)
       .catch(ftc.ignoreAbort())
-      .catch(err => window.alert('Failed to get NDC')); // TODO: better error message, let user retry
+      .catch(err => window.alert('Failed to get NDC')); // eslint-disable-line
+    // TODO: better error message, let user retry
     return ftc.abortFn;
   }, [fspName]);
 
@@ -138,6 +148,7 @@ function NDCManagement(props) {
 }
 
 NDCManagement.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   fspName: PropTypes.string.isRequired,
 };
 

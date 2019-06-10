@@ -1,6 +1,3 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -17,6 +14,7 @@ import TableRow from '@material-ui/core/TableRow';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import { useUIDSeed } from 'react-uid';
 import { SnackbarContentWrapper } from './SnackbarUtils';
 import FundsManagement from './FundsManagement';
 import PositionInfo from './PositionInfo';
@@ -84,13 +82,15 @@ function FSPDetailsImpl(props) {
           show: true, message: 'Update Successful!', variant: 'success', action: 'close',
         });
       })
-      .catch((err) => {
+      .catch(() => {
         setStopTransactions(isActive === 1 ? 0 : 1);
         setSnackBarParams({
           show: true, message: 'Failed to update!', variant: 'error', action: 'close',
         });
       });
   };
+
+  const financialControlsUIDGenerator = useUIDSeed();
 
   return (
     <>
@@ -104,7 +104,8 @@ function FSPDetailsImpl(props) {
       {tab === 0
         && (
         <>
-          {currentSettlementWindow && previousSettlementWindow && settlementAccountBalance && positions
+          {currentSettlementWindow
+          && previousSettlementWindow && settlementAccountBalance && positions
             && (
             <Grid container spacing={24}>
               <Grid item md={12}>
@@ -114,7 +115,10 @@ function FSPDetailsImpl(props) {
               </Grid>
               <Grid item md={12}>
                 <Paper className={classes.paper}>
-                  <PositionInfo positions={positions} settlementAccountBalance={settlementAccountBalance} />
+                  <PositionInfo
+                    positions={positions}
+                    settlementAccountBalance={settlementAccountBalance}
+                  />
                 </Paper>
               </Grid>
               <Grid item md={12}>
@@ -151,8 +155,11 @@ function FSPDetailsImpl(props) {
             : (
               <Grid item md={12}>
                 <Paper className={classes.paper}>
-                  <h3>Stop the Transactions</h3>
+                  <h3>Disable transactions for DFSP</h3>
                   <Switch
+                    id={
+                      financialControlsUIDGenerator(`stop-transacions-${fsp.name}`)
+                    }
                     checked={stopTransactions === 0}
                     onChange={updateIsActiveFlag}
                   />
@@ -178,9 +185,10 @@ function FSPDetailsImpl(props) {
 }
 
 FSPDetailsImpl.propTypes = {
-  classes: PropTypes.object.isRequired,
-  fspNamesById: PropTypes.object.isRequired,
-  fsp: PropTypes.object.isRequired,
+  setSnackBarParams: PropTypes.func.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  fspNamesById: PropTypes.objectOf(PropTypes.string).isRequired,
+  fsp: PropTypes.objectOf(PropTypes.shape).isRequired,
 };
 
 const FSPDetails = withStyles(styles)(FSPDetailsImpl);
@@ -224,11 +232,13 @@ function FinancialMonitoringTab(props) {
           // TODO: Change dfsps.ids to something like dfsps.nameFromId; similarly dfsps.names ->
           // dfsps.idFromName.
           // Augment fspList with a map of ids -> names and vice-versa.
-          dfsps.ids = Object.assign(...dfsps.map(fsp => ({ [fsp.id]: fsp.name })));
+          dfsps.ids = Object // eslint-disable-line
+            .assign(...dfsps.map(fsp => ({ [fsp.id]: fsp.name })));
           // Note that names are guaranteed unique by the db. We assume here that the concept of
           // string uniqueness in mysql is no more strict than the concept of string uniqueness in
           // node
-          dfsps.names = Object.assign(...dfsps.map(fsp => ({ [fsp.name]: fsp.id })));
+          dfsps.names = Object // eslint-disable-line
+            .assign(...dfsps.map(fsp => ({ [fsp.name]: fsp.id })));
           setFspList(dfsps.sort((a, b) => a.id - b.id));
         })
         .catch((err) => {
@@ -282,7 +292,11 @@ function FinancialMonitoringTab(props) {
                     && (
                     <TableRow>
                       <TableCell>
-                        <FSPDetails fsp={selectedFsp} fspNamesById={fspList.ids} setSnackBarParams={setSnackBarParams} />
+                        <FSPDetails
+                          fsp={selectedFsp}
+                          fspNamesById={fspList.ids}
+                          setSnackBarParams={setSnackBarParams}
+                        />
                       </TableCell>
                     </TableRow>
                     )
@@ -299,7 +313,7 @@ function FinancialMonitoringTab(props) {
 }
 
 FinancialMonitoringTab.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default withStyles(styles)(FinancialMonitoringTab);
