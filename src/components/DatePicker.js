@@ -1,12 +1,10 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
+import { useUIDSeed } from 'react-uid';
 
 import { truncateDate } from '../utils';
 
@@ -39,10 +37,12 @@ function DatePickerImpl(props) {
     defDate, desc, classes, onChange,
   } = props;
 
+  const dateUIDGenerator = useUIDSeed();
+
   return (
     <form className={classes.container} noValidate>
       <TextField
-        id="date"
+        id={dateUIDGenerator('date')}
         label={desc}
         type="date"
         defaultValue={dateToStr(defDate)}
@@ -57,7 +57,10 @@ function DatePickerImpl(props) {
 }
 
 DatePickerImpl.propTypes = {
-  classes: PropTypes.object.isRequired,
+  defDate: PropTypes.instanceOf(Date).isRequired,
+  desc: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 // defDate should be a string in the format
@@ -67,8 +70,8 @@ function DateRangePickerImpl(props) {
   const {
     classes,
     onChange = () => {},
-    onStartChange = () => {},
-    onEndChange = () => {},
+    onStartChange,
+    onEndChange,
     defStartDate = new Date(),
     defEndDate = new Date(Date.now() + 1000 * 60 * 60 * 24),
   } = props;
@@ -77,17 +80,17 @@ function DateRangePickerImpl(props) {
   const [fromDate, setFromDate] = useState(truncateDate(defStartDate));
 
   const updateDates = (from, to) => {
-    from = new Date(from);
-    to = new Date(to);
-    if (from !== fromDate) {
-      onStartChange(from);
+    const fromConverted = new Date(from);
+    const toConverted = new Date(to);
+    if (fromConverted !== fromDate) {
+      onStartChange(fromConverted);
     }
-    if (to !== toDate) {
-      onEndChange(to);
+    if (toConverted !== toDate) {
+      onEndChange(toConverted);
     }
-    setFromDate(from);
-    setToDate(to);
-    onChange({ from, to });
+    setFromDate(fromConverted);
+    setToDate(toConverted);
+    onChange({ from: fromConverted, to: toConverted });
   };
 
   // TODO:
@@ -95,11 +98,33 @@ function DateRangePickerImpl(props) {
   // - if a user selects a (from,to) pair where from < to, bracket the selection
   return (
     <Grid container className={classes.grid} justify="space-around">
-      <DatePicker defDate={fromDate} desc="From" onChange={dt => updateDates(dt, toDate)} />
-      <DatePicker defDate={toDate} desc="To" onChange={dt => updateDates(fromDate, dt)} />
+      <DatePicker
+        defDate={fromDate}
+        desc="From"
+        onChange={dt => updateDates(dt, toDate)}
+      />
+      <DatePicker
+        defDate={toDate}
+        desc="To"
+        onChange={dt => updateDates(fromDate, dt)}
+      />
     </Grid>
   );
 }
+
+DateRangePickerImpl.defaultProps = {
+  onStartChange: () => {},
+  onEndChange: () => {},
+};
+
+DateRangePickerImpl.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  onChange: PropTypes.func.isRequired,
+  onStartChange: PropTypes.func,
+  onEndChange: PropTypes.func,
+  defStartDate: PropTypes.instanceOf(Date).isRequired,
+  defEndDate: PropTypes.instanceOf(Date).isRequired,
+};
 
 const DateRangePicker = withStyles(styles)(DateRangePickerImpl);
 

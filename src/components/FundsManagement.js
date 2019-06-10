@@ -1,6 +1,3 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
@@ -13,6 +10,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableHead from '@material-ui/core/TableHead';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import { useUIDSeed } from 'react-uid';
 import { SnackbarContentWrapper } from './SnackbarUtils';
 
 import { sleep } from '../utils';
@@ -45,7 +43,8 @@ const styles = theme => ({
 // Handles funds in and funds out requests
 function AccountFundsManagement(props) {
   const {
-    transferCompleteState, fspName, classes, account, processFn, setSnackBarParams, onChange = () => {},
+    transferCompleteState, fspName,
+    classes, account, processFn, setSnackBarParams, onChange = () => {},
   } = props;
 
   const [busy, setBusy] = useState(false);
@@ -96,6 +95,8 @@ function AccountFundsManagement(props) {
     setBusy(false);
   };
 
+  const fundsUIDGenerator = useUIDSeed();
+
   // TODO: put a slider in, have the user move the slider to make the transfer. Have the slider
   // shift back to its original position whenever the funds in amount is changed.
   return (
@@ -105,6 +106,7 @@ function AccountFundsManagement(props) {
           <TextField
             label="Amount"
             className={classes.textField}
+            id={fundsUIDGenerator('fundsManagement-amount')}
             margin="normal"
             value={fundsInAmount}
             onFocus={ev => ev.target.select()}
@@ -116,7 +118,14 @@ function AccountFundsManagement(props) {
             variant="outlined"
             onChange={ev => setFundsIn(ev.target.value)}
           />
-          <Button variant="contained" color="primary" disabled={busy} className={classes.button} onClick={confirm(actionFundsIn)}>
+          <Button
+            variant="contained"
+            color="primary"
+            id={fundsUIDGenerator('fundsManagement-process')}
+            disabled={busy}
+            className={classes.button}
+            onClick={confirm(actionFundsIn)}
+          >
             Process
           </Button>
         </div>
@@ -127,10 +136,11 @@ function AccountFundsManagement(props) {
 }
 
 AccountFundsManagement.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  onChange: PropTypes.func.isRequired,
   transferCompleteState: PropTypes.string.isRequired,
   fspName: PropTypes.string.isRequired,
-  account: PropTypes.object.isRequired,
+  account: PropTypes.objectOf(PropTypes.shape).isRequired,
   processFn: PropTypes.func.isRequired,
   setSnackBarParams: PropTypes.func.isRequired,
 };
@@ -165,9 +175,10 @@ function FundsManagement(props) {
   useEffect(() => {
     const ftc = fetchTimeoutController();
     getAccounts(fspName, { ftc })
-      .then(accounts => setAccounts(accounts.filter(a => a.ledgerAccountType === 'SETTLEMENT')))
+      .then(fpsAccounts => setAccounts(fpsAccounts.filter(a => a.ledgerAccountType === 'SETTLEMENT')))
       .catch(ftc.ignoreAbort())
-      .catch(err => window.alert('Failed to get accounts')); // TODO: better error message, let user retry
+      .catch(() => window.alert('Failed to get accounts')); // eslint-disable-line
+    // TODO: better error message, let user retry
     return ftc.abortFn;
   }, [fspName]);
 
@@ -218,8 +229,8 @@ function FundsManagement(props) {
           <TableRow>
             <TableCell><h3>Account ID</h3></TableCell>
             <TableCell align="right"><h3>Currency</h3></TableCell>
-            <TableCell align="right"><h3>Value</h3></TableCell>
-            <TableCell align="right"><h3> Type</h3></TableCell>
+            <TableCell align="right"><h3>Balance</h3></TableCell>
+            <TableCell align="right"><h3>Ledger Type</h3></TableCell>
             <TableCell align="center"><h3>Funds In</h3></TableCell>
             <TableCell align="center"><h3>Funds Out</h3></TableCell>
           </TableRow>
@@ -262,7 +273,7 @@ function FundsManagement(props) {
 }
 
 FundsManagement.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf(PropTypes.shape).isRequired,
   fspName: PropTypes.string.isRequired,
 };
 

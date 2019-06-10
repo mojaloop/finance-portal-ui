@@ -66,5 +66,5 @@ export default class ConfirmDialog extends React.Component {
 ConfirmDialog.propTypes = {
   description: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+  children: PropTypes.func.isRequired,
 };

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import { useUIDSeed } from 'react-uid';
 
 
 const styles = theme => ({
@@ -40,6 +41,8 @@ function consolidateTransactionsByCurrency(transactions) {
 
 function CurrentSettlementWindowInfo(props) {
   const { classes, currentSettlementWindow: { payments, receipts } } = props;
+  const paymentsUIDGenerator = useUIDSeed();
+  const receiptsUIDGenerator = useUIDSeed();
   return (
     <div className={classes.root}>
       <h2>Current Settlement Window</h2>
@@ -54,11 +57,28 @@ function CurrentSettlementWindowInfo(props) {
         <Grid item md={3}>
           <Paper>Amount</Paper>
         </Grid>
-        {consolidateTransactionsByCurrency(payments).map(payment => (
+        {payments.length > 0
+        && consolidateTransactionsByCurrency(payments).map((payment, index) => (
           <Grid container justify="center" key={payment.currencyId}>
-            <Grid item md={3}><Paper>{payment.currencyId}</Paper></Grid>
-            <Grid item md={3}><Paper>{payment.numTransactions}</Paper></Grid>
-            <Grid item md={3}><Paper>{payment.senderAmount}</Paper></Grid>
+            <Grid item md={3}>
+              <Paper id={paymentsUIDGenerator(`payment-${index}-currencyId`)}>
+                {payment.currencyId}
+              </Paper>
+            </Grid>
+            <Grid item md={3}>
+              <Paper
+                id={paymentsUIDGenerator(`payment-${index}-numTransactions`)}
+              >
+                {payment.numTransactions}
+              </Paper>
+            </Grid>
+            <Grid item md={3}>
+              <Paper
+                id={paymentsUIDGenerator(`payment-${index}-senderAmount`)}
+              >
+                {payment.senderAmount}
+              </Paper>
+            </Grid>
           </Grid>
         ))}
       </Grid>
@@ -73,11 +93,28 @@ function CurrentSettlementWindowInfo(props) {
         <Grid item md={3}>
           <Paper>Amount</Paper>
         </Grid>
-        {receipts.length > 0 && consolidateTransactionsByCurrency(receipts).map(receipt => (
+        {receipts.length > 0
+        && consolidateTransactionsByCurrency(receipts).map((receipt, index) => (
           <Grid container justify="center" key={receipt.currencyId}>
-            <Grid item md={3}><Paper>{receipt.currencyId}</Paper></Grid>
-            <Grid item md={3}><Paper>{receipt.numTransactions}</Paper></Grid>
-            <Grid item md={3}><Paper>{receipt.senderAmount}</Paper></Grid>
+            <Grid item md={3}>
+              <Paper id={receiptsUIDGenerator(`receipt-${index}-currencyId`)}>
+                {receipt.currencyId}
+              </Paper>
+            </Grid>
+            <Grid item md={3}>
+              <Paper
+                id={receiptsUIDGenerator(`receipt-${index}-numTransactions`)}
+              >
+                {receipt.numTransactions}
+              </Paper>
+            </Grid>
+            <Grid item md={3}>
+              <Paper
+                id={receiptsUIDGenerator(`receipt-${index}-senderAmount`)}
+              >
+                {receipt.senderAmount}
+              </Paper>
+            </Grid>
           </Grid>
         ))}
       </Grid>

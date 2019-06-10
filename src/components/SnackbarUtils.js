@@ -15,6 +15,7 @@ import IconButton from '@material-ui/core/IconButton';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import { withStyles } from '@material-ui/core/styles';
+import { useUIDSeed } from 'react-uid';
 
 const variantIcon = {
   success: CheckCircleIcon,
@@ -61,12 +62,14 @@ function SnackbarContentImpl(props) {
   const Icon = variantIcon[variant];
   const ActionIcon = actionIcon[action];
 
+  const snackbarUIDGenerator = useUIDSeed();
+
   return (
     <SnackbarContent
       className={classNames(classes[variant], className)}
       aria-describedby="client-snackbar"
       message={(
-        <span id="client-snackbar" className={classes.message}>
+        <span id={snackbarUIDGenerator('snackbar')} className={classes.message}>
           <Icon className={classNames(classes.icon, classes.iconVariant)} />
           {message}
         </span>
@@ -74,6 +77,7 @@ function SnackbarContentImpl(props) {
       action={[
         <IconButton
           key="close"
+          id={snackbarUIDGenerator('close-snackbar')}
           aria-label="Close"
           color="inherit"
           className={classes.close}
