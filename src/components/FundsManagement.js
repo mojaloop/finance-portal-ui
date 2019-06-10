@@ -49,6 +49,7 @@ function AccountFundsManagement(props) {
 
   const [busy, setBusy] = useState(false);
   const [fundsInAmount, setFundsIn] = useState(0);
+  const [confirmDialogVisible, setConfirmDialogVisible] = useState(false);
   const transferNotCommittedMessage = 'Transfer not committed';
 
   const actionFundsIn = async () => {
@@ -100,38 +101,48 @@ function AccountFundsManagement(props) {
   // TODO: put a slider in, have the user move the slider to make the transfer. Have the slider
   // shift back to its original position whenever the funds in amount is changed.
   return (
-    <ConfirmDialog title="Confirm" description="Are you sure you want to process this?">
-      {confirm => (
-        <div>
-          <TextField
-            label="Amount"
-            className={classes.textField}
-            id={fundsUIDGenerator('fundsManagement-amount')}
-            margin="normal"
-            value={fundsInAmount}
-            onFocus={ev => ev.target.select()}
-            InputProps={{
-              inputComponent: CurrencyFormat,
-              suffix: ` ${account.currency}`,
-              inputProps: { suffix: ` ${account.currency}` },
-            }}
-            variant="outlined"
-            onChange={ev => setFundsIn(ev.target.value)}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            id={fundsUIDGenerator('fundsManagement-process')}
-            disabled={busy}
-            className={classes.button}
-            onClick={confirm(actionFundsIn)}
-          >
-            Process
-          </Button>
-        </div>
+    <>
+      {confirmDialogVisible
+      && (
+        <ConfirmDialog
+          title="Confirm"
+          description="Are you sure you want to process this?"
+          onReject={() => setConfirmDialogVisible(false)}
+          onConfirm={() => {
+            setConfirmDialogVisible(false);
+            actionFundsIn();
+          }}
+        />
       )
-            }
-    </ConfirmDialog>
+      }
+      <div>
+        <TextField
+          label="Amount"
+          className={classes.textField}
+          margin="normal"
+          id={fundsUIDGenerator('fundsManagement-amount')}
+          value={fundsInAmount}
+          onFocus={ev => ev.target.select()}
+          InputProps={{
+            inputComponent: CurrencyFormat,
+            suffix: ` ${account.currency}`,
+            inputProps: { suffix: ` ${account.currency}` },
+          }}
+          variant="outlined"
+          onChange={ev => setFundsIn(ev.target.value)}
+        />
+        <Button
+          variant="contained"
+          id={fundsUIDGenerator('fundsManagement-process')}
+          color="primary"
+          disabled={busy}
+          className={classes.button}
+          onClick={() => setConfirmDialogVisible(true)}
+        >
+          Process
+        </Button>
+      </div>
+    </>
   );
 }
 
@@ -278,3 +289,5 @@ FundsManagement.propTypes = {
 };
 
 export default withStyles(styles)(FundsManagement);
+
+// vim: ts=2:sw=2:expandtab
