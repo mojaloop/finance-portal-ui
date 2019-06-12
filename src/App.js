@@ -76,7 +76,7 @@ function App(props) {
 }
 
 App.propTypes = {
-  classes: PropTypes.func.isRequired,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default withStyles(styles)(App);

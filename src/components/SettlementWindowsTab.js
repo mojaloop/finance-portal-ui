@@ -187,7 +187,7 @@ function SettlementWindowsGrid(props) {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell><h3>SettlementWindow Id</h3></TableCell>
+              <TableCell><h3>Settlement Window Id</h3></TableCell>
               <TableCell align="right"><h3>State</h3></TableCell>
               <TableCell align="right"><h3>Created Date</h3></TableCell>
               <TableCell align="right"><h3>Changed Date</h3></TableCell>
@@ -256,7 +256,7 @@ function SettlementWindowsGrid(props) {
             <Grid container spacing={8}>
               <Grid container spacing={8}>
                 <Grid item md={6}>
-                  <Paper className={classes.paper}>SettlementWindow Id</Paper>
+                  <Paper className={classes.paper}>Settlement Window Id</Paper>
                 </Grid>
                 <Grid item md={6}>
                   <Paper className={classes.paper}>
