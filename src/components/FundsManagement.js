@@ -139,7 +139,7 @@ function AccountFundsManagement(props) {
           className={classes.button}
           onClick={() => setConfirmDialogVisible(true)}
         >
-          Process
+          Apply
         </Button>
       </div>
     </>
