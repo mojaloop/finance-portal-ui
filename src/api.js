@@ -103,10 +103,10 @@ async function setParticipantIsActiveFlag(participantId, participantName, isActi
 }
 
 async function commitSettlementWindow(settlementWindowId, {
-  participants, settlementId, from, to,
+  participants, settlementId, startDate, endDate,
 }, requestOpts) {
-  return put(`settlement-window-commit/${settlementWindowId}`, {
-    participants, settlementId, from, to,
+    return put(`settlement-window-commit/${settlementWindowId}`, {
+    participants, settlementId, startDate, endDate,
   }, requestOpts);
 }
 
