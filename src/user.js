@@ -9,31 +9,38 @@ const userInfoKey = 'login';
 function getUserInfo() {
   try {
     const userInfo = localStorage.getItem(userInfoKey);
-    // TODO Greg: check whether the token has expired here:
-    if (userInfo === null || userInfo.expiryDate > new Date()) {
+    if (userInfo === null) {
       return undefined;
     }
-    return JSON.parse(userInfo);
+    const parsedUserInfo = JSON.parse(userInfo);
+    if ((new Date(parsedUserInfo.expiryDate)).getTime() < (new Date()).getTime()) {
+      return localStorage.removeItem(userInfoKey);
+    }
+    return parsedUserInfo;
   } catch (err) {
-    console.warn('Error retrieving user login info from localstorage');
+    console.warn('Error retrieving user login info from localstorage'); // eslint-disable-line no-console
     return undefined;
   }
 }
 
 function setUserInfo(userInfo) {
-  localStorage.setItem(userInfoKey, JSON.stringify(userInfo));
-}
-
-function deleteUserInfo() {
-  localStorage.removeItem(userInfoKey);
+  const expiryDate = new Date((new Date()).getTime() + userInfo.expiresIn * 1000);
+  localStorage.setItem(userInfoKey, JSON.stringify({
+    ...userInfo,
+    expiryDate,
+  }));
 }
 
 async function logout() {
-  return put('/logout');
+  const tokenIsValid = getUserInfo(); // If token is invalid(timeout), it will be destroyed
+  if (tokenIsValid) {
+    localStorage.removeItem(userInfoKey);
+    return put('/logout');
+  }
+  return true;
 }
 
 export {
-  deleteUserInfo,
   getUserInfo,
   logout,
   setUserInfo,

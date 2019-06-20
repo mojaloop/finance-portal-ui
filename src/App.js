@@ -12,7 +12,7 @@ import Login from './components/Login';
 import AdminTab from './components/AdminTab';
 import FinancialMonitoringTab from './components/FinancialMonitoringTab';
 import {
-  deleteUserInfo, getUserInfo, logout, setUserInfo,
+  getUserInfo, logout, setUserInfo,
 } from './user';
 import SettlementWindowsTab from './components/SettlementWindowsTab';
 import TransferVerificationTab from './components/TransferVerificationTab';
@@ -44,7 +44,6 @@ function App(props) {
   };
 
   const processLogout = async () => {
-    deleteUserInfo();
     await logout(); // await because the response will change/clear the cookie
     window.location = '/';
   };
