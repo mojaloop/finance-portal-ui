@@ -15,6 +15,7 @@ import Dialog from '@material-ui/core/Dialog';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import Snackbar from '@material-ui/core/Snackbar';
+import Typography from '@material-ui/core/Typography';
 import { DialogTitle, DialogContent, DialogActions } from './DialogUtils';
 import { TablePaginationActionsWrapped } from './TablePaginationActions';
 import { DateRangePicker } from './DatePicker';
@@ -188,9 +189,10 @@ function SettlementWindowsGrid(props) {
           <TableHead>
             <TableRow>
               <TableCell><h3>Settlement Window Id</h3></TableCell>
+              <TableCell align="right"><h3>Amount-Currency</h3></TableCell>
               <TableCell align="right"><h3>State</h3></TableCell>
-              <TableCell align="right"><h3>Created Date</h3></TableCell>
-              <TableCell align="right"><h3>Changed Date</h3></TableCell>
+              <TableCell align="right"><h3>Start Date</h3></TableCell>
+              <TableCell align="right"><h3>End Date</h3></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -209,9 +211,17 @@ function SettlementWindowsGrid(props) {
                       {settlementWindow.settlementWindowId}
                     </Button>
                   </TableCell>
+                  <TableCell align="right">
+                    <Typography
+                      variant="body1"
+                      style={{ whiteSpace: 'pre-line' }}
+                    >
+                      {settlementWindow.amounts}
+                    </Typography>
+                  </TableCell>
                   <TableCell align="right">{settlementWindow.state}</TableCell>
-                  <TableCell align="right">{settlementWindow.createdDate}</TableCell>
-                  <TableCell align="right">{settlementWindow.changedDate}</TableCell>
+                  <TableCell align="right">{settlementWindow.settlementWindowOpen}</TableCell>
+                  <TableCell align="right">{settlementWindow.settlementWindowClose}</TableCell>
                 </TableRow>
               ))}
             {emptyRows > 0 && (
