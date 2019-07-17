@@ -563,7 +563,6 @@ function SettlementWindowsTab(props) {
               />
             </Paper>
           </Grid>
-
           <Grid item md={10}>
             <Paper className={classes.paper}>
               <SettlementWindowsGrid
