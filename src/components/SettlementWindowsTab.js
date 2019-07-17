@@ -120,11 +120,11 @@ function SettlementWindowsGrid(props) {
       }
       refreshGridHandler(newSettlementWindowsList);
       setSnackBarParams({
-        show: true, message: 'Commit Successful!', variant: 'success', action: 'close',
+        show: true, message: 'Funds processed and window settled successfully!', variant: 'success', action: 'close',
       });
     } catch (err) {
       setSnackBarParams({
-        show: true, message: 'Failed to commit!', variant: 'error', action: 'close',
+        show: true, message: 'Some transactions failed - window not settled. Please contact support!', variant: 'error', action: 'close',
       });
     }
   };
@@ -425,13 +425,16 @@ function SettlementWindowsGrid(props) {
         onClose={handleCommitClose}
         aria-labelledby="dialog-title"
         open={commitSettlementDialogVisible}
-        maxWidth="xs"
+        maxWidth="md"
       >
         <DialogTitle id="dialog-title" onClose={handleCommitClose}>
           Commit Settlement Window
         </DialogTitle>
         <DialogContent>
-          Are you sure, you want to commit this settlement window?
+        You are about to process funds against the DFSP settlement accounts
+        according to the payment matrix for this settlement.
+        Do not proceed if the settlement bank has not processed these funds.
+        Do you want to proceed?
           {settlementWindowDetails && settlementWindowDetails
             .relatedSettlementWindows && settlementWindowDetails.relatedSettlementWindows.length > 0
             && (
