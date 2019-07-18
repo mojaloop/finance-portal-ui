@@ -54,7 +54,7 @@ function triggerDownload(path, { endpoint = defaultEndpoint } = {}) {
   window.location = buildUrl(endpoint, path);
 }
 
-function fetchTimeoutController({ timeoutMs = 5000, controller = new AbortController() } = {}) {
+function fetchTimeoutController({ timeoutMs = 25000, controller = new AbortController() } = {}) {
   let reason = 'timeout';
   return {
     timeout: setTimeout(() => controller.abort(), timeoutMs),
