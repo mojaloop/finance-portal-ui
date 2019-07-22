@@ -1,21 +1,21 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: {{ template "admin-portal-frontend.fullname" . }}
+  name: {{ template "admin-portal-web-ui.fullname" . }}
   labels:
-    app: {{ template "admin-portal-frontend.name" . }}
-    chart: {{ template "admin-portal-frontend.chart" . }}
+    app: {{ template "admin-portal-web-ui.name" . }}
+    chart: {{ template "admin-portal-web-ui.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   selector:
     matchLabels:
-      app: {{ template "admin-portal-frontend.name" . }}
+      app: {{ template "admin-portal-web-ui.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "admin-portal-frontend.name" . }}
+        app: {{ template "admin-portal-web-ui.name" . }}
         release: {{ .Release.Name }}
     spec:
       containers:

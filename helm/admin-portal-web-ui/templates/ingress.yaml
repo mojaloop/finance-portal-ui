@@ -1,13 +1,13 @@
 {{- if .Values.ingress.enabled -}}
-{{- $serviceName := include "admin-portal-frontend.fullname" . -}}
+{{- $serviceName := include "admin-portal-web-ui.fullname" . -}}
 {{- $servicePort := .Values.service.port -}}
 {{- $servicePath := .Values.ingress.externalPath -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ template "admin-portal-frontend.fullname" . }}
+  name: {{ template "admin-portal-web-ui.fullname" . }}
   labels:
-    app: {{ template "admin-portal-frontend.fullname" . }}
+    app: {{ template "admin-portal-web-ui.fullname" . }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}

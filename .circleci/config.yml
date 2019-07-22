@@ -1,11 +1,6 @@
 # CircleCI v2 Config
 version: 2
 
-general:
-  branches:
-    only:
-      - master
-
 defaults_working_directory: &defaults_working_directory
   working_directory: /home/circleci/project
 
@@ -25,27 +20,27 @@ defaults_build_docker_test: &defaults_build_docker_test
   name: Build Docker test image
   command: |
     echo "Building Docker image: test"
-    docker build --pull --build-arg SSH_KEY="$(echo $CASA_LIB_DEPLOY_KEY_B64_ENC | base64 -d)" -t $DOCKER_ORG/admin-portal-frontend:test .
+    docker build --pull --build-arg SSH_KEY="$(echo $CASA_LIB_DEPLOY_KEY_B64_ENC | base64 -d)" -t $DOCKER_ORG/$CIRCLE_PROJECT_REPONAME:test .
 defaults_build_docker_build: &defaults_build_docker_build
   name: Build Docker $CIRCLE_TAG image
   command: |
     echo "Building Docker image: $CIRCLE_TAG"
-    docker build --pull --build-arg SSH_KEY="$(echo $CASA_LIB_DEPLOY_KEY_B64_ENC | base64 -d)" -t $DOCKER_ORG/admin-portal-frontend:$CIRCLE_TAG .
+    docker build --pull --build-arg SSH_KEY="$(echo $CASA_LIB_DEPLOY_KEY_B64_ENC | base64 -d)" -t $DOCKER_ORG/$CIRCLE_PROJECT_REPONAME:$CIRCLE_TAG .
 defaults_build_docker_build_release: &defaults_build_docker_build_release
   name: Build Docker $RELEASE_TAG image
   command: |
     echo "Building Docker image: $RELEASE_TAG"
-    docker build --pull --build-arg SSH_KEY="$(echo $CASA_LIB_DEPLOY_KEY_B64_ENC | base64 -d)" -t $DOCKER_ORG/admin-portal-frontend:$RELEASE_TAG .
+    docker build --pull --build-arg SSH_KEY="$(echo $CASA_LIB_DEPLOY_KEY_B64_ENC | base64 -d)" -t $DOCKER_ORG/$CIRCLE_PROJECT_REPONAME:$RELEASE_TAG .
 defaults_build_docker_publish: &defaults_build_docker_publish
   name: Publish Docker image $CIRCLE_TAG & Latest tag to Docker Hub
   command: |
-    echo "Publishing $DOCKER_ORG/admin-portal-frontend:$CIRCLE_TAG"
-    docker push $DOCKER_ORG/admin-portal-frontend:$CIRCLE_TAG
+    echo "Publishing $DOCKER_ORG/$CIRCLE_PROJECT_REPONAME:$CIRCLE_TAG"
+    docker push $DOCKER_ORG/$CIRCLE_PROJECT_REPONAME:$CIRCLE_TAG
 defaults_build_docker_publish_release: &defaults_build_docker_publish_release
   name: Publish Docker image $RELEASE_TAG tag to Docker Hub
   command: |
-    echo "Publishing $DOCKER_ORG/admin-portal-frontend:$RELEASE_TAG"
-    docker push $DOCKER_ORG/admin-portal-frontend:$RELEASE_TAG
+    echo "Publishing $DOCKER_ORG/$CIRCLE_PROJECT_REPONAME:$RELEASE_TAG"
+    docker push $DOCKER_ORG/$CIRCLE_PROJECT_REPONAME:$RELEASE_TAG
 defaults_deploy_configure_helm: &defaults_deploy_configure_helm
   name: Configure Helm
   command: |
@@ -109,18 +104,26 @@ jobs:
       - checkout
       - run:
           name: package helm chart
-          command: helm package admin-portal-web-ui-chart
+          command: cd helm && helm package $CIRCLE_PROJECT_REPONAME
   build_and_publish_helm:
     docker:
       - image: hypnoglow/kubernetes-helm:2.9.1
     steps:
       - checkout
       - run:
+          name: update values.yaml file with $CIRCLE_TAG that matches docker version
+          command: |
+            cd helm/$CIRCLE_PROJECT_REPONAME && sed -i.bak "s/tag.*/tag\: $CIRCLE_TAG/" values.yaml
+      - run:
+          name: Update Chart.yaml version with the verison that matches $CIRCLE_TAG
+          command: |
+            cd helm/$CIRCLE_PROJECT_REPONAME && sed -i.bak "s/version.*/version\: $CIRCLE_TAG/" Chart.yaml
+      - run:
           name: package helm chart
-          command: helm package --version $CIRCLE_TAG admin-portal-web-ui-chart
+          command: cd helm && helm package --version $CIRCLE_TAG $CIRCLE_PROJECT_REPONAME
       - run:
           name: upload to helm repo
-          command: curl -u$DOCKER_USER:$DOCKER_PASS -T admin-portal-web-ui-chart-$CIRCLE_TAG.tgz "https://casablanca.jfrog.io/casablanca/helm/admin-portal-web-ui-chart-$CIRCLE_TAG.tgz"
+          command: cd helm && curl -u$DOCKER_USER:$DOCKER_PASS -T $CIRCLE_PROJECT_REPONAME-$CIRCLE_TAG.tgz "https://casablanca.jfrog.io/casablanca/helm/$CIRCLE_PROJECT_REPONAME-$CIRCLE_TAG.tgz"
       
 workflows:
   version: 2
@@ -130,17 +133,17 @@ workflows:
           context: org-global
           filters:
             tags:
-              only: /.*/
+              only: /v[0-9]+(\.[0-9]+)*/
       - build_docker:
           context: org-global
           filters:
             tags:
-              only: /.*/
+              only: /v[0-9]+(\.[0-9]+)*/
       - build_helm:
           context: org-global
           filters:
             tags:
-              only: /.*/
+              only: /v[0-9]+(\.[0-9]+)*/
       - build_and_publish_docker:
           context: org-global
           requires:
@@ -149,6 +152,9 @@ workflows:
           filters:
             tags:
               only: /v[0-9]+(\.[0-9]+)*/
+            branches:
+              only:
+                - master
       - build_and_publish_helm:
           context: org-global
           requires:
@@ -156,3 +162,6 @@ workflows:
           filters:
             tags:
               only: /v[0-9]+(\.[0-9]+)*/
+            branches:
+              only:
+                - master
