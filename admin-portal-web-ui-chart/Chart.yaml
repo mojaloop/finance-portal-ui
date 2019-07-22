@@ -1,5 +1,0 @@
-apiVersion: v1
-appVersion: "1.0"
-description: Casablanca admin portal frontend. Serves a static React site.
-name: admin-portal-web-ui-chart
-version: v1.1
