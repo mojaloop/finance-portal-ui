@@ -153,8 +153,7 @@ workflows:
             tags:
               only: /v[0-9]+(\.[0-9]+)*/
             branches:
-              only:
-                - master
+              ignore: /.*/
       - build_and_publish_helm:
           context: org-global
           requires:
@@ -163,5 +162,4 @@ workflows:
             tags:
               only: /v[0-9]+(\.[0-9]+)*/
             branches:
-              only:
-                - master
+              ignore: /.*/
