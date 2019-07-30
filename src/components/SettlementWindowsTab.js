@@ -143,15 +143,9 @@ function SettlementWindowsGrid(props) {
     setCloseSettlementDialogVisible(false);
     handleClose();
     try {
-      const updatedSettlementWindow = await
+      const newSettlementWindowsList = await
       closeSettlementWindow(settlementWindowDetails.settlementWindow
         .settlementWindowId, { startDate, endDate });
-      let newSettlementWindowsList = settlementWindowsList;
-      if (updatedSettlementWindow && updatedSettlementWindow.settlementWindowId) {
-        newSettlementWindowsList = [...settlementWindowsList
-          .filter(a => updatedSettlementWindow
-            .settlementWindowId !== a.settlementWindowId), updatedSettlementWindow];
-      }
       refreshGridHandler(newSettlementWindowsList);
       setSnackBarParams({
         show: true, message: 'Close Window Successful!', variant: 'success', action: 'close',
