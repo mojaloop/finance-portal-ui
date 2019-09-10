@@ -124,7 +124,38 @@ jobs:
       - run:
           name: upload to helm repo
           command: cd helm && curl -u$DOCKER_USER:$DOCKER_PASS -T $CIRCLE_PROJECT_REPONAME-$CIRCLE_TAG.tgz "https://casablanca.jfrog.io/casablanca/helm/$CIRCLE_PROJECT_REPONAME-$CIRCLE_TAG.tgz"
-      
+  deploy_to_dev:
+    docker:
+      - image: circleci/python
+    steps:
+      - add_ssh_keys: # Add the deploy key for casa-backend-cm-dev.
+          fingerprints:
+            - "6c:49:a2:9f:75:60:ff:6f:2b:d5:83:80:a4:6d:b6:00"
+      - run:
+          name: trust-github-com
+          command: |
+            mkdir -p ~/.ssh/
+            echo 'github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
+      - run:
+          name: Clone casa-backend-cm-dev
+          command: |
+            git clone ssh://git@github.com/casablanca-project/casa-backend-cm-dev
+      - run:
+          name: Modify deployed chart version
+          command: |
+            sudo pip install yq
+            cd casa-backend-cm-dev
+            yq --yaml-output "(.dependencies[] | select(.name == \"$CIRCLE_PROJECT_REPONAME\") | .version) |= \"$CIRCLE_TAG\"" requirements.yaml > requirements.tmp.yaml
+            mv requirements.tmp.yaml requirements.yaml
+            git add requirements.yaml
+            git config --global user.name "casablanca-ci"
+            git config --global user.email "kamuela.franco@modusbox.com"
+            git commit -m "Automatic chart updated by $CIRCLE_PROJECT_REPONAME $CIRCLE_TAG"
+            # Tag cm-dev
+            git tag -a "$CIRCLE_SHA1-$CIRCLE_PROJECT_REPONAME-snapshot" -m "Tagged in CI by $CIRCLE_PROJECT_REPONAME tag: $CIRCLE_TAG"
+            # Push changes
+            git push --follow-tags
+
 workflows:
   version: 2
   test_docker_helm:
@@ -163,3 +194,12 @@ workflows:
               only: /v[0-9]+(\.[0-9]+)*/
             branches:
               ignore: /.*/
+      - deploy_to_dev:
+          context: org-global
+          requires:
+            - build_and_publish_helm
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/
+            branches:
+              ignore: /.*/        
