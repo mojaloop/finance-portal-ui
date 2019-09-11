@@ -20,7 +20,7 @@ import {
   validateTransferId, fetchTimeoutController,
 } from '../api';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
     width: '100%',
@@ -169,9 +169,9 @@ function TransferVerificationTab(props) {
               className={classes.textField}
               margin="normal"
               value={transferId}
-              onFocus={ev => ev.target.select()}
+              onFocus={(ev) => ev.target.select()}
               variant="outlined"
-              onChange={ev => setTransferId(ev.target.value)}
+              onChange={(ev) => setTransferId(ev.target.value)}
             />
             <Button
               variant="contained"
@@ -192,8 +192,7 @@ function TransferVerificationTab(props) {
             <TransferDetailsGrid transferDetails={transferDetails} classes={classes} />
           </Paper>
         </Grid>
-      )
-            }
+      )}
 
       <Snackbar
         anchorOrigin={{

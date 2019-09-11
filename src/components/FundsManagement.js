@@ -24,7 +24,7 @@ import ConfirmDialog from './ConfirmDialog';
 import '@reach/dialog/styles.css';
 
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -66,7 +66,7 @@ function AccountFundsManagement(props) {
         throw err;
       };
 
-      const f = res => ((res && res.transferStateId === transferCompleteState)
+      const f = (res) => ((res && res.transferStateId === transferCompleteState)
         ? res : sleep(500).then(() => getTransfer(transferId)).catch(ignore404));
 
       const transferState = await f({}).then(f).then(f).then(f)
@@ -113,8 +113,7 @@ function AccountFundsManagement(props) {
             actionFundsIn();
           }}
         />
-      )
-      }
+      )}
       <div>
         <TextField
           label="Amount"
@@ -122,14 +121,14 @@ function AccountFundsManagement(props) {
           margin="normal"
           id={fundsUIDGenerator('fundsManagement-amount')}
           value={fundsInAmount}
-          onFocus={ev => ev.target.select()}
+          onFocus={(ev) => ev.target.select()}
           InputProps={{
             inputComponent: CurrencyFormat,
             suffix: ` ${account.currency}`,
             inputProps: { suffix: ` ${account.currency}` },
           }}
           variant="outlined"
-          onChange={ev => setFundsIn(ev.target.value)}
+          onChange={(ev) => setFundsIn(ev.target.value)}
         />
         <Button
           variant="contained"
@@ -186,7 +185,7 @@ function FundsManagement(props) {
   useEffect(() => {
     const ftc = fetchTimeoutController();
     getAccounts(fspName, { ftc })
-      .then(fpsAccounts => setAccounts(fpsAccounts.filter(a => a.ledgerAccountType === 'SETTLEMENT')))
+      .then((fpsAccounts) => setAccounts(fpsAccounts.filter((a) => a.ledgerAccountType === 'SETTLEMENT')))
       .catch(ftc.ignoreAbort())
       .catch(() => window.alert('Failed to get accounts')); // eslint-disable-line
     // TODO: better error message, let user retry
@@ -194,7 +193,7 @@ function FundsManagement(props) {
   }, [fspName]);
 
   const updateAccount = (updatedAccount) => {
-    setAccounts([...accounts.filter(a => updatedAccount.id !== a.id), updatedAccount]);
+    setAccounts([...accounts.filter((a) => updatedAccount.id !== a.id), updatedAccount]);
     // TODO: what is the diff algorithm used? The following doesn't work..
     // const ix = accounts.findIndex(a => updatedAccount.id === a.id);
     // if (ix !== -1) {
@@ -247,7 +246,7 @@ function FundsManagement(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {accounts.sort((a, b) => a.currency.localeCompare(b.currency)).map(a => (
+          {accounts.sort((a, b) => a.currency.localeCompare(b.currency)).map((a) => (
             <TableRow key={a.id}>
               <TableCell>{a.id}</TableCell>
               <TableCell align="right">{a.currency}</TableCell>

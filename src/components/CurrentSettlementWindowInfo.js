@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import { useUIDSeed } from 'react-uid';
 
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -21,7 +21,7 @@ const styles = theme => ({
 function consolidateTransactionsByCurrency(transactions) {
   return transactions.reduce((totalPayments, payment) => {
     if (totalPayments.length > 0) {
-      const currencies = totalPayments.map(transaction => transaction.currencyId);
+      const currencies = totalPayments.map((transaction) => transaction.currencyId);
       if (currencies.includes(payment.currencyId)) {
         const currencyIndex = currencies.indexOf(payment.currencyId);
         totalPayments[currencyIndex].numTransactions // eslint-disable-line no-param-reassign

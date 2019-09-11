@@ -23,7 +23,7 @@ import TransferVerificationTab from './components/TransferVerificationTab';
 //       thing?)
 // TODO: consider a big "DEVELOPMENT MODE" header when in development mode
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,

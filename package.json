@@ -11,7 +11,7 @@
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-number-format": "^4.0.7",
-    "react-scripts": "2.1.4",
+    "react-scripts": "3.1.1",
     "react-uid": "^2.2.0"
   },
   "scripts": {
@@ -22,9 +22,6 @@
     "lint": "eslint --ignore-path ./.eslintignore ./src",
     "lint:fix": "eslint ./src --fix"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -32,11 +29,11 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "eslint": "^5.12.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.17.3",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.13.0",
-    "eslint-plugin-react-hooks": "^1.0.2"
+    "eslint": "6.1.0",
+    "eslint-config-airbnb": "18.0.1",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.14.3",
+    "eslint-plugin-react-hooks": "^1.7.0"
   }
 }

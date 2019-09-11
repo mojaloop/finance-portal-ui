@@ -15,7 +15,7 @@ import { getNetDebitCap, updateNetDebitCap, fetchTimeoutController } from '../ap
 import { CurrencyFormat } from './InputControl';
 
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -61,14 +61,14 @@ function AccountNDCManagement(props) {
         id={NDCUIDGenerator('ndcManagement-NDC')}
         margin="normal"
         value={newNDC}
-        onFocus={ev => ev.target.select()}
+        onFocus={(ev) => ev.target.select()}
         InputProps={{
           inputComponent: CurrencyFormat,
           suffix: ` ${account.currency}`,
           inputProps: { suffix: ` ${account.currency}` },
         }}
         variant="outlined"
-        onChange={ev => setNewNDC(ev.target.value)}
+        onChange={(ev) => setNewNDC(ev.target.value)}
       />
       <Button
         variant="contained"
@@ -107,7 +107,7 @@ function NDCManagement(props) {
   }, [fspName]);
 
   const updateAccount = (updatedAccount) => {
-    const newAccounts = [...accounts.filter(a => updatedAccount.id !== a.id), updatedAccount];
+    const newAccounts = [...accounts.filter((a) => updatedAccount.id !== a.id), updatedAccount];
     setAccounts(newAccounts);
   };
 
@@ -125,7 +125,7 @@ function NDCManagement(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {accounts.sort((a, b) => a.currency.localeCompare(b.currency)).map(a => (
+          {accounts.sort((a, b) => a.currency.localeCompare(b.currency)).map((a) => (
             <TableRow key={a.id}>
               <TableCell>{a.id}</TableCell>
               <TableCell align="right">{a.currency}</TableCell>

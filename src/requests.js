@@ -1,6 +1,3 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 // TODO: prevent any plaintext requests in production
 
 const util = require('util');
@@ -30,13 +27,12 @@ class HTTPResponseError extends Error {
   }
 }
 
-
 // Strip all beginning and end forward-slashes from each of the arguments, then join all the
 // stripped strings with a forward-slash between them. If the last string ended with a
 // forward-slash, append that to the result.
 const buildUrl = (...args) => args
-  .filter(e => e !== undefined)
-  .map(s => s.replace(/(^\/*|\/*$)/g, '')) /* This comment works around a problem with editor syntax highglighting */
+  .filter((e) => e !== undefined)
+  .map((s) => s.replace(/(^\/*|\/*$)/g, '')) /* This comment works around a problem with editor syntax highlighting */
   .join('/')
     + ((args[args.length - 1].slice(-1) === '/') ? '/' : '');
 
@@ -47,7 +43,6 @@ const throwOrJson = async (res, msg = 'HTTP request returned error response code
   }
   throw new HTTPResponseError({ msg, res, resp });
 };
-
 
 // This will only work if the server returns a content-disposition header value of 'attachment'
 function triggerDownload(path, { endpoint = defaultEndpoint } = {}) {
@@ -71,8 +66,8 @@ function fetchTimeoutController({ timeoutMs = 25000, controller = new AbortContr
   };
 }
 
-
-async function get(path, { endpoint = defaultEndpoint, logger = () => {}, ftc = fetchTimeoutController() } = {}) {
+async function get(path,
+  { endpoint = defaultEndpoint, logger = () => {}, ftc = fetchTimeoutController() } = {}) {
   try {
     const opts = {
       method: 'GET',
@@ -88,8 +83,8 @@ async function get(path, { endpoint = defaultEndpoint, logger = () => {}, ftc = 
   }
 }
 
-
-async function put(path, body, { endpoint = defaultEndpoint, logger = () => {}, ftc = fetchTimeoutController() } = {}) {
+async function put(path,
+  body, { endpoint = defaultEndpoint, logger = () => {}, ftc = fetchTimeoutController() } = {}) {
   try {
     const opts = {
       method: 'PUT',
@@ -106,8 +101,8 @@ async function put(path, body, { endpoint = defaultEndpoint, logger = () => {}, 
   }
 }
 
-
-async function post(path, body, { endpoint = defaultEndpoint, logger = () => {}, ftc = fetchTimeoutController() } = {}) {
+async function post(path,
+  body, { endpoint = defaultEndpoint, logger = () => {}, ftc = fetchTimeoutController() } = {}) {
   try {
     const opts = {
       method: 'POST',
@@ -128,7 +123,7 @@ function openInNewWindow(path, { endpoint = defaultEndpoint } = {}) {
   window.open(buildUrl(endpoint, path), '_blank');
 }
 
-async function downloadReport(path, { endpoint = defaultEndpoint, logger = () => {}, ftc = fetchTimeoutController() } = {}) {
+async function downloadReport(path, { endpoint = defaultEndpoint, logger = () => {} } = {}) {
   try {
     const opts = {
       method: 'GET',

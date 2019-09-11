@@ -55,20 +55,23 @@ jobs:
           fingerprints:
             - "3d:6c:86:87:ff:89:a2:b6:70:0b:fc:4f:66:09:d6:eb"
       - run:
-          name: trust-github-com
+          name: Trust GitHub.com
           command: echo -e -n '# github.com:22 SSH-2.0-babeld-93408c70\n|1|Hdu9jSY+Ci+49zq1qOzxnHUXZsk=|8/Nxz2QV6U2bQxlAEUvNAv/wbRQ= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==' >> ~/.ssh/known_hosts
       - run:
-          name: update-npm
-          command: 'sudo npm install -g npm@latest'
+          name: Install NPM Dependencies with Yarn
+          command: yarn install
       - run:
-          name: install-npm-dependencies
-          command: npm ci
+          name: Check Yarn Lockfile
+          command: yarn check --offline --integrity
       - run:
-          name: lint
-          command: npm run lint
+          name: Audit Dependencies with Yarn
+          command: yarn audit
       - run:
-          name: test
-          command: npm test
+          name: Lint Code
+          command: yarn lint
+      - run:
+          name: Run Unit Tests
+          command: yarn test
   build_docker:
     machine: true
     # <<: *default_env
@@ -124,6 +127,7 @@ jobs:
       - run:
           name: upload to helm repo
           command: cd helm && curl -u$DOCKER_USER:$DOCKER_PASS -T $CIRCLE_PROJECT_REPONAME-$CIRCLE_TAG.tgz "https://casablanca.jfrog.io/casablanca/helm/$CIRCLE_PROJECT_REPONAME-$CIRCLE_TAG.tgz"
+  
   deploy_to_dev:
     docker:
       - image: circleci/python
@@ -202,4 +206,4 @@ workflows:
             tags:
               only: /v[0-9]+(\.[0-9]+)*/
             branches:
-              ignore: /.*/        
+              ignore: /.*/

@@ -12,7 +12,7 @@ import {
   getDfsps, getEmailAddresses, updateEmailAddress, fetchTimeoutController,
 } from '../api';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -65,7 +65,7 @@ function AdminManagement(props) {
         margin="normal"
         value={newEmailAddress}
         variant="outlined"
-        onChange={ev => setNewEmailAddress(ev.target.value)}
+        onChange={(ev) => setNewEmailAddress(ev.target.value)}
       />
       <Button
         variant="contained"
@@ -128,7 +128,7 @@ function EmailList(props) {
 
   const updateEmailAddressAction = (updatedEmailAddress) => {
     const newEmailAddress = [...emailAddresses
-      .filter(a => updatedEmailAddress.type !== a.type), updatedEmailAddress];
+      .filter((a) => updatedEmailAddress.type !== a.type), updatedEmailAddress];
     setEmailAddresses(newEmailAddress);
   };
   // const emailUIDGenerator = useUIDSeed();
@@ -139,7 +139,7 @@ function EmailList(props) {
         if (a.type > b.type) return 1;
         if (b.type > a.type) return -1;
         return 0;
-      }).map(a => (
+      }).map((a) => (
         <EmailAddress
           key={a.type}
           emailAddress={a}
@@ -165,13 +165,13 @@ function AdminTab(props) {
       .then((dfsps) => {
         // Augment fspList with a map of ids -> names and vice-versa.
         dfsps.ids = Object.assign( // eslint-disable-line no-param-reassign
-          ...dfsps.map(fsp => ({ [fsp.id]: fsp.name })),
+          ...dfsps.map((fsp) => ({ [fsp.id]: fsp.name })),
         );
         // Note that names are guaranteed unique by the db. We assume here that the concept of
         // string uniqueness in mysql is no more strict than the concept of string uniqueness in
         // node
         dfsps.names = Object.assign( // eslint-disable-line no-param-reassign
-          ...dfsps.map(fsp => ({ [fsp.name]: fsp.id })),
+          ...dfsps.map((fsp) => ({ [fsp.name]: fsp.id })),
         );
         setFspList(dfsps);
       })
@@ -197,11 +197,9 @@ function AdminTab(props) {
                 <EmailList fsp={fspList.ids[selectedFsp]} classes={classes} />
               </Paper>
             </Grid>
-            )
-                  }
+            )}
           </Grid>
-          )
-            }
+          )}
     </div>
   );
 }

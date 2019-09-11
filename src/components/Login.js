@@ -7,7 +7,7 @@ import { useUIDSeed } from 'react-uid';
 import { post } from '../requests';
 
 
-const styles = theme => ({
+const styles = (theme) => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -66,7 +66,7 @@ function Login(props) {
         onKeyPress={keyPressValidation}
         value={username}
         variant="outlined"
-        onChange={ev => setUsername(ev.target.value)}
+        onChange={(ev) => setUsername(ev.target.value)}
       />
       <TextField
         id={loginIdGenerator('login-password')}
@@ -77,7 +77,7 @@ function Login(props) {
         onKeyPress={keyPressValidation}
         value={password}
         type="password"
-        onChange={ev => setPassword(ev.target.value)}
+        onChange={(ev) => setPassword(ev.target.value)}
       />
       <Button variant="contained" color="primary" disabled={busy} className={classes.button} onClick={attemptLogin} id={loginIdGenerator('login-btn')}>
         Login

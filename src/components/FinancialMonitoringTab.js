@@ -29,7 +29,7 @@ import {
   getParticipantIsActiveFlag, setParticipantIsActiveFlag, fetchTimeoutController,
 } from '../api';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
     width: '100%',
@@ -127,11 +127,9 @@ function FSPDetailsImpl(props) {
                 </Paper>
               </Grid>
             </Grid>
-            )
-          }
+            )}
         </>
-        )
-        }
+        )}
       {tab === 1 && previousSettlementWindow
         && (
         <Grid container spacing={24}>
@@ -146,8 +144,7 @@ function FSPDetailsImpl(props) {
             </Paper>
           </Grid>
         </Grid>
-        )
-        }
+        )}
       {tab === 2
         && (
         <Grid container spacing={24}>
@@ -165,8 +162,7 @@ function FSPDetailsImpl(props) {
                   />
                 </Paper>
               </Grid>
-            )
-                }
+            )}
           <Grid item md={12}>
             <Paper className={classes.paper}>
               <NDCManagement fspName={fsp.name} />
@@ -178,8 +174,7 @@ function FSPDetailsImpl(props) {
             </Paper>
           </Grid>
         </Grid>
-        )
-        }
+        )}
     </>
   );
 }
@@ -233,12 +228,12 @@ function FinancialMonitoringTab(props) {
           // dfsps.idFromName.
           // Augment fspList with a map of ids -> names and vice-versa.
           dfsps.ids = Object // eslint-disable-line
-            .assign(...dfsps.map(fsp => ({ [fsp.id]: fsp.name })));
+            .assign(...dfsps.map((fsp) => ({ [fsp.id]: fsp.name })));
           // Note that names are guaranteed unique by the db. We assume here that the concept of
           // string uniqueness in mysql is no more strict than the concept of string uniqueness in
           // node
           dfsps.names = Object // eslint-disable-line
-            .assign(...dfsps.map(fsp => ({ [fsp.name]: fsp.id })));
+            .assign(...dfsps.map((fsp) => ({ [fsp.name]: fsp.id })));
           setFspList(dfsps.sort((a, b) => a.id - b.id));
         })
         .catch((err) => {
@@ -281,7 +276,7 @@ function FinancialMonitoringTab(props) {
         <Paper className={classes.root}>
           <Table className={classes.table}>
             <TableBody>
-              {fspList.map(fsp => (
+              {fspList.map((fsp) => (
                 <Fragment key={fsp.id}>
                   <TableRow>
                     <TableCell component="th" scope="row" onClick={() => handleClickFsp(fsp)}>
@@ -299,15 +294,13 @@ function FinancialMonitoringTab(props) {
                         />
                       </TableCell>
                     </TableRow>
-                    )
-                                }
+                    )}
                 </Fragment>
               ))}
             </TableBody>
           </Table>
         </Paper>
-        )
-            }
+        )}
     </div>
   );
 }

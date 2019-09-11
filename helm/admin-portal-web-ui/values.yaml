@@ -4,7 +4,7 @@
 
 image:
   repository: casablanca-casa-docker-release.jfrog.io/admin-portal-web-ui
-  tag: v10.7.1
+  tag: n/a # This value will be overwritten by CI—don't bother changing it
   pullPolicy: Always
 
 service:

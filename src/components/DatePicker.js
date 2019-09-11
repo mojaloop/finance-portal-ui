@@ -11,12 +11,12 @@ import { truncateDate } from '../utils';
 // We deliberately lose some information (hh:mm:ss.ms) here. We're just not interested in sub-day
 // granularity.
 const dateToStr = (dt) => {
-  const pad = (s => (s.length > 1 ? s : `0${s}`));
+  const pad = ((s) => (s.length > 1 ? s : `0${s}`));
   return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate().toString())}`;
 };
 
 
-const styles = theme => ({
+const styles = (theme) => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -50,7 +50,7 @@ function DatePickerImpl(props) {
         InputLabelProps={{
           shrink: true,
         }}
-        onChange={ev => onChange(ev.target.value)}
+        onChange={(ev) => onChange(ev.target.value)}
       />
     </form>
   );
@@ -101,12 +101,12 @@ function DateRangePickerImpl(props) {
       <DatePicker
         defDate={fromDate}
         desc="From"
-        onChange={dt => updateDates(dt, toDate)}
+        onChange={(dt) => updateDates(dt, toDate)}
       />
       <DatePicker
         defDate={toDate}
         desc="To"
-        onChange={dt => updateDates(fromDate, dt)}
+        onChange={(dt) => updateDates(fromDate, dt)}
       />
     </Grid>
   );

@@ -10,7 +10,7 @@ function FSPSelector(props) {
 
   return (
     <List>
-      {fspList.sort((a, b) => a.id - b.id).map(fsp => (
+      {fspList.sort((a, b) => a.id - b.id).map((fsp) => (
         <ListItem
           key={fsp.id}
           button

@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { useUIDSeed } from 'react-uid';
 
 
-const DialogTitle = withStyles(theme => ({
+const DialogTitle = withStyles((theme) => ({
   root: {
     borderBottom: `1px solid ${theme.palette.divider}`,
     margin: 0,
@@ -36,14 +36,14 @@ const DialogTitle = withStyles(theme => ({
   );
 });
 
-const DialogContent = withStyles(theme => ({
+const DialogContent = withStyles((theme) => ({
   root: {
     margin: 0,
     padding: theme.spacing.unit * 2,
   },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles(theme => ({
+const DialogActions = withStyles((theme) => ({
   root: {
     borderTop: `1px solid ${theme.palette.divider}`,
     margin: 0,

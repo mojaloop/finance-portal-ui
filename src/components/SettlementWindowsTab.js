@@ -28,7 +28,7 @@ import {
 import { truncateDate } from '../utils';
 import { triggerDownload, downloadReport } from '../requests';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
     width: '100%',
@@ -115,7 +115,7 @@ function SettlementWindowsGrid(props) {
       let newSettlementWindowsList = settlementWindowsList;
       if (updatedSettlementWindow && updatedSettlementWindow.settlementWindowId) {
         newSettlementWindowsList = [...settlementWindowsList
-          .filter(a => updatedSettlementWindow
+          .filter((a) => updatedSettlementWindow
             .settlementWindowId !== a.settlementWindowId), updatedSettlementWindow];
       }
       refreshGridHandler(newSettlementWindowsList);
@@ -191,7 +191,8 @@ function SettlementWindowsGrid(props) {
           </TableHead>
           <TableBody>
             {settlementWindowsList.sort((a, b) => b.settlementWindowId - a.settlementWindowId)
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(settlementWindow => (
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((settlementWindow) => (
                 <TableRow key={settlementWindow.settlementWindowId}>
                   <TableCell component="th" scope="row">
                     <Button
@@ -311,8 +312,7 @@ function SettlementWindowsGrid(props) {
                 </Grid>
               </Grid>
             </Grid>
-            )
-          }
+            )}
 
           {settlementWindowDetails && settlementWindowDetails
             .participantAmount && settlementWindowDetails.participantAmount.length > 0
@@ -341,8 +341,7 @@ function SettlementWindowsGrid(props) {
                 </TableBody>
               </Table>
             </Grid>
-            )
-                }
+            )}
         </DialogContent>
         <DialogActions>
           {settlementWindowDetails && settlementWindowDetails
@@ -402,8 +401,7 @@ function SettlementWindowsGrid(props) {
                 </Button>
               </Grid>
             </Grid>
-            )
-                }
+            )}
           <Button
             onClick={handleClose}
             color="secondary"
@@ -435,8 +433,7 @@ function SettlementWindowsGrid(props) {
             <div>
               There are following additional settlement windows involved in this settlement
             </div>
-            )
-                }
+            )}
           {settlementWindowDetails && settlementWindowDetails
             .relatedSettlementWindows && settlementWindowDetails.relatedSettlementWindows.length > 0
             && (
@@ -458,8 +455,7 @@ function SettlementWindowsGrid(props) {
                 </TableBody>
               </Table>
             </Grid>
-            )
-                }
+            )}
         </DialogContent>
         <DialogActions>
           <Button
@@ -569,8 +565,7 @@ function SettlementWindowsTab(props) {
             </Paper>
           </Grid>
         </Grid>
-        )
-            }
+        )}
     </div>
   );
 }
