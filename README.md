@@ -1,5 +1,5 @@
 
-Build: [![CircleCI](https://circleci.com/gh/casablanca-project/admin-portal-web-ui/tree/master.svg?style=svg&circle-token=7d9bb237974b5ceafd7016a7590286ecda049699)](https://circleci.com/gh/casablanca-project/admin-portal-web-ui/tree/master)
+Build: [![CircleCI](https://circleci.com/gh/mojaloop/finance-portal-ui/tree/master.svg?style=svg)](https://circleci.com/gh/mojaloop/finance-portal-ui/tree/master)
 
 ## Build
 With the default version. Will be $COMMITHASH if there are no local changes, or $COMMITHASH-local
