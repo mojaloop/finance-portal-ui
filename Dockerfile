@@ -7,8 +7,8 @@ RUN npm install
 COPY ./public/ /build/public
 COPY ./src/ /build/src
 
-FROM nginx:alpine
-
 RUN npm run build
+
+FROM nginx:alpine
 COPY --from=builder /build/build /usr/share/nginx/html
 CMD nginx -g 'daemon off;'
