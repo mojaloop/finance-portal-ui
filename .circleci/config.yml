@@ -357,14 +357,6 @@ jobs:
       - run:
           <<: *defaults_build_docker_build_release
       - run:
-          <<: *defaults_license_scanner
-      - run:
-          name: Run the license-scanner
-          command: cd /tmp/license-scanner && mode=docker dockerImage=$DOCKER_ORG/$CIRCLE_PROJECT_REPONAME:$CIRCLE_TAG make run
-      - store_artifacts:
-          path: /tmp/license-scanner/results
-          prefix: licenses
-      - run:
           <<: *defaults_build_docker_publish
       - run:
           <<: *defaults_build_docker_publish_release
