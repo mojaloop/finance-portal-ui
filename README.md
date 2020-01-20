@@ -1,4 +1,3 @@
-
 Build: [![CircleCI](https://circleci.com/gh/mojaloop/finance-portal-ui/tree/master.svg?style=svg)](https://circleci.com/gh/mojaloop/finance-portal-ui/tree/master)
 
 ## Build
@@ -14,8 +13,8 @@ make build VER=whatever-you-want
 
 ## Run
 ### Containerised
-You'll need a running frontend-backend. See instructions for [admin-portal-web-ui-backend](
-https://github.com/casablanca-project/admin-portal-web-ui-backend#running-locally).
+You'll need a running frontend-backend. See instructions for [finance-portal-backend-service](
+https://github.com/mojaloop/finance-portal-backend-service#running-locally).
 
 Default port (3000):
 ```bash
@@ -27,8 +26,8 @@ make run LISTEN_PORT=3001
 ```
 
 ### Natively
-You'll need a running frontend-backend. See instructions for [admin-portal-web-ui-backend](
-https://github.com/casablanca-project/admin-portal-web-ui-backend#running-locally).
+You'll need a running frontend-backend. See instructions for [finance-portal-backend-service](
+https://github.com/mojaloop/finance-portal-backend-service#running-locally).
 ```bash
 npm install
 npm start
