@@ -15,7 +15,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { useUIDSeed } from 'react-uid';
-import { SnackbarContentWrapper } from './SnackbarUtils';
+import SnackbarContentWrapper from './SnackbarUtils';
 import FundsManagement from './FundsManagement';
 import PositionInfo from './PositionInfo';
 import NDCManagement from './NDCManagement';

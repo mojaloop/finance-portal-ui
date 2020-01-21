@@ -1,6 +1,3 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -8,8 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
-
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -19,7 +15,6 @@ const styles = theme => ({
     color: theme.palette.text.secondary,
   },
 });
-
 
 function PositionInfo(props) {
   const { classes, positions, settlementAccountBalance } = props;
@@ -34,7 +29,7 @@ function PositionInfo(props) {
         <Grid item md={3}>
           <Paper>Balance</Paper>
         </Grid>
-        {settlementAccountBalance.map(p => (
+        {settlementAccountBalance.map((p) => (
           <Grid container key={p.currency}>
             <Grid item md={3}><Paper>{p.currency}</Paper></Grid>
             <Grid item md={3}><Paper>{p.settlementBalance}</Paper></Grid>
@@ -55,14 +50,14 @@ function PositionInfo(props) {
         <Grid item md={3}>
           <Paper>Percentage of NDC Used</Paper>
         </Grid>
-        {positions.map(p => (
+        {positions.map((p) => (
           <Grid container key={p.participantLimitId}>
             <Grid item md={3}><Paper>{p.currency}</Paper></Grid>
             <Grid item md={3}><Paper>{p.position}</Paper></Grid>
             <Grid item md={3}><Paper>{p.limit}</Paper></Grid>
             <Grid item md={3}>
               <Paper>
-                {(100.0 * p.position / p.limit).toFixed(2)}
+                {((100.0 * p.position) / p.limit).toFixed(2)}
 %
               </Paper>
             </Grid>
@@ -74,8 +69,16 @@ function PositionInfo(props) {
 }
 
 PositionInfo.propTypes = {
-  positions: PropTypes.array.isRequired,
-  settlementAccountBalance: PropTypes.array.isRequired,
+  classes: PropTypes.objectOf({ root: PropTypes.string }).isRequired,
+  positions: PropTypes.arrayOf({
+    currency: PropTypes.string,
+    position: PropTypes.string,
+    limit: PropTypes.string,
+  }).isRequired,
+  settlementAccountBalance: PropTypes.arrayOf({
+    currency: PropTypes.string,
+    settlementBalance: PropTypes.string,
+  }).isRequired,
 };
 
 export default withStyles(styles)(PositionInfo);

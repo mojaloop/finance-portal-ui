@@ -14,7 +14,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
 import Snackbar from '@material-ui/core/Snackbar';
-import { SnackbarContentWrapper } from './SnackbarUtils';
+import SnackbarContentWrapper from './SnackbarUtils';
 
 import {
   validateTransferId, fetchTimeoutController,

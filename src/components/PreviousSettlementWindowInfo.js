@@ -1,6 +1,3 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -9,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -42,7 +39,7 @@ function PreviousSettlementWindowInfo(props) {
         <Grid item md={3}>
           <Paper>Amount</Paper>
         </Grid>
-        {Object.keys(payments).map(key => (
+        {Object.keys(payments).map((key) => (
           <Grid container justify="center" key={key}>
             <Grid item md={3}><Paper>{key}</Paper></Grid>
             <Grid item md={3}><Paper>{payments[key].num}</Paper></Grid>
@@ -61,7 +58,7 @@ function PreviousSettlementWindowInfo(props) {
         <Grid item md={3}>
           <Paper>Amount</Paper>
         </Grid>
-        {Object.keys(receipts).map(key => (
+        {Object.keys(receipts).map((key) => (
           <Grid container justify="center" key={key}>
             <Grid item md={3}><Paper>{key}</Paper></Grid>
             <Grid item md={3}><Paper>{receipts[key].num}</Paper></Grid>
@@ -77,7 +74,7 @@ function PreviousSettlementWindowInfo(props) {
         <Grid item md={3}>
           <Paper>Amount</Paper>
         </Grid>
-        {Object.keys(limits).map(key => (
+        {Object.keys(limits).map((key) => (
           <Grid container justify="center" key={key}>
             <Grid item md={3}><Paper>{key}</Paper></Grid>
             <Grid item md={3}><Paper>{limits[key].value}</Paper></Grid>
@@ -92,7 +89,7 @@ function PreviousSettlementWindowInfo(props) {
         <Grid item md={3}>
           <Paper>Amount</Paper>
         </Grid>
-        {netPositions.map(entry => (
+        {netPositions.map((entry) => (
           <Grid container justify="center" key={Object.keys(entry)[0]}>
             <Grid item md={3}><Paper>{Object.keys(entry)[0]}</Paper></Grid>
             <Grid item md={3}><Paper>{entry[Object.keys(entry)[0]]}</Paper></Grid>
@@ -104,7 +101,13 @@ function PreviousSettlementWindowInfo(props) {
 }
 
 PreviousSettlementWindowInfo.propTypes = {
-  previousSettlementWindow: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf({ root: PropTypes.string }).isRequired,
+  previousSettlementWindow: PropTypes.objectOf({
+    payments: PropTypes.array,
+    receipts: PropTypes.array,
+    limits: PropTypes.array,
+    netPositions: PropTypes.array,
+  }).isRequired,
 };
 
 export default withStyles(styles)(PreviousSettlementWindowInfo);

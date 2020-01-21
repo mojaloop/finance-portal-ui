@@ -1,11 +1,8 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 import {
   get, post, put, fetchTimeoutController,
 } from './requests';
 
-const stringifyDate = dt => (dt instanceof Date ? dt.toISOString() : dt);
+const stringifyDate = (dt) => (dt instanceof Date ? dt.toISOString() : dt);
 
 async function getPaymentFileList({ from, to }, requestOpts) {
   return get(`payment-file-list?fromDateTime=${stringifyDate(from)}&toDateTime=${stringifyDate(to)}`, requestOpts);
@@ -24,7 +21,7 @@ async function getCurrentWindow(participantId, requestOpts) {
 }
 
 async function getPreviousWindow(participantId, requestOpts) {
-  return get(`previous-window/${participantId}`);
+  return get(`previous-window/${participantId}`, requestOpts);
 }
 
 async function getDfsps(requestOpts) {
@@ -105,7 +102,7 @@ async function setParticipantIsActiveFlag(participantId, participantName, isActi
 async function commitSettlementWindow(settlementWindowId, {
   participants, settlementId, startDate, endDate,
 }, requestOpts) {
-    return put(`settlement-window-commit/${settlementWindowId}`, {
+  return put(`settlement-window-commit/${settlementWindowId}`, {
     participants, settlementId, startDate, endDate,
   }, requestOpts);
 }

@@ -1,6 +1,3 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -29,7 +26,7 @@ const actionIcon = {
   retry: RetryIcon,
 };
 
-const styles = theme => ({
+const styles = (theme) => ({
   success: {
     backgroundColor: green[600],
   },
@@ -57,7 +54,7 @@ const styles = theme => ({
 
 function SnackbarContentImpl(props) {
   const {
-    classes, className, message, onClose, variant, action = 'close', ...other
+    classes, className, message, onClose, variant, action, ...other
   } = props;
   const Icon = variantIcon[variant];
   const ActionIcon = actionIcon[action];
@@ -86,21 +83,28 @@ function SnackbarContentImpl(props) {
           <ActionIcon className={classes.icon} />
         </IconButton>,
       ]}
+      /* eslint-disable-next-line react/jsx-props-no-spreading */
       {...other}
     />
   );
 }
 
 SnackbarContentImpl.propTypes = {
-  classes: PropTypes.object.isRequired,
+  action: PropTypes.string,
+  classes: PropTypes.objectOf({}).isRequired,
   className: PropTypes.string,
   message: PropTypes.node,
   onClose: PropTypes.func,
   variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
 };
 
+SnackbarContentImpl.defaultProps = {
+  action: 'close',
+  className: '',
+  message: '',
+  onClose: () => {},
+};
+
 const SnackbarContentWrapper = withStyles(styles)(SnackbarContentImpl);
 
-export {
-  SnackbarContentWrapper,
-};
+export default SnackbarContentWrapper;

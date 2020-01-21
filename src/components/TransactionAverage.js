@@ -1,6 +1,3 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
@@ -12,9 +9,9 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { DateRangePicker } from './DatePicker';
 import { getHistoricalData, fetchTimeoutController } from '../api';
 import { truncateDate } from '../utils';
-import { SnackbarContentWrapper } from './SnackbarUtils';
+import SnackbarContentWrapper from './SnackbarUtils';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -67,8 +64,7 @@ function TransactionAverageList(props) {
               </Grid>
             </Grid>
           </Paper>
-        ))
-        }
+        ))}
     </>
   );
 }
@@ -96,9 +92,9 @@ function TransactionAverage(props) {
   useEffect(() => {
     const ftc = fetchTimeoutController();
     getHistoricalData(fsp.name, dates, { ftc })
-      .then(data => setAverages(data.average))
+      .then((data) => setAverages(data.average))
       .catch(ftc.ignoreAbort())
-      .catch((err) => {
+      .catch(() => {
         setAverages({});
         setSnackBarParams({
           show: true, message: 'Failed to get averages!', variant: 'error', action: 'close',
@@ -133,15 +129,18 @@ function TransactionAverage(props) {
           <DateRangePicker defStartDate={dates.from} defEndDate={dates.to} onChange={setDates} />
           <TransactionAverageList averages={averages} />
         </>
-        )
-        }
+        )}
     </>
   );
 }
 
+TransactionAverageList.propTypes = {
+  averages: PropTypes.arrayOf({}).isRequired,
+};
+
 TransactionAverage.propTypes = {
-  fsp: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired,
+  fsp: PropTypes.objectOf({}).isRequired,
+  classes: PropTypes.objectOf({ margin: PropTypes.string }).isRequired,
 };
 
 export default withStyles(styles)(TransactionAverage);
