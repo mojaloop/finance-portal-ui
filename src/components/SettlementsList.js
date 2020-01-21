@@ -58,7 +58,10 @@ function SettlementsList(props) {
     getSettlements(fsp, dates, { ftc })
       .then(setSettlements)
       .catch(ftc.ignoreAbort())
-      .catch(() => window.alert('Failed to get settlement list')); // TODO: better error message, let user retry
+      .catch((error) => {
+        console.log('Failed to get settlement list', error);
+        window.alert('Failed to get settlement list');
+      }); // TODO: better error message, let user retry
     return ftc.abortFn;
   }, [dates]);
 
