@@ -1,6 +1,3 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -9,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -34,7 +31,7 @@ function PositionInfo(props) {
         <Grid item md={3}>
           <Paper>Balance</Paper>
         </Grid>
-        {settlementAccountBalance.map(p => (
+        {settlementAccountBalance.map((p) => (
           <Grid container key={p.currency}>
             <Grid item md={3}><Paper>{p.currency}</Paper></Grid>
             <Grid item md={3}><Paper>{p.settlementBalance}</Paper></Grid>
@@ -55,7 +52,7 @@ function PositionInfo(props) {
         <Grid item md={3}>
           <Paper>Percentage of NDC Used</Paper>
         </Grid>
-        {positions.map(p => (
+        {positions.map((p) => (
           <Grid container key={p.participantLimitId}>
             <Grid item md={3}><Paper>{p.currency}</Paper></Grid>
             <Grid item md={3}><Paper>{p.position}</Paper></Grid>

@@ -1,6 +1,3 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
@@ -14,7 +11,7 @@ import { getHistoricalData, fetchTimeoutController } from '../api';
 import { truncateDate } from '../utils';
 import { SnackbarContentWrapper } from './SnackbarUtils';
 
-const styles = theme => ({
+const styles = (theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -67,8 +64,7 @@ function TransactionAverageList(props) {
               </Grid>
             </Grid>
           </Paper>
-        ))
-        }
+        ))}
     </>
   );
 }
@@ -96,7 +92,7 @@ function TransactionAverage(props) {
   useEffect(() => {
     const ftc = fetchTimeoutController();
     getHistoricalData(fsp.name, dates, { ftc })
-      .then(data => setAverages(data.average))
+      .then((data) => setAverages(data.average))
       .catch(ftc.ignoreAbort())
       .catch((err) => {
         setAverages({});
@@ -133,8 +129,7 @@ function TransactionAverage(props) {
           <DateRangePicker defStartDate={dates.from} defEndDate={dates.to} onChange={setDates} />
           <TransactionAverageList averages={averages} />
         </>
-        )
-        }
+        )}
     </>
   );
 }

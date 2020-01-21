@@ -1,6 +1,3 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
@@ -21,12 +18,12 @@ function SettlementsListList(props) {
   const { fspNamesById, settlements } = props;
   // const returnSmallerDate = (pv, dt) => Math.min(new Date(dt.createdDate).getTime(), pv);
   // const settlementStart = settlements.reduce((pv, s) => Math.min(pv, s.settlementWindows.reduce(returnSmallerDate, Infinity)), Infinity);
-  const participantInfo = p => `${fspNamesById[p.id]} ${p.accounts.map(a => a.netSettlementAmount.amount + a.netSettlementAmount.currency)}`;
+  const participantInfo = (p) => `${fspNamesById[p.id]} ${p.accounts.map((a) => a.netSettlementAmount.amount + a.netSettlementAmount.currency)}`;
   return (
     <>
       {settlements.length === 0 ? 'No settlements found' : (
         <List>
-          {settlements.map(settlement => (
+          {settlements.map((settlement) => (
             <ListItem key={settlement.id}>
               <ListItemText>
 [
@@ -59,7 +56,7 @@ function SettlementsList(props) {
     getSettlements(fsp, dates, { ftc })
       .then(setSettlements)
       .catch(ftc.ignoreAbort())
-      .catch(err => window.alert('Failed to get settlement list')); // TODO: better error message, let user retry
+      .catch((err) => window.alert('Failed to get settlement list')); // TODO: better error message, let user retry
     return ftc.abortFn;
   }, [dates]);
 

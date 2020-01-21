@@ -1,6 +1,3 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -11,7 +8,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import IconButton from '@material-ui/core/IconButton';
 
-const actionsStyles = theme => ({
+const actionsStyles = (theme) => ({
   root: {
     flexShrink: 0,
     color: theme.palette.text.secondary,
