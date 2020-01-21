@@ -12,7 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import { useUIDSeed } from 'react-uid';
 
 import { getNetDebitCap, updateNetDebitCap, fetchTimeoutController } from '../api';
-import { CurrencyFormat } from './InputControl';
+import CurrencyFormat from './CurrencyFormat';
 
 
 const styles = (theme) => ({

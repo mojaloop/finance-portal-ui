@@ -1,14 +1,12 @@
-/* eslint-disable */
-// TODO: Remove previous line and work through linting issues at next edit
-
 import React from 'react';
+import PropTypes from 'prop-types';
 import NumberFormat from 'react-number-format';
 
 function CurrencyFormat(props) {
   const { inputRef, onChange, ...other } = props;
-
   return (
     <NumberFormat
+      /* eslint-disable-next-line react/jsx-props-no-spreading */
       {...other}
       getInputRef={inputRef}
       onValueChange={(values) => {
@@ -26,6 +24,11 @@ function CurrencyFormat(props) {
   );
 }
 
-export {
-  CurrencyFormat,
+CurrencyFormat.propTypes = {
+  inputRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) })]).isRequired,
+  onChange: PropTypes.func.isRequired,
 };
+
+export default CurrencyFormat;

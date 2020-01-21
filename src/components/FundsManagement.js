@@ -19,7 +19,7 @@ import {
   fetchTimeoutController, getTransfer,
 } from '../api';
 import { HTTPResponseError } from '../requests';
-import { CurrencyFormat } from './InputControl';
+import CurrencyFormat from './CurrencyFormat';
 import ConfirmDialog from './ConfirmDialog';
 import '@reach/dialog/styles.css';
 
