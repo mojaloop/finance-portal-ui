@@ -139,7 +139,7 @@ TransactionAverageList.propTypes = {
 };
 
 TransactionAverage.propTypes = {
-  fsp: PropTypes.objectof({}).isRequired,
+  fsp: PropTypes.objectOf({}).isRequired,
   classes: PropTypes.objectOf({ margin: PropTypes.string }).isRequired,
 };
 
