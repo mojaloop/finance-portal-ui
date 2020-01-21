@@ -95,7 +95,7 @@ function TransactionAverage(props) {
       .then((data) => setAverages(data.average))
       .catch(ftc.ignoreAbort())
       .catch((error) => {
-        console.log('Failed to get averages', error);
+        console.error('Failed to get averages', error);
         setAverages({});
         setSnackBarParams({
           show: true, message: 'Failed to get averages!', variant: 'error', action: 'close',

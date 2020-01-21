@@ -59,7 +59,7 @@ function SettlementsList(props) {
       .then(setSettlements)
       .catch(ftc.ignoreAbort())
       .catch((error) => {
-        console.log('Failed to get settlement list', error);
+        console.error('Failed to get settlement list', error);
         window.alert('Failed to get settlement list');
       }); // TODO: better error message, let user retry
     return ftc.abortFn;
