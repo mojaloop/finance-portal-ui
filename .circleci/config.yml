@@ -184,7 +184,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - dependency-cache-{{ checksum "package-lock.json" }}
+            - dependency-cache-{{ checksum "package.json" }}
       - run:
           name: Execute linting pass
           command: npm run lint
