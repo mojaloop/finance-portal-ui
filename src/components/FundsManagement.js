@@ -11,7 +11,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { useUIDSeed } from 'react-uid';
-import { SnackbarContentWrapper } from './SnackbarUtils';
+import SnackbarContentWrapper from './SnackbarUtils';
 
 import { sleep } from '../utils';
 import {

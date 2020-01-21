@@ -101,7 +101,13 @@ function PreviousSettlementWindowInfo(props) {
 }
 
 PreviousSettlementWindowInfo.propTypes = {
-  previousSettlementWindow: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf({ root: PropTypes.string }).isRequired,
+  previousSettlementWindow: PropTypes.objectOf({
+    payments: PropTypes.array,
+    receipts: PropTypes.array,
+    limits: PropTypes.array,
+    netPositions: PropTypes.array,
+  }).isRequired,
 };
 
 export default withStyles(styles)(PreviousSettlementWindowInfo);

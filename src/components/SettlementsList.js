@@ -17,7 +17,9 @@ function SettlementsListList(props) {
   // Currency
   const { fspNamesById, settlements } = props;
   // const returnSmallerDate = (pv, dt) => Math.min(new Date(dt.createdDate).getTime(), pv);
-  // const settlementStart = settlements.reduce((pv, s) => Math.min(pv, s.settlementWindows.reduce(returnSmallerDate, Infinity)), Infinity);
+  // const settlementStart = settlements
+  //   .reduce((pv, s) => Math.min(pv, s.settlementWindows
+  //     .reduce(returnSmallerDate, Infinity)), Infinity);
   const participantInfo = (p) => `${fspNamesById[p.id]} ${p.accounts.map((a) => a.netSettlementAmount.amount + a.netSettlementAmount.currency)}`;
   return (
     <>
@@ -56,7 +58,7 @@ function SettlementsList(props) {
     getSettlements(fsp, dates, { ftc })
       .then(setSettlements)
       .catch(ftc.ignoreAbort())
-      .catch((err) => window.alert('Failed to get settlement list')); // TODO: better error message, let user retry
+      .catch(() => window.alert('Failed to get settlement list')); // TODO: better error message, let user retry
     return ftc.abortFn;
   }, [dates]);
 
@@ -69,8 +71,17 @@ function SettlementsList(props) {
   );
 }
 
+SettlementsListList.propTypes = {
+  fspNamesById: PropTypes.objectof({ id: PropTypes.string }).isRequired,
+  settlements: PropTypes.arrayOf({
+    id: PropTypes.string,
+    state: PropTypes.string,
+    participants: PropTypes.array,
+  }).isRequired,
+};
+
 SettlementsList.propTypes = {
-  fspNamesById: PropTypes.object.isRequired,
+  fspNamesById: PropTypes.objectOf({ id: PropTypes.String }).isRequired,
   fsp: PropTypes.number.isRequired,
 };
 

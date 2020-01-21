@@ -76,18 +76,20 @@ function TablePaginationActions(props) {
 }
 
 TablePaginationActions.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.objectOf({ root: PropTypes.string }).isRequired,
   count: PropTypes.number.isRequired,
   onChangePage: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
-  theme: PropTypes.object.isRequired,
+  theme: PropTypes.objectOf({
+    direction: PropTypes.string,
+    palette: PropTypes.object,
+    spacing: PropTypes.object,
+  }).isRequired,
 };
 
 const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: true })(
   TablePaginationActions,
 );
 
-export {
-  TablePaginationActionsWrapped,
-};
+export default TablePaginationActionsWrapped;

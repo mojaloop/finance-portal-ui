@@ -9,7 +9,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { DateRangePicker } from './DatePicker';
 import { getHistoricalData, fetchTimeoutController } from '../api';
 import { truncateDate } from '../utils';
-import { SnackbarContentWrapper } from './SnackbarUtils';
+import SnackbarContentWrapper from './SnackbarUtils';
 
 const styles = (theme) => ({
   root: {
@@ -94,7 +94,7 @@ function TransactionAverage(props) {
     getHistoricalData(fsp.name, dates, { ftc })
       .then((data) => setAverages(data.average))
       .catch(ftc.ignoreAbort())
-      .catch((err) => {
+      .catch(() => {
         setAverages({});
         setSnackBarParams({
           show: true, message: 'Failed to get averages!', variant: 'error', action: 'close',
@@ -134,9 +134,13 @@ function TransactionAverage(props) {
   );
 }
 
+TransactionAverageList.propTypes = {
+  averages: PropTypes.arrayOf({}).isRequired,
+};
+
 TransactionAverage.propTypes = {
-  fsp: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired,
+  fsp: PropTypes.objectof({}).isRequired,
+  classes: PropTypes.objectOf({ margin: PropTypes.string }).isRequired,
 };
 
 export default withStyles(styles)(TransactionAverage);
