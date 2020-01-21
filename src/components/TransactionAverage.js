@@ -94,7 +94,8 @@ function TransactionAverage(props) {
     getHistoricalData(fsp.name, dates, { ftc })
       .then((data) => setAverages(data.average))
       .catch(ftc.ignoreAbort())
-      .catch(() => {
+      .catch((error) => {
+        console.error('Failed to get averages', error);
         setAverages({});
         setSnackBarParams({
           show: true, message: 'Failed to get averages!', variant: 'error', action: 'close',
