@@ -112,7 +112,6 @@ function EmailAddress(props) {
   );
 }
 
-
 function EmailList(props) {
   const { fsp, classes } = props;
   const [emailAddresses, setEmailAddresses] = useState([]);
@@ -226,6 +225,5 @@ EmailAddress.propTypes = {
 AdminTab.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
-
 
 export default withStyles(styles)(AdminTab);

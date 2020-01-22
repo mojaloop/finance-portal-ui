@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
@@ -14,7 +13,6 @@ const dateToStr = (dt) => {
   const pad = ((s) => (s.length > 1 ? s : `0${s}`));
   return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate().toString())}`;
 };
-
 
 const styles = (theme) => ({
   container: {
@@ -30,7 +28,6 @@ const styles = (theme) => ({
     width: '60%',
   },
 });
-
 
 function DatePickerImpl(props) {
   const {

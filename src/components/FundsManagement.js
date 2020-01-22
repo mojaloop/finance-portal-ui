@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -11,8 +10,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { useUIDSeed } from 'react-uid';
-import SnackbarContentWrapper from './SnackbarUtils';
 
+import SnackbarContentWrapper from './SnackbarUtils';
 import { sleep } from '../utils';
 import {
   getAccounts, getParticipantAccountById, processFundsIn, processFundsOut,
@@ -22,7 +21,6 @@ import { HTTPResponseError } from '../requests';
 import CurrencyFormat from './CurrencyFormat';
 import ConfirmDialog from './ConfirmDialog';
 import '@reach/dialog/styles.css';
-
 
 const styles = (theme) => ({
   root: {
@@ -38,7 +36,6 @@ const styles = (theme) => ({
     display: 'none',
   },
 });
-
 
 // Handles funds in and funds out requests
 function AccountFundsManagement(props) {
@@ -288,5 +285,3 @@ FundsManagement.propTypes = {
 };
 
 export default withStyles(styles)(FundsManagement);
-
-// vim: ts=2:sw=2:expandtab

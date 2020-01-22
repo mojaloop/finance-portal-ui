@@ -10,17 +10,16 @@ import TableHead from '@material-ui/core/TableHead';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { useUIDSeed } from 'react-uid';
-
 import Dialog from '@material-ui/core/Dialog';
 import TableFooter from '@material-ui/core/TableFooter';
 import TablePagination from '@material-ui/core/TablePagination';
 import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
+
 import { DialogTitle, DialogContent, DialogActions } from './DialogUtils';
 import TablePaginationActionsWrapped from './TablePaginationActions';
 import { DateRangePicker } from './DatePicker';
 import SnackbarContentWrapper from './SnackbarUtils';
-
 import {
   getSettlementWindows, getSettlementWindowInfo, commitSettlementWindow,
   closeSettlementWindow, fetchTimeoutController,
@@ -55,7 +54,6 @@ const styles = (theme) => ({
     minWidth: 200,
   },
 });
-
 
 function SettlementWindowsGrid(props) {
   const {

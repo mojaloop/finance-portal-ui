@@ -8,7 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import { useUIDSeed } from 'react-uid';
 
-
 const DialogTitle = withStyles((theme) => ({
   root: {
     borderBottom: `1px solid ${theme.palette.divider}`,

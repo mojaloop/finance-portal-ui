@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-// TODO: export all components from components directory in an index.js, then import them all here
-// in a single statement
 import Snackbar from '@material-ui/core/Snackbar';
 import Switch from '@material-ui/core/Switch';
 import Table from '@material-ui/core/Table';
@@ -15,6 +13,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { useUIDSeed } from 'react-uid';
+
 import SnackbarContentWrapper from './SnackbarUtils';
 import FundsManagement from './FundsManagement';
 import PositionInfo from './PositionInfo';

@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { useUIDSeed } from 'react-uid';
-
 
 const styles = (theme) => ({
   root: {
@@ -37,7 +35,6 @@ function consolidateTransactionsByCurrency(transactions) {
     return totalPayments.concat(payment);
   }, []);
 }
-
 
 function CurrentSettlementWindowInfo(props) {
   const { classes, currentSettlementWindow: { payments, receipts } } = props;
