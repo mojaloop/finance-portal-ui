@@ -68,7 +68,7 @@ function PositionInfo(props) {
 }
 
 PositionInfo.propTypes = {
-  classes: PropTypes.objectOf({ root: PropTypes.string }).isRequired,
+  classes: PropTypes.shape({ root: PropTypes.string }).isRequired,
   positions: PropTypes.arrayOf({
     currency: PropTypes.string,
     position: PropTypes.string,
