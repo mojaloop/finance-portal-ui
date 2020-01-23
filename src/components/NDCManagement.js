@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -13,7 +12,6 @@ import { useUIDSeed } from 'react-uid';
 
 import { getNetDebitCap, updateNetDebitCap, fetchTimeoutController } from '../api';
 import CurrencyFormat from './CurrencyFormat';
-
 
 const styles = (theme) => ({
   root: {
@@ -29,7 +27,6 @@ const styles = (theme) => ({
     display: 'none',
   },
 });
-
 
 function AccountNDCManagement(props) {
   const {
@@ -90,7 +87,6 @@ AccountNDCManagement.propTypes = {
   fspName: PropTypes.string.isRequired,
   account: PropTypes.objectOf(PropTypes.shape).isRequired,
 };
-
 
 function NDCManagement(props) {
   const { fspName, classes } = props;

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -69,7 +68,7 @@ function PositionInfo(props) {
 }
 
 PositionInfo.propTypes = {
-  classes: PropTypes.objectOf({ root: PropTypes.string }).isRequired,
+  classes: PropTypes.shape({ root: PropTypes.string }).isRequired,
   positions: PropTypes.arrayOf({
     currency: PropTypes.string,
     position: PropTypes.string,

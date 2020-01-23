@@ -2,7 +2,7 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import { Dialog } from '@reach/dialog';
 
-export default function ConfirmDialog(props) {
+function ConfirmDialog(props) {
   const {
     children,
     title,
@@ -37,4 +37,4 @@ ConfirmDialog.defaultProps = {
   onReject: () => {},
 };
 
-// vim: ts=2:sw=2:expandtab
+export default ConfirmDialog;

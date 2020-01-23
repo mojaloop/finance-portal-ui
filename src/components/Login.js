@@ -4,8 +4,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { withStyles } from '@material-ui/core/styles';
 import { useUIDSeed } from 'react-uid';
-import { post } from '../requests';
 
+import { post } from '../requests';
 
 const styles = (theme) => ({
   container: {

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-
 import Snackbar from '@material-ui/core/Snackbar';
+
 import { DateRangePicker } from './DatePicker';
 import { getHistoricalData, fetchTimeoutController } from '../api';
 import { truncateDate } from '../utils';
@@ -24,7 +23,6 @@ const styles = (theme) => ({
     color: theme.palette.text.secondary,
   },
 });
-
 
 function TransactionAverageList(props) {
   const { averages } = props;

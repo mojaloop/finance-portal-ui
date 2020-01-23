@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
@@ -15,7 +14,6 @@ const actionsStyles = (theme) => ({
     marginLeft: theme.spacing.unit * 2.5,
   },
 });
-
 
 function TablePaginationActions(props) {
   const {
@@ -76,12 +74,12 @@ function TablePaginationActions(props) {
 }
 
 TablePaginationActions.propTypes = {
-  classes: PropTypes.objectOf({ root: PropTypes.string }).isRequired,
+  classes: PropTypes.shape({ root: PropTypes.string }).isRequired,
   count: PropTypes.number.isRequired,
   onChangePage: PropTypes.func.isRequired,
   page: PropTypes.number.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
-  theme: PropTypes.objectOf({
+  theme: PropTypes.shape({
     direction: PropTypes.string,
     palette: PropTypes.object,
     spacing: PropTypes.object,
