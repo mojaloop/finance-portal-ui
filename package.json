@@ -22,7 +22,9 @@
     "test:watch": "react-scripts test --watchAll=true",
     "eject": "react-scripts eject",
     "lint": "eslint --ignore-path ./.eslintignore ./src",
-    "lint:fix": "eslint ./src --fix"
+    "lint:fix": "eslint ./src --fix",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "browserslist": [
     ">0.2%",
@@ -31,6 +33,11 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@storybook/addon-actions": "^5.3.8",
+    "@storybook/addon-links": "^5.3.8",
+    "@storybook/addons": "^5.3.8",
+    "@storybook/preset-create-react-app": "^1.5.2",
+    "@storybook/react": "^5.3.8",
     "@testing-library/react": "^9.4.0",
     "eslint": "^6.1.0",
     "eslint-config-airbnb": "^18.0.1",
