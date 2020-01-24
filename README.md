@@ -35,11 +35,10 @@ npm start
 
 ## Develop
 ### With Storybook
-[Storybook](https://storybook.js.org) has been integrated to aid UI-focused development efforts. Storybook renders a single component in a browser environment with mocked data to accelerate UI development. Get started with
+[Storybook](https://storybook.js.org) has been integrated with this project. Storybook renders a single component in a browser environment with mocked data to accelerate UI development. Get started with the command below:
 ```bash
 npm run storybook
 ```
-to get started.
 
 ## TODO
 * Read a little more nginx documentation, consider creating a proper nginx config, because
