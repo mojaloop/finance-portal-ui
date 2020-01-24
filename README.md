@@ -35,7 +35,7 @@ npm start
 
 ## Develop
 ### With Storybook
-[Storybook](https://storybook.js.org) has been integrated to aid UI-focused development efforts. Simply use
+[Storybook](https://storybook.js.org) has been integrated to aid UI-focused development efforts. Storybook renders a single component in a browser environment with mocked data to accelerate UI development. Get started with
 ```bash
 npm run storybook
 ```
