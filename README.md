@@ -33,6 +33,14 @@ npm install
 npm start
 ```
 
+## Develop
+### With Storybook
+[Storybook](https://storybook.js.org) has been integrated to aid UI-focused development efforts. Simply use
+```bash
+npm run storybook
+```
+to get started.
+
 ## TODO
 * Read a little more nginx documentation, consider creating a proper nginx config, because
   * Support client-side routing using browser pushState API
