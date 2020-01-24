@@ -93,6 +93,7 @@ function TransactionAverage(props) {
       .then((data) => setAverages(data.average))
       .catch(ftc.ignoreAbort())
       .catch((error) => {
+        // eslint-disable-next-line no-console
         console.error('Failed to get averages', error);
         setAverages({});
         setSnackBarParams({
