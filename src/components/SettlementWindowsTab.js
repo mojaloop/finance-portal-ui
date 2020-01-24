@@ -18,7 +18,7 @@ import Typography from '@material-ui/core/Typography';
 
 import { DialogTitle, DialogContent, DialogActions } from './DialogUtils';
 import TablePaginationActionsWrapped from './TablePaginationActions';
-import { DateRangePicker } from './DatePicker';
+import DateRangePicker from './DateRangePicker';
 import SnackbarContentWrapper from './SnackbarUtils';
 import {
   getSettlementWindows, getSettlementWindowInfo, commitSettlementWindow,

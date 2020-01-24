@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Snackbar from '@material-ui/core/Snackbar';
 
-import { DateRangePicker } from './DatePicker';
+import DateRangePicker from './DateRangePicker';
 import { getHistoricalData, fetchTimeoutController } from '../api';
 import { truncateDate } from '../utils';
 import SnackbarContentWrapper from './SnackbarUtils';
