@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Snackbar from '@material-ui/core/Snackbar';
 
-import { DateRangePicker } from './DatePicker';
+import DateRangePicker from './DateRangePicker';
 import { getHistoricalData, fetchTimeoutController } from '../api';
 import { truncateDate } from '../utils';
 import SnackbarContentWrapper from './SnackbarUtils';
@@ -93,6 +93,7 @@ function TransactionAverage(props) {
       .then((data) => setAverages(data.average))
       .catch(ftc.ignoreAbort())
       .catch((error) => {
+        // eslint-disable-next-line no-console
         console.error('Failed to get averages', error);
         setAverages({});
         setSnackBarParams({

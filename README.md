@@ -33,12 +33,19 @@ npm install
 npm start
 ```
 
+## Develop
+### With Storybook
+[Storybook](https://storybook.js.org) has been integrated with this project. Storybook renders a single component in a browser environment with mocked data to accelerate UI development. Get started with the command below:
+```bash
+npm run storybook
+```
+
 ## TODO
 * Read a little more nginx documentation, consider creating a proper nginx config, because
   * Support client-side routing using browser pushState API
   * Customise logging
   * Support compression of (especially) responses
-* Lint in circle CI- fail on bad lint
+* ~~Lint in circle CI- fail on bad lint~~ ✅
 * Currently getting the FSP list in two places in the UI, FundsManagementTab and SettlementsTab. We
     should use the [Context API](https://reactjs.org/docs/context.html) or just get the FSP list at
     a higher level in the app. Or, can we pass the selector component around? Is that
@@ -66,8 +73,8 @@ npm start
     'token=trash')
 * Make sure when an item is selected in a list, it shows as selected
 * Properly handle all request failures, including timeouts
-* Big lint branch to apply all lint fixes
-* eslint-plugin-jsx-a11y
+* ~~Big lint branch to apply all lint fixes~~ ✅
+* ~~eslint-plugin-jsx-a11y~~ ✅
 * Add a reload/refresh button to the DateRangePicker?
 
 # Create-React-App default README follows

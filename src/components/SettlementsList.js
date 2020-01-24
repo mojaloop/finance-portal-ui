@@ -4,7 +4,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-import { DateRangePicker } from './DatePicker';
+import DateRangePicker from './DateRangePicker';
 import { getSettlements, fetchTimeoutController } from '../api';
 import { truncateDate } from '../utils';
 
@@ -57,7 +57,9 @@ function SettlementsList(props) {
       .then(setSettlements)
       .catch(ftc.ignoreAbort())
       .catch((error) => {
+        // eslint-disable-next-line no-console
         console.error('Failed to get settlement list', error);
+        // eslint-disable-next-line no-alert
         window.alert('Failed to get settlement list');
       }); // TODO: better error message, let user retry
     return ftc.abortFn;
