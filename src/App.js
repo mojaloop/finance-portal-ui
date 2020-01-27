@@ -7,14 +7,13 @@ import { withStyles } from '@material-ui/core/styles';
 import { Button, Toolbar } from '@material-ui/core';
 
 import './App.css';
+import * as userUtils from './user';
 import Login from './components/Login';
 import AdminTab from './components/AdminTab';
 import FinancialMonitoringTab from './components/FinancialMonitoringTab';
-import {
-  getUserInfo, logout, setUserInfo,
-} from './user';
 import SettlementWindowsTab from './components/SettlementWindowsTab';
 import TransferVerificationTab from './components/TransferVerificationTab';
+import ForexRatesTab from './components/ForexRatesTab';
 
 // TODO: consider adding an error boundary?
 //       https://reactjs.org/docs/error-boundaries.html
@@ -33,7 +32,9 @@ const styles = (theme) => ({
 });
 
 function App(props) {
-  const { classes } = props;
+  const {
+    classes, getUserInfo, logout, setUserInfo, storybookMode,
+  } = props;
   const [user, setUser] = useState(getUserInfo());
   const [tab, setTab] = useState(0);
 
@@ -43,6 +44,9 @@ function App(props) {
   };
 
   const processLogout = async () => {
+    if (storybookMode) {
+      return;
+    }
     await logout(); // await because the response will change/clear the cookie
     window.location = '/';
   };
@@ -53,19 +57,27 @@ function App(props) {
         <>
           <AppBar position="static">
             <Toolbar>
-              <Tabs value={tab} onChange={(_, val) => setTab(val)} className={classes.grow}>
+              <Tabs
+                value={tab}
+                onChange={(_, val) => setTab(val)}
+                className={classes.grow}
+              >
                 <Tab label="Financial Monitoring" />
                 <Tab label="Settlement Windows" />
                 <Tab label="Administration" />
                 <Tab label="Transfer Verification" />
+                <Tab label="Forex Rates" />
               </Tabs>
-              <Button id="btnLogout" variant="outlined" color="inherit" onClick={processLogout}>Logout</Button>
+              <Button id="btnLogout" variant="outlined" color="inherit" onClick={processLogout}>
+                Logout
+              </Button>
             </Toolbar>
           </AppBar>
           {tab === 0 && <FinancialMonitoringTab />}
           {tab === 1 && <SettlementWindowsTab />}
           {tab === 2 && <AdminTab />}
           {tab === 3 && <TransferVerificationTab />}
+          {tab === 4 && <ForexRatesTab />}
 
         </>
       )}
@@ -75,6 +87,17 @@ function App(props) {
 
 App.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  getUserInfo: PropTypes.func,
+  logout: PropTypes.func,
+  setUserInfo: PropTypes.func,
+  storybookMode: PropTypes.bool,
+};
+
+App.defaultProps = {
+  getUserInfo: userUtils.getUserInfo,
+  logout: userUtils.logout,
+  setUserInfo: userUtils.setUserInfo,
+  storybookMode: false,
 };
 
 export default withStyles(styles)(App);
