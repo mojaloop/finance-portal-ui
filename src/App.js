@@ -7,12 +7,13 @@ import { withStyles } from '@material-ui/core/styles';
 import { Button, Toolbar } from '@material-ui/core';
 
 import './App.css';
+import * as userUtils from './user';
 import Login from './components/Login';
 import AdminTab from './components/AdminTab';
 import FinancialMonitoringTab from './components/FinancialMonitoringTab';
-import * as userUtils from './user';
 import SettlementWindowsTab from './components/SettlementWindowsTab';
 import TransferVerificationTab from './components/TransferVerificationTab';
+import ForexRatesTab from './components/ForexRatesTab';
 
 // TODO: consider adding an error boundary?
 //       https://reactjs.org/docs/error-boundaries.html
@@ -65,6 +66,7 @@ function App(props) {
                 <Tab label="Settlement Windows" />
                 <Tab label="Administration" />
                 <Tab label="Transfer Verification" />
+                <Tab label="Forex Rates" />
               </Tabs>
               <Button id="btnLogout" variant="outlined" color="inherit" onClick={processLogout}>
                 Logout
@@ -75,6 +77,7 @@ function App(props) {
           {tab === 1 && <SettlementWindowsTab />}
           {tab === 2 && <AdminTab />}
           {tab === 3 && <TransferVerificationTab />}
+          {tab === 4 && <ForexRatesTab />}
 
         </>
       )}
