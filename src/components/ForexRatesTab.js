@@ -25,7 +25,7 @@ function ForexRatesTab(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      Forex Rates Tab
+      <p>Forex Rates Tab</p>
     </div>
   );
 }
