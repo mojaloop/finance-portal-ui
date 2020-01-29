@@ -102,8 +102,8 @@ function FSPDetailsImpl(props) {
       </AppBar>
       {tab === 0
         && (
-        <>
-          {currentSettlementWindow
+          <>
+            {currentSettlementWindow
           && previousSettlementWindow && settlementAccountBalance && positions
             && (
             <Grid container spacing={24}>
@@ -127,7 +127,7 @@ function FSPDetailsImpl(props) {
               </Grid>
             </Grid>
             )}
-        </>
+          </>
         )}
       {tab === 1 && previousSettlementWindow
         && (
