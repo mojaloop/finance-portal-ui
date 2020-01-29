@@ -91,7 +91,12 @@ function SnackbarContentImpl(props) {
 
 SnackbarContentImpl.propTypes = {
   action: PropTypes.string,
-  classes: PropTypes.objectOf({}).isRequired,
+  classes: PropTypes.shape({
+    close: PropTypes.string,
+    icon: PropTypes.string,
+    iconVariant: PropTypes.string,
+    message: PropTypes.string,
+  }).isRequired,
   className: PropTypes.string,
   message: PropTypes.node,
   onClose: PropTypes.func,

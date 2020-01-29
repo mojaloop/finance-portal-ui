@@ -1,11 +1,16 @@
-// TODO: Work through props required for successful rendering
 import React from 'react';
 import { render } from '@testing-library/react';
 import PositionInfo from '../components/PositionInfo';
 
-xdescribe('<PositionInfo />', () => {
+describe('<PositionInfo />', () => {
   it('should render without crashing', () => {
-    const rendered = render(<PositionInfo />);
+    const props = {
+      positions: [],
+      settlementAccountBalance: [],
+    };
+
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    const rendered = render(<PositionInfo {...props} />);
     expect(rendered).toBeTruthy();
   });
 });

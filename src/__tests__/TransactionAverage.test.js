@@ -1,11 +1,15 @@
-// TODO: Work through props required for successful rendering
 import React from 'react';
 import { render } from '@testing-library/react';
 import TransactionAverage from '../components/TransactionAverage';
 
-xdescribe('<TransactionAverage />', () => {
+describe('<TransactionAverage />', () => {
   it('should render without crashing', () => {
-    const rendered = render(<TransactionAverage />);
+    const props = {
+      fsp: {},
+    };
+
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    const rendered = render(<TransactionAverage {...props} />);
     expect(rendered).toBeTruthy();
   });
 });

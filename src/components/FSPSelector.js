@@ -29,7 +29,9 @@ function FSPSelector(props) {
 }
 
 FSPSelector.propTypes = {
-  fspList: PropTypes.arrayOf(PropTypes.object).isRequired,
+  fspList: PropTypes.arrayOf(
+    PropTypes.shape({ id: PropTypes.number, name: PropTypes.string }),
+  ).isRequired,
   selectFsp: PropTypes.func.isRequired,
 };
 
