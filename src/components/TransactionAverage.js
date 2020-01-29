@@ -125,10 +125,10 @@ function TransactionAverage(props) {
       <h2>Transaction Average</h2>
       {averages
         && (
-        <>
-          <DateRangePicker defStartDate={dates.from} defEndDate={dates.to} onChange={setDates} />
-          <TransactionAverageList averages={averages} />
-        </>
+          <>
+            <DateRangePicker defStartDate={dates.from} defEndDate={dates.to} onChange={setDates} />
+            <TransactionAverageList averages={averages} />
+          </>
         )}
     </>
   );

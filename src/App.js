@@ -15,6 +15,10 @@ import SettlementWindowsTab from './components/SettlementWindowsTab';
 import TransferVerificationTab from './components/TransferVerificationTab';
 import ForexRatesTab from './components/ForexRatesTab';
 
+// Used for feature flag toggle
+const IS_DEV_MODE = process && process.env
+  && (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test');
+
 // TODO: consider adding an error boundary?
 //       https://reactjs.org/docs/error-boundaries.html
 // TODO: do we need to add styling to all the components? (Or should we get rid of this material
@@ -66,7 +70,7 @@ function App(props) {
                 <Tab label="Settlement Windows" />
                 <Tab label="Administration" />
                 <Tab label="Transfer Verification" />
-                <Tab label="Forex Rates" />
+                {IS_DEV_MODE && <Tab label="Forex Rates" />}
               </Tabs>
               <Button id="btnLogout" variant="outlined" color="inherit" onClick={processLogout}>
                 Logout
@@ -77,7 +81,7 @@ function App(props) {
           {tab === 1 && <SettlementWindowsTab />}
           {tab === 2 && <AdminTab />}
           {tab === 3 && <TransferVerificationTab />}
-          {tab === 4 && <ForexRatesTab />}
+          {IS_DEV_MODE && (tab === 4 && <ForexRatesTab />)}
 
         </>
       )}
