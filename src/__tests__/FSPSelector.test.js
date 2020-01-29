@@ -1,11 +1,15 @@
-// TODO: Work through props required for successful rendering
 import React from 'react';
 import { render } from '@testing-library/react';
 import FSPSelector from '../components/FSPSelector';
 
-xdescribe('<FSPSelector />', () => {
+describe('<FSPSelector />', () => {
   it('should render without crashing', () => {
-    const rendered = render(<FSPSelector />);
+    const props = {
+      fspList: [{ id: 0, name: '' }],
+    };
+
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    const rendered = render(<FSPSelector {...props} />);
     expect(rendered).toBeTruthy();
   });
 });
