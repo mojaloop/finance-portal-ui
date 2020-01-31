@@ -13,7 +13,7 @@ import AdminTab from './components/AdminTab';
 import FinancialMonitoringTab from './components/FinancialMonitoringTab';
 import SettlementWindowsTab from './components/SettlementWindowsTab';
 import TransferVerificationTab from './components/TransferVerificationTab';
-import ForexRatesTab from './components/ForexRatesTab';
+import { ForexRatesTab } from './components/ForexRatesTab';
 
 // Used for feature flag toggle
 const IS_DEV_MODE = process && process.env

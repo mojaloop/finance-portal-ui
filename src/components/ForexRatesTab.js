@@ -2,6 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
+const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => [
+  String(integer).slice(0, String(integer).length - decimalRate),
+  '.',
+  String(integer).slice(String(integer).length - decimalRate),
+].join('');
+
+const fxpResponseToForexRates = (response) => Object.keys(response)
+  .map((currencyChannel) => response[currencyChannel]
+    .map((rate) => ({
+      currencyPair: currencyChannel,
+      rate: stringRateFromDecimalRateAndInteger(rate.decimalRate, rate.rate),
+      startTime: rate.startTime,
+      endTime: rate.endTime,
+      reuse: rate.reuse,
+    })))
+  .flat();
+
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -34,4 +51,10 @@ ForexRatesTab.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
-export default withStyles(styles)(ForexRatesTab);
+const ForexRatesTabWrapped = withStyles(styles)(ForexRatesTab);
+
+export {
+  ForexRatesTabWrapped as ForexRatesTab,
+  fxpResponseToForexRates,
+  stringRateFromDecimalRateAndInteger,
+};
