@@ -1,3 +1,4 @@
+import 'core-js/features/array/flat';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';

@@ -67,8 +67,8 @@ function SettlementWindowsGrid(props) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [snackBarParams, setSnackBarParams] = useState({ show: false, message: '', variant: 'success' });
 
-  const handleChangePage = (event, page) => { // eslint-disable-line
-    setPage(page);
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
