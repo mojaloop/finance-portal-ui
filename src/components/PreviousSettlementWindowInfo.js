@@ -98,11 +98,11 @@ function PreviousSettlementWindowInfo(props) {
 }
 
 PreviousSettlementWindowInfo.propTypes = {
-  classes: PropTypes.objectOf({ root: PropTypes.string }).isRequired,
-  previousSettlementWindow: PropTypes.objectOf({
-    payments: PropTypes.objectOf({ num: PropTypes.string, value: PropTypes.string }),
-    receipts: PropTypes.objectOf({ num: PropTypes.string, value: PropTypes.string }),
-    limits: PropTypes.objectOf({ value: PropTypes.string }),
+  classes: PropTypes.shape({ root: PropTypes.string }).isRequired,
+  previousSettlementWindow: PropTypes.shape({
+    payments: PropTypes.shape({ num: PropTypes.string, value: PropTypes.string }),
+    receipts: PropTypes.shape({ num: PropTypes.string, value: PropTypes.string }),
+    limits: PropTypes.shape({ value: PropTypes.string }),
     netPositions: PropTypes.arrayOf({}),
   }).isRequired,
 };
