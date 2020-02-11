@@ -76,11 +76,11 @@ function SettlementsList(props) {
 
 SettlementsListList.propTypes = {
   fspNamesById: PropTypes.objectOf({ id: PropTypes.string }).isRequired,
-  settlements: PropTypes.arrayOf({
+  settlements: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     state: PropTypes.string,
     participants: PropTypes.array,
-  }).isRequired,
+  })).isRequired,
 };
 
 SettlementsList.propTypes = {
