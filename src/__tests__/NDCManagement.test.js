@@ -4,7 +4,13 @@ import NDCManagement from '../components/NDCManagement';
 
 describe('<NDCManagement />', () => {
   it('should render without crashing', () => {
-    const rendered = render(<NDCManagement />);
+    const props = {
+      classes: { table: '' },
+      fspName: '',
+    };
+
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    const rendered = render(<NDCManagement {...props} />);
     expect(rendered).toBeTruthy();
   });
 });

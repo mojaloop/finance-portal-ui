@@ -7,7 +7,10 @@ describe('<PreviousSettlementWindowInfo />', () => {
     const props = {
       classes: {},
       previousSettlementWindow: {
-        payments: [], receipts: [], limits: [], netPositions: [],
+        payments: { num: '', value: '' },
+        receipts: { num: '', value: '' },
+        limits: { value: '' },
+        netPositions: [{}],
       },
     };
 

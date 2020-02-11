@@ -5,9 +5,9 @@ import FSPDetails from '../components/FSPDetails';
 describe('<FSPDetails />', () => {
   it('should render without crashing', () => {
     const props = {
-      classes: {},
-      fsp: {},
-      fpsNamesById: {},
+      classes: { paper: '' },
+      fsp: { id: '', name: '' },
+      fspNamesById: { id: '' },
       setSnackBarParams: () => {},
     };
 
