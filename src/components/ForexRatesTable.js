@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useUIDSeed } from 'react-uid';
+import { uid } from 'react-uid';
 import Table from '@material-ui/core/Table';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
@@ -30,8 +30,6 @@ function ForexRatesTable(props) {
   const emptyRows = rowsPerPage
     - Math.min(rowsPerPage, forexRates.length - page * rowsPerPage);
 
-  const forexRatesGridUIDGenerator = useUIDSeed();
-
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
@@ -49,7 +47,7 @@ function ForexRatesTable(props) {
             .sort((a, b) => (new Date(b.endTime)) - (new Date(a.endTime)))
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((forexRate) => (
-              <TableRow key={forexRatesGridUIDGenerator('rate')}>
+              <TableRow key={uid(forexRate)}>
                 <TableCell>{forexRate.rate}</TableCell>
                 <TableCell>{forexRate.startTime}</TableCell>
                 <TableCell>{forexRate.endTime}</TableCell>
