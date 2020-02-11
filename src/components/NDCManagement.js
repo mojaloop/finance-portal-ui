@@ -144,7 +144,7 @@ function NDCManagement(props) {
 }
 
 NDCManagement.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  classes: PropTypes.shape({ table: PropTypes.string }).isRequired,
   fspName: PropTypes.string.isRequired,
 };
 

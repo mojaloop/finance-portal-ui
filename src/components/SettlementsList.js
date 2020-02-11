@@ -75,16 +75,16 @@ function SettlementsList(props) {
 }
 
 SettlementsListList.propTypes = {
-  fspNamesById: PropTypes.objectOf({ id: PropTypes.string }).isRequired,
-  settlements: PropTypes.arrayOf({
+  fspNamesById: PropTypes.shape({ id: PropTypes.string }).isRequired,
+  settlements: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     state: PropTypes.string,
     participants: PropTypes.array,
-  }).isRequired,
+  })).isRequired,
 };
 
 SettlementsList.propTypes = {
-  fspNamesById: PropTypes.objectOf({ id: PropTypes.String }).isRequired,
+  fspNamesById: PropTypes.shape({ id: PropTypes.string }).isRequired,
   fsp: PropTypes.number.isRequired,
 };
 

@@ -69,15 +69,15 @@ function PositionInfo(props) {
 
 PositionInfo.propTypes = {
   classes: PropTypes.shape({ root: PropTypes.string }).isRequired,
-  positions: PropTypes.arrayOf({
+  positions: PropTypes.arrayOf(PropTypes.shape({
     currency: PropTypes.string,
     position: PropTypes.string,
     limit: PropTypes.string,
-  }).isRequired,
-  settlementAccountBalance: PropTypes.arrayOf({
+  })).isRequired,
+  settlementAccountBalance: PropTypes.arrayOf(PropTypes.shape({
     currency: PropTypes.string,
     settlementBalance: PropTypes.string,
-  }).isRequired,
+  })).isRequired,
 };
 
 export default withStyles(styles)(PositionInfo);

@@ -1,32 +1,16 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Snackbar from '@material-ui/core/Snackbar';
-import Switch from '@material-ui/core/Switch';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import { useUIDSeed } from 'react-uid';
 
+import FSPDetails from './FSPDetails';
 import SnackbarContentWrapper from './SnackbarUtils';
-import FundsManagement from './FundsManagement';
-import PositionInfo from './PositionInfo';
-import NDCManagement from './NDCManagement';
-import PreviousSettlementWindowInfo from './PreviousSettlementWindowInfo';
-import CurrentSettlementWindowInfo from './CurrentSettlementWindowInfo';
-import TransactionAverage from './TransactionAverage';
-import SettlementsList from './SettlementsList';
-
-import {
-  getDfsps, getPositions, getCurrentWindow, getPreviousWindow, getSettlementAccountBalance,
-  getParticipantIsActiveFlag, setParticipantIsActiveFlag, fetchTimeoutController,
-} from '../api';
+import { getDfsps } from '../api';
 
 const styles = (theme) => ({
   root: {
@@ -46,146 +30,6 @@ const styles = (theme) => ({
     minWidth: 800,
   },
 });
-
-function FSPDetailsImpl(props) {
-  const {
-    classes, fsp, fspNamesById, setSnackBarParams,
-  } = props;
-
-  const [positions, setPositions] = useState(undefined);
-  const [settlementAccountBalance, setSettlementAccountBalance] = useState(undefined);
-  const [currentSettlementWindow, setCurrentSettlementWindow] = useState(undefined);
-  const [previousSettlementWindow, setPreviousSettlementWindow] = useState(undefined);
-  const [stopTransactions, setStopTransactions] = useState(undefined);
-  const [tab, setTab] = useState(0);
-
-  useEffect(() => {
-    const ftc = fetchTimeoutController();
-    Promise.all([
-      getPositions(fsp.id, { ftc }).then(setPositions),
-      getCurrentWindow(fsp.id, { ftc }).then(setCurrentSettlementWindow),
-      getPreviousWindow(fsp.name, { ftc }).then(setPreviousSettlementWindow),
-      getSettlementAccountBalance(fsp.id, { ftc }).then(setSettlementAccountBalance),
-      getParticipantIsActiveFlag(fsp.id, { ftc }).then(setStopTransactions),
-    ]).then(ftc.ignoreAbort());
-    return ftc.abortFn;
-  }, [fsp]);
-
-  const updateIsActiveFlag = (event) => {
-    const isActive = event.target.checked ? 0 : 1;
-    setStopTransactions(isActive);
-    setParticipantIsActiveFlag(fsp.id, fsp.name, isActive)
-      .then(setStopTransactions)
-      .then(() => {
-        setSnackBarParams({
-          show: true, message: 'Update Successful!', variant: 'success', action: 'close',
-        });
-      })
-      .catch(() => {
-        setStopTransactions(isActive === 1 ? 0 : 1);
-        setSnackBarParams({
-          show: true, message: 'Failed to update!', variant: 'error', action: 'close',
-        });
-      });
-  };
-
-  const financialControlsUIDGenerator = useUIDSeed();
-
-  return (
-    <>
-      <AppBar position="static">
-        <Tabs value={tab} onChange={(_, val) => setTab(val)}>
-          <Tab label="Current Window" />
-          <Tab label="Window History" />
-          <Tab label="Financial Controls" />
-        </Tabs>
-      </AppBar>
-      {tab === 0
-        && (
-          <>
-            {currentSettlementWindow
-          && previousSettlementWindow && settlementAccountBalance && positions
-            && (
-            <Grid container spacing={24}>
-              <Grid item md={12}>
-                <Paper className={classes.paper}>
-                  <CurrentSettlementWindowInfo currentSettlementWindow={currentSettlementWindow} />
-                </Paper>
-              </Grid>
-              <Grid item md={12}>
-                <Paper className={classes.paper}>
-                  <PositionInfo
-                    positions={positions}
-                    settlementAccountBalance={settlementAccountBalance}
-                  />
-                </Paper>
-              </Grid>
-              <Grid item md={12}>
-                <Paper className={classes.paper}>
-                  <SettlementsList fsp={fsp.id} fspNamesById={fspNamesById} />
-                </Paper>
-              </Grid>
-            </Grid>
-            )}
-          </>
-        )}
-      {tab === 1 && previousSettlementWindow
-        && (
-        <Grid container spacing={24}>
-          <Grid item md={12}>
-            <Paper className={classes.paper}>
-              <PreviousSettlementWindowInfo previousSettlementWindow={previousSettlementWindow} />
-            </Paper>
-          </Grid>
-          <Grid item md={12}>
-            <Paper className={classes.paper}>
-              <TransactionAverage fsp={fsp} />
-            </Paper>
-          </Grid>
-        </Grid>
-        )}
-      {tab === 2
-        && (
-        <Grid container spacing={24}>
-          {stopTransactions === undefined ? <></>
-            : (
-              <Grid item md={12}>
-                <Paper className={classes.paper}>
-                  <h3>Disable transactions for DFSP</h3>
-                  <Switch
-                    id={
-                      financialControlsUIDGenerator(`stop-transacions-${fsp.name}`)
-                    }
-                    checked={stopTransactions === 0}
-                    onChange={updateIsActiveFlag}
-                  />
-                </Paper>
-              </Grid>
-            )}
-          <Grid item md={12}>
-            <Paper className={classes.paper}>
-              <NDCManagement fspName={fsp.name} />
-            </Paper>
-          </Grid>
-          <Grid item md={12}>
-            <Paper className={classes.paper}>
-              <FundsManagement fspName={fsp.name} />
-            </Paper>
-          </Grid>
-        </Grid>
-        )}
-    </>
-  );
-}
-
-FSPDetailsImpl.propTypes = {
-  setSnackBarParams: PropTypes.func.isRequired,
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  fspNamesById: PropTypes.objectOf(PropTypes.string).isRequired,
-  fsp: PropTypes.objectOf(PropTypes.shape).isRequired,
-};
-
-const FSPDetails = withStyles(styles)(FSPDetailsImpl);
 
 function FinancialMonitoringTab(props) {
   const { classes } = props;
@@ -305,7 +149,9 @@ function FinancialMonitoringTab(props) {
 }
 
 FinancialMonitoringTab.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  classes: PropTypes.shape({
+    margin: PropTypes.string, root: PropTypes.string, table: PropTypes.string,
+  }).isRequired,
 };
 
 export default withStyles(styles)(FinancialMonitoringTab);

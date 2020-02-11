@@ -1,16 +1,18 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import SettlementsList from '../components/SettlementsList';
+import FSPDetails from '../components/FSPDetails';
 
-describe('<SettlementsList />', () => {
+describe('<FSPDetails />', () => {
   it('should render without crashing', () => {
     const props = {
-      fsp: 1,
+      classes: { paper: '' },
+      fsp: { id: '', name: '' },
       fspNamesById: { id: '' },
+      setSnackBarParams: () => {},
     };
 
     // eslint-disable-next-line react/jsx-props-no-spreading
-    const rendered = render(<SettlementsList {...props} />);
+    const rendered = render(<FSPDetails {...props} />);
     expect(rendered).toBeTruthy();
   });
 });
