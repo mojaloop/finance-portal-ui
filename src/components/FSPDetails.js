@@ -177,7 +177,7 @@ function FSPDetails(props) {
 FSPDetails.propTypes = {
   classes: PropTypes.shape({ paper: PropTypes.string }).isRequired,
   fsp: PropTypes.shape({ id: PropTypes.string, name: PropTypes.string }).isRequired,
-  fspNamesById: PropTypes.objectOf({ id: PropTypes.string }).isRequired,
+  fspNamesById: PropTypes.shape({ id: PropTypes.string }).isRequired,
   setSnackBarParams: PropTypes.func.isRequired,
 };
 
