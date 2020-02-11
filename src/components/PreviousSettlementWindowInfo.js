@@ -103,7 +103,7 @@ PreviousSettlementWindowInfo.propTypes = {
     payments: PropTypes.shape({ num: PropTypes.string, value: PropTypes.string }),
     receipts: PropTypes.shape({ num: PropTypes.string, value: PropTypes.string }),
     limits: PropTypes.shape({ value: PropTypes.string }),
-    netPositions: PropTypes.arrayOf({}),
+    netPositions: PropTypes.arrayOf(PropTypes.shape({})),
   }).isRequired,
 };
 
