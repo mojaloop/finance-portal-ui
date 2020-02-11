@@ -9,13 +9,6 @@ import Switch from '@material-ui/core/Switch';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-import { fetchTimeoutController } from '../requests';
-import {
-  getCurrentWindow, getParticipantIsActiveFlag,
-  getPositions,
-  getPreviousWindow,
-  getSettlementAccountBalance, setParticipantIsActiveFlag,
-} from '../api';
 import CurrentSettlementWindowInfo from './CurrentSettlementWindowInfo';
 import PositionInfo from './PositionInfo';
 import SettlementsList from './SettlementsList';
@@ -23,6 +16,13 @@ import PreviousSettlementWindowInfo from './PreviousSettlementWindowInfo';
 import TransactionAverage from './TransactionAverage';
 import NDCManagement from './NDCManagement';
 import FundsManagement from './FundsManagement';
+import { fetchTimeoutController } from '../requests';
+import {
+  getCurrentWindow, getParticipantIsActiveFlag,
+  getPositions,
+  getPreviousWindow,
+  getSettlementAccountBalance, setParticipantIsActiveFlag,
+} from '../api';
 
 const styles = (theme) => ({
   root: {
