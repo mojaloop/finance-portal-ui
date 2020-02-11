@@ -84,7 +84,7 @@ SettlementsListList.propTypes = {
 };
 
 SettlementsList.propTypes = {
-  fspNamesById: PropTypes.objectOf({ id: PropTypes.string }).isRequired,
+  fspNamesById: PropTypes.shape({ id: PropTypes.string }).isRequired,
   fsp: PropTypes.number.isRequired,
 };
 
