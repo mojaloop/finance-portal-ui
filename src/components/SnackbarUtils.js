@@ -52,7 +52,7 @@ const styles = (theme) => ({
   },
 });
 
-function SnackbarContentImpl(props) {
+function SnackbarUtils(props) {
   const {
     classes, className, message, onClose, variant, action, ...other
   } = props;
@@ -89,7 +89,7 @@ function SnackbarContentImpl(props) {
   );
 }
 
-SnackbarContentImpl.propTypes = {
+SnackbarUtils.propTypes = {
   action: PropTypes.string,
   classes: PropTypes.shape({
     close: PropTypes.string,
@@ -103,13 +103,11 @@ SnackbarContentImpl.propTypes = {
   variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
 };
 
-SnackbarContentImpl.defaultProps = {
+SnackbarUtils.defaultProps = {
   action: 'close',
   className: '',
   message: '',
   onClose: () => {},
 };
 
-const SnackbarContentWrapper = withStyles(styles)(SnackbarContentImpl);
-
-export default SnackbarContentWrapper;
+export default withStyles(styles)(SnackbarUtils);
