@@ -157,7 +157,6 @@ function SettlementWindowsGrid(props) {
 
   const settlementWindowGridUIDGenerator = useUIDSeed();
   const openWindowGridUIGenerator = useUIDSeed();
-  console.log(settlementWindowDetails);
   return (
     <>
       <Snackbar
@@ -276,14 +275,16 @@ function SettlementWindowsGrid(props) {
                   </Paper>
                 </Grid>
               </Grid>
-              <Grid container spacing={8}>
-                <Grid item md={6}><Paper className={classes.paper}>Total Amount</Paper></Grid>
-                <Grid item md={6}>
-                  <Paper className={classes.paper}>
-                    {settlementWindowDetails.settlementWindow.amount}
-                  </Paper>
+              {settlementWindowDetails.totalAmount.map(currency => 
+                <Grid container spacing={8} key={Object.keys(currency)[0]}>
+                  <Grid item md={6}><Paper className={classes.paper}>Total Amount</Paper></Grid>
+                  <Grid item md={6}>
+                    <Paper className={classes.paper}>
+                      {`${currency[Object.keys(currency)[0]]} ${Object.keys(currency)[0]}`}
+                    </Paper>
+                  </Grid>
                 </Grid>
-              </Grid>
+              )}
               <Grid container spacing={8}>
                 
                 <Grid item md={6}>
