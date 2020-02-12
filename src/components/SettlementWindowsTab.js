@@ -157,6 +157,7 @@ function SettlementWindowsGrid(props) {
 
   const settlementWindowGridUIDGenerator = useUIDSeed();
   const openWindowGridUIGenerator = useUIDSeed();
+  console.log(settlementWindowDetails);
   return (
     <>
       <Snackbar
@@ -284,14 +285,7 @@ function SettlementWindowsGrid(props) {
                 </Grid>
               </Grid>
               <Grid container spacing={8}>
-                <Grid item md={6}><Paper className={classes.paper}>Currency</Paper></Grid>
-                <Grid item md={6}>
-                  <Paper className={classes.paper}>
-                    {settlementWindowDetails.settlementWindow.currencyId}
-                  </Paper>
-                </Grid>
-              </Grid>
-              <Grid container spacing={8}>
+                
                 <Grid item md={6}>
                   <Paper className={classes.paper}>Start DateTime</Paper>
                 </Grid>
@@ -320,6 +314,7 @@ function SettlementWindowsGrid(props) {
                 <TableHead>
                   <TableRow>
                     <TableCell>FSP ID</TableCell>
+                    <TableCell>Currency</TableCell>
                     <TableCell align="right">In Amount</TableCell>
                     <TableCell align="right">Out Amount</TableCell>
                     <TableCell align="right">Net Amount</TableCell>
@@ -331,6 +326,7 @@ function SettlementWindowsGrid(props) {
                       // eslint-disable-next-line
                       <TableRow key={index}>
                         <TableCell align="left">{row.fspId}</TableCell>
+                        <TableCell align="left">{row.currency}</TableCell>
                         <TableCell align="right">{row.inAmount}</TableCell>
                         <TableCell align="right">{row.outAmount}</TableCell>
                         <TableCell align="right">{row.netAmount}</TableCell>
