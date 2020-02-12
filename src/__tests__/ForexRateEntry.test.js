@@ -7,4 +7,14 @@ describe('<ForexRateEntry />', () => {
     const rendered = render(<ForexRateEntry />);
     expect(rendered).toBeTruthy();
   });
+  it('should have a rate input field', async () => {
+    const { findByText } = render(<ForexRateEntry />);
+    const element = await findByText('Rate');
+    expect(element).toBeDefined();
+  });
+  it('should have a start date input field', async () => {
+    const { findByText } = render(<ForexRateEntry />);
+    const element = await findByText('Start Date');
+    expect(element).toBeDefined();
+  });
 });
