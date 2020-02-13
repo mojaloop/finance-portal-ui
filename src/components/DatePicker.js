@@ -28,7 +28,7 @@ const styles = (theme) => ({
 
 function DatePickerImpl(props) {
   const {
-    defDate, desc, classes, onChange,
+    defDate, desc, classes, onChange, disabled,
   } = props;
 
   const dateUIDGenerator = useUIDSeed();
@@ -36,6 +36,7 @@ function DatePickerImpl(props) {
   return (
     <form className={classes.container} noValidate>
       <TextField
+        disabled={disabled}
         id={dateUIDGenerator('date')}
         label={desc}
         type="date"
@@ -51,13 +52,17 @@ function DatePickerImpl(props) {
 }
 
 DatePickerImpl.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
   defDate: PropTypes.instanceOf(Date).isRequired,
   desc: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
-// defDate should be a string in the format
+DatePickerImpl.defaultProps = {
+  disabled: false,
+};
+
 const DatePicker = withStyles(styles)(DatePickerImpl);
 
 export {
