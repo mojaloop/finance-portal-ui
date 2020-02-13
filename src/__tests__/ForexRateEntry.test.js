@@ -17,4 +17,9 @@ describe('<ForexRateEntry />', () => {
     const element = await findByText('Start Date');
     expect(element).toBeDefined();
   });
+  it('should display two end date options', async () => {
+    const { findAllByText } = render(<ForexRateEntry />);
+    const commitButtons = await findAllByText('Commit');
+    expect(commitButtons).toHaveLength(2);
+  });
 });

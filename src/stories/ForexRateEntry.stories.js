@@ -10,10 +10,7 @@ export default {
 };
 
 // Props
-const classes = {
-  root: '',
-};
 
 export const Default = () => (
-  <ForexRateEntry classes={classes} />
+  <ForexRateEntry />
 );
