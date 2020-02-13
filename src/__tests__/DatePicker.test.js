@@ -1,4 +1,3 @@
-// TODO: Work through props required for successful rendering
 import React from 'react';
 import { render } from '@testing-library/react';
 import { DateTime } from 'luxon';
