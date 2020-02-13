@@ -1,6 +1,7 @@
 // TODO: Work through props required for successful rendering
 import React from 'react';
 import { render } from '@testing-library/react';
+import { DateTime } from 'luxon';
 import { DatePicker, dateToStr } from '../components/DatePicker';
 
 describe('<DatePicker />', () => {
@@ -25,6 +26,28 @@ describe('dateToStr(dt)', () => {
     const epochFor24Jan2020 = 1579870320000;
     const dt = new Date(epochFor24Jan2020);
     const expected = '2020-01-24';
+    const actual = dateToStr(dt);
+    expect(actual).toEqual(expected);
+  });
+  it('should correctly pad a string representation of a given Date object', () => {
+    const epochFor24Jan2020 = 1579870320000;
+    const dt = new Date(epochFor24Jan2020);
+    dt.setDate(dt.getDate() + 322);
+    const expected = '2020-12-11';
+    const actual = dateToStr(dt);
+    expect(actual).toEqual(expected);
+  });
+  it('should return the string representation (YYYY-MM-DD) of a given DateTime (luxon) object', () => {
+    const epochFor24Jan2020 = 1579870320000;
+    const dt = DateTime.fromMillis(epochFor24Jan2020);
+    const expected = '2020-01-24';
+    const actual = dateToStr(dt);
+    expect(actual).toEqual(expected);
+  });
+  it('should correctly pad a string representation of a given DateTime (luxon) object', () => {
+    const epochFor24Jan2020 = 1579870320000;
+    const dt = DateTime.fromMillis(epochFor24Jan2020).plus({ days: 322 });
+    const expected = '2020-12-11';
     const actual = dateToStr(dt);
     expect(actual).toEqual(expected);
   });

@@ -8,7 +8,12 @@ import { useUIDSeed } from 'react-uid';
 // granularity.
 const dateToStr = (dt) => {
   const pad = ((s) => (s.length > 1 ? s : `0${s}`));
-  return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate().toString())}`;
+
+  if (dt.year) {
+    return `${String(dt.year)}-${pad(String(dt.month))}-${String(dt.day)}`;
+  }
+
+  return `${String(dt.getFullYear())}-${pad(String(dt.getMonth() + 1))}-${pad(String(dt.getDate()))}`;
 };
 
 const styles = (theme) => ({
