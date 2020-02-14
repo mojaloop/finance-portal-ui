@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { useUIDSeed } from 'react-uid';
+import {DateTime} from 'luxon';
 
 // We deliberately lose some information (hh:mm:ss.ms) here. We're just not interested in sub-day
 // granularity.
@@ -62,7 +63,8 @@ function DatePickerImpl(props) {
 
 DatePickerImpl.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
-  defDate: PropTypes.instanceOf(Date).isRequired,
+  defDate: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.instanceOf(DateTime)])
+    .isRequired,
   desc: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   onChange: PropTypes.func.isRequired,
