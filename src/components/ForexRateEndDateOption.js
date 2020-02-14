@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
+import {
+  Button, Card, CardHeader, withStyles,
+} from '@material-ui/core';
 import { DateTime } from 'luxon';
 
 import { DatePicker } from './DatePicker';

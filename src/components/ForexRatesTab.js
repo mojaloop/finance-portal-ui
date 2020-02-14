@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core';
 
 const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => [
   String(integer).slice(0, String(integer).length - decimalRate),

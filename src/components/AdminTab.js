@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import {
+  Button, Grid, Paper, TextField, withStyles,
+} from '@material-ui/core';
 import { useUIDSeed } from 'react-uid';
 
 import FSPSelector from './FSPSelector';

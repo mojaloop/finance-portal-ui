@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import { TextField, withStyles } from '@material-ui/core';
 import { useUIDSeed } from 'react-uid';
 import { DateTime } from 'luxon';
 

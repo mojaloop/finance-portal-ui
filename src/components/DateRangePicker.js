@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import Grid from '@material-ui/core/Grid';
+import { Grid, withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 
 import { DatePicker } from './DatePicker';
 import { truncateDate } from '../utils';

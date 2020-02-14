@@ -1,20 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableHead from '@material-ui/core/TableHead';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
+import {
+  Button, Grid, Dialog, Paper, Snackbar, Table, TableBody, TableCell, TableFooter, TableHead,
+  TablePagination, TableRow, Typography, withStyles,
+} from '@material-ui/core';
 import { useUIDSeed } from 'react-uid';
-import Dialog from '@material-ui/core/Dialog';
-import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
-import Snackbar from '@material-ui/core/Snackbar';
-import Typography from '@material-ui/core/Typography';
 
 import { DialogTitle, DialogContent, DialogActions } from './DialogUtils';
 import TablePaginationActionsWrapped from './TablePaginationActions';
