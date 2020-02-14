@@ -5,19 +5,11 @@ import { DatePicker } from './DatePicker';
 import ForexRateEndDateOption from './ForexRateEndDateOption';
 
 function ForexRateEntry() {
+  const today8amUTC = DateTime.utc().set({
+    hour: 8, minute: 0, second: 0, millisecond: 0,
+  });
   const [rate, setRate] = useState('');
-  const [startDate] = useState(new Date());
-
-  const tomorrow8amUTC = DateTime.utc()
-    .plus({ days: 1 })
-    .set({
-      hour: 8,
-      minute: 0,
-      second: 0,
-      millisecond: 0,
-    });
-
-  const nextMonday8amUTC = tomorrow8amUTC.plus({ days: 3 });
+  const [startDate] = useState(today8amUTC);
 
   return (
     <>
@@ -36,8 +28,8 @@ function ForexRateEntry() {
         disabled
       />
       <br />
-      <ForexRateEndDateOption initialDate={tomorrow8amUTC} />
-      <ForexRateEndDateOption weekend initialDate={nextMonday8amUTC} />
+      <ForexRateEndDateOption />
+      <ForexRateEndDateOption weekend />
     </>
   );
 }
