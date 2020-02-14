@@ -8,7 +8,7 @@ import { DateTime } from 'luxon';
 import { DatePicker } from './DatePicker';
 
 function ForexRateEndDateOption(props) {
-  const { weekend } = props;
+  const { weekend, onCommit } = props;
   const today8amUTC = DateTime.utc().set({
     hour: 8, minute: 0, second: 0, millisecond: 0,
   });
@@ -42,6 +42,7 @@ function ForexRateEndDateOption(props) {
       <Button
         variant="contained"
         color="primary"
+        onClick={onCommit}
       >
         Commit
       </Button>
@@ -50,10 +51,12 @@ function ForexRateEndDateOption(props) {
 }
 
 ForexRateEndDateOption.propTypes = {
+  onCommit: PropTypes.func,
   weekend: PropTypes.bool,
 };
 
 ForexRateEndDateOption.defaultProps = {
+  onCommit: () => {},
   weekend: false,
 };
 
