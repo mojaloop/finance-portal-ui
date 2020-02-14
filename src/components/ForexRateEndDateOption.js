@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -7,8 +8,25 @@ import { DateTime } from 'luxon';
 
 import { DatePicker } from './DatePicker';
 
+const styles = (theme) => ({
+  card: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+  },
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
+  grow: {
+    flexGrow: 1,
+  },
+});
+
 function ForexRateEndDateOption(props) {
-  const { weekend, onCommit } = props;
+  const { classes, onCommit, weekend } = props;
   const today8amUTC = DateTime.utc().set({
     hour: 8, minute: 0, second: 0, millisecond: 0,
   });
@@ -16,7 +34,7 @@ function ForexRateEndDateOption(props) {
     ? today8amUTC.plus({ days: 3 })
     : today8amUTC.plus({ days: 1 });
   return (
-    <Card>
+    <Card className={classes.card}>
       {weekend
         ? (
           <>
@@ -40,6 +58,7 @@ function ForexRateEndDateOption(props) {
           </>
         )}
       <Button
+        fullWidth
         variant="contained"
         color="primary"
         onClick={onCommit}
@@ -51,6 +70,7 @@ function ForexRateEndDateOption(props) {
 }
 
 ForexRateEndDateOption.propTypes = {
+  classes: PropTypes.shape({ card: PropTypes.object }).isRequired,
   onCommit: PropTypes.func,
   weekend: PropTypes.bool,
 };
@@ -60,4 +80,4 @@ ForexRateEndDateOption.defaultProps = {
   weekend: false,
 };
 
-export default ForexRateEndDateOption;
+export default withStyles(styles)(ForexRateEndDateOption);
