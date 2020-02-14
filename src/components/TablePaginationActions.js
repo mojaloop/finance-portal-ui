@@ -86,8 +86,4 @@ TablePaginationActions.propTypes = {
   }).isRequired,
 };
 
-const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: true })(
-  TablePaginationActions,
-);
-
-export default TablePaginationActionsWrapped;
+export default withStyles(actionsStyles, { withTheme: true })(TablePaginationActions);
