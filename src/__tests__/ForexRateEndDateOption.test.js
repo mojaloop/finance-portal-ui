@@ -41,4 +41,31 @@ describe('<ForexRateEndDateOption />', () => {
     const actual = endDateForOneDay.value;
     expect(actual).toEqual(expected);
   });
+  it('should enable the date picker input given the Weekend option', async () => {
+    const { findByLabelText } = render(<ForexRateEndDateOption weekend />);
+    const endDateForOneDay = await findByLabelText('End Date');
+    const expected = false;
+    const actual = endDateForOneDay.disabled;
+    expect(actual).toEqual(expected);
+  });
+  it('should display the correct title, "Weekend", given the Weekend option', async () => {
+    const { findByText } = render(<ForexRateEndDateOption weekend />);
+    const element = await findByText('Weekend');
+    expect(element).toBeDefined();
+  });
+  it('should display the right initial end date given the Weekend option', async () => {
+    const monday8amUTC = DateTime.utc()
+      .plus({ days: 3 })
+      .set({
+        hour: 8,
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+      });
+    const { findByLabelText } = render(<ForexRateEndDateOption weekend />);
+    const endDateForOneDay = await findByLabelText('End Date');
+    const expected = dateToStr(monday8amUTC);
+    const actual = endDateForOneDay.value;
+    expect(actual).toEqual(expected);
+  });
 });

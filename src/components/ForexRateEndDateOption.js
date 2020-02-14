@@ -17,7 +17,17 @@ function ForexRateEndDateOption(props) {
     : today8amUTC.plus({ days: 1 });
   return (
     <Card>
-      {weekend ? null
+      {weekend
+        ? (
+          <>
+            <CardHeader title="Weekend" />
+            <DatePicker
+              desc="End Date"
+              onChange={() => {}}
+              defDate={initialDate}
+            />
+          </>
+        )
         : (
           <>
             <CardHeader title="1 Day" />
