@@ -51,8 +51,10 @@ describe('dateToStr(dt)', () => {
     expect(actual).toEqual(expected);
   });
   it('should throw an error if no date type is supplied as an argument', () => {
-    const dt = '';
+    const undefinedDt = undefined;
+    const stringDt = '';
     const expected = 'This function requires a suitable date object as an argument';
-    expect(dateToStr(dt)).toThrowError(expected);
+    expect(dateToStr(undefinedDt)).toThrowError(expected);
+    expect(dateToStr(stringDt)).toThrowError(expected);
   });
 });

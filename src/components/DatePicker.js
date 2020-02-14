@@ -7,6 +7,9 @@ import { useUIDSeed } from 'react-uid';
 // We deliberately lose some information (hh:mm:ss.ms) here. We're just not interested in sub-day
 // granularity.
 const dateToStr = (dt) => {
+  if (!dt) {
+    throw new TypeError('This function requires a suitable date object as an argument');
+  }
   const pad = ((s) => (s.length > 1 ? s : `0${s}`));
   if (dt.year) {
     return `${String(dt.year)}-${pad(String(dt.month))}-${String(dt.day)}`;
