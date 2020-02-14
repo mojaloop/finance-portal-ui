@@ -15,19 +15,16 @@ describe('<ForexRateEndDateOption />', () => {
     expect(element).toBeDefined();
   });
   it('should disable the date picker input given the 1 Day option', async () => {
-    const tomorrow8amUTC = DateTime.utc()
-      .plus({ days: 1 })
-      .set({
-        hour: 8,
-        minute: 0,
-        second: 0,
-        millisecond: 0,
-      });
-    const { findByLabelText } = render(<ForexRateEndDateOption initialDate={tomorrow8amUTC} />);
+    const { findByLabelText } = render(<ForexRateEndDateOption />);
     const endDateForOneDay = await findByLabelText('End Date');
     const expected = true;
     const actual = endDateForOneDay.disabled;
     expect(actual).toEqual(expected);
+  });
+  it('should display the correct title, "1 Day", given the 1 Day option', async () => {
+    const { findByText } = render(<ForexRateEndDateOption />);
+    const element = await findByText('1 Day');
+    expect(element).toBeDefined();
   });
   it('should display the right end date given the 1 Day option', async () => {
     const tomorrow8amUTC = DateTime.utc()
@@ -38,7 +35,7 @@ describe('<ForexRateEndDateOption />', () => {
         second: 0,
         millisecond: 0,
       });
-    const { findByLabelText } = render(<ForexRateEndDateOption initialDate={tomorrow8amUTC} />);
+    const { findByLabelText } = render(<ForexRateEndDateOption />);
     const endDateForOneDay = await findByLabelText('End Date');
     const expected = dateToStr(tomorrow8amUTC);
     const actual = endDateForOneDay.value;
