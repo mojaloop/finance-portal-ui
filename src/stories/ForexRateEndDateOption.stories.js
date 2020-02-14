@@ -1,5 +1,4 @@
 import React from 'react';
-import { DateTime } from 'luxon';
 
 import ForexRateEndDateOption from '../components/ForexRateEndDateOption';
 
@@ -10,13 +9,10 @@ export default {
   excludeStories: /.*Data$/,
 };
 
-// Props
-const initialDate = DateTime.utc();
-
 export const OneDay = () => (
-  <ForexRateEndDateOption initialDate={initialDate} />
+  <ForexRateEndDateOption />
 );
 
 export const Weekend = () => (
-  <ForexRateEndDateOption weekend initialDate={initialDate} />
+  <ForexRateEndDateOption weekend />
 );
