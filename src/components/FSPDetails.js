@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useUIDSeed } from 'react-uid';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Switch from '@material-ui/core/Switch';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import {
+  AppBar, Grid, Paper, Switch, Tab, Tabs, withStyles,
+} from '@material-ui/core';
+import { useUIDSeed } from 'react-uid';
 
 import CurrentSettlementWindowInfo from './CurrentSettlementWindowInfo';
 import PositionInfo from './PositionInfo';

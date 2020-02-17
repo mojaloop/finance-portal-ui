@@ -90,7 +90,7 @@ function App(props) {
 }
 
 App.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  classes: PropTypes.shape({ root: PropTypes.object, grow: PropTypes.object }).isRequired,
   getUserInfo: PropTypes.func,
   logout: PropTypes.func,
   setUserInfo: PropTypes.func,

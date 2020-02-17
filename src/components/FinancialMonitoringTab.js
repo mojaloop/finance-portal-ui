@@ -1,12 +1,8 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Snackbar from '@material-ui/core/Snackbar';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
+import {
+  Paper, Snackbar, Table, TableBody, TableCell, TableRow, withStyles,
+} from '@material-ui/core';
 
 import FSPDetails from './FSPDetails';
 import SnackbarContentWrapper from './SnackbarUtils';

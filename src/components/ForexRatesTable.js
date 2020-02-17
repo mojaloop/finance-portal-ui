@@ -1,16 +1,39 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import {
+  Paper, Table, TableBody, TableCell, TableFooter, TableHead, TablePagination, TableRow, withStyles,
+} from '@material-ui/core';
 import { uid } from 'react-uid';
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import TableBody from '@material-ui/core/TableBody';
-import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
-import Paper from '@material-ui/core/Paper';
 
 import TablePaginationActions from './TablePaginationActions';
+
+const styles = (theme) => ({
+  root: {
+    flexGrow: 1,
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+  },
+  paper: {
+    padding: theme.spacing.unit * 3,
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+  input: {
+    display: 'none',
+  },
+  table: {
+    minWidth: 800,
+  },
+  tableDetails: {
+    minWidth: 100,
+  },
+  detailsDialog: {
+    minWidth: 200,
+  },
+});
 
 function ForexRatesTable(props) {
   const { classes, forexRates } = props;
@@ -98,4 +121,4 @@ ForexRatesTable.propTypes = {
   })).isRequired,
 };
 
-export default ForexRatesTable;
+export default withStyles(styles)(ForexRatesTable);

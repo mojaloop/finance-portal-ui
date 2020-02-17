@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import Grid from '@material-ui/core/Grid';
+import { Grid, withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
 
 import { DatePicker } from './DatePicker';
 import { truncateDate } from '../utils';
@@ -21,7 +20,7 @@ const styles = (theme) => ({
   },
 });
 
-function DateRangePickerImpl(props) {
+function DateRangePicker(props) {
   const {
     classes,
     onChange = () => {},
@@ -67,12 +66,12 @@ function DateRangePickerImpl(props) {
   );
 }
 
-DateRangePickerImpl.defaultProps = {
+DateRangePicker.defaultProps = {
   onStartChange: () => {},
   onEndChange: () => {},
 };
 
-DateRangePickerImpl.propTypes = {
+DateRangePicker.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   onChange: PropTypes.func.isRequired,
   onStartChange: PropTypes.func,
@@ -81,6 +80,4 @@ DateRangePickerImpl.propTypes = {
   defEndDate: PropTypes.instanceOf(Date).isRequired,
 };
 
-const DateRangePicker = withStyles(styles)(DateRangePickerImpl);
-
-export default DateRangePicker;
+export default withStyles(styles)(DateRangePicker);

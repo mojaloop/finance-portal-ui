@@ -1,17 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { SnackbarContent, withStyles } from '@material-ui/core';
+import { amber, green } from '@material-ui/core/colors';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ErrorIcon from '@material-ui/icons/Error';
-import InfoIcon from '@material-ui/icons/Info';
 import CloseIcon from '@material-ui/icons/Close';
-import RetryIcon from '@material-ui/icons/Refresh';
-import green from '@material-ui/core/colors/green';
-import amber from '@material-ui/core/colors/amber';
+import ErrorIcon from '@material-ui/icons/Error';
 import IconButton from '@material-ui/core/IconButton';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
+import InfoIcon from '@material-ui/icons/Info';
+import RetryIcon from '@material-ui/icons/Refresh';
 import WarningIcon from '@material-ui/icons/Warning';
-import { withStyles } from '@material-ui/core/styles';
 import { useUIDSeed } from 'react-uid';
 
 const variantIcon = {

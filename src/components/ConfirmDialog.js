@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Dialog } from '@reach/dialog';
 
@@ -11,15 +11,13 @@ function ConfirmDialog(props) {
     onReject,
   } = props;
   return (
-    <>
-      <Dialog>
-        <h1>{title}</h1>
-        <p>{description}</p>
-        {children}
-        <button type="button" onClick={onReject}>Cancel</button>
-        <button type="button" onClick={onConfirm}>OK</button>
-      </Dialog>
-    </>
+    <Dialog>
+      <h1>{title}</h1>
+      <p>{description}</p>
+      {children}
+      <button type="button" onClick={onReject}>Cancel</button>
+      <button type="button" onClick={onConfirm}>OK</button>
+    </Dialog>
   );
 }
 
