@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, withStyles } from '@material-ui/core';
 
+import ForexRateEntry from './ForexRateEntry';
 import ForexRatesTable from './ForexRatesTable';
 
 const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => [
@@ -67,7 +68,9 @@ function ForexRatesTab(props) {
   ];
   return (
     <Grid container spacing={2}>
-      <Grid item xs={12} />
+      <Grid item xs={12}>
+        <ForexRateEntry />
+      </Grid>
       <Grid item xs={12}>
         <ForexRatesTable forexRates={dummyForexRates} />
       </Grid>

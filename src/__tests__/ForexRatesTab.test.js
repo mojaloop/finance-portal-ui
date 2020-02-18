@@ -86,4 +86,9 @@ describe('<ForexRatesTab />', () => {
     const element = await findByText('Reuse?');
     expect(element).toBeDefined();
   });
+  it('should contain a forex rate entry area', async () => {
+    const { findByText } = render(<ForexRatesTab />);
+    const element = await findByText('Sample Exchange Estimate');
+    expect(element).toBeDefined();
+  });
 });
