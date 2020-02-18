@@ -10,9 +10,7 @@ export default {
 };
 
 // Props
-const classes = {
-
-};
+const classes = {};
 const message = {
   success: 'This is a success message',
   warning: 'This is a warning message',
