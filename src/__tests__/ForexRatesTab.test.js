@@ -81,4 +81,9 @@ describe('<ForexRatesTab />', () => {
     const rendered = render(<ForexRatesTab />);
     expect(rendered).toBeTruthy();
   });
+  it('should contain a forex rates table', async () => {
+    const { findByText } = render(<ForexRatesTab />);
+    const element = await findByText('Reuse?');
+    expect(element).toBeDefined();
+  });
 });

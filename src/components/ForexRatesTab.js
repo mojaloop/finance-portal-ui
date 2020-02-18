@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core';
+import { Grid, withStyles } from '@material-ui/core';
+
+import ForexRatesTable from './ForexRatesTable';
 
 const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => [
   String(integer).slice(0, String(integer).length - decimalRate),
@@ -40,10 +42,36 @@ const styles = (theme) => ({
 
 function ForexRatesTab(props) {
   const { classes } = props;
+  const dummyForexRates = [
+    {
+      currencyPair: 'eurusd',
+      rate: '666.6667',
+      startTime: '2019-09-03T12:00:00.000Z',
+      endTime: '2019-09-04T12:00:00.000Z',
+      reuse: true,
+    },
+    {
+      currencyPair: 'eurusd',
+      rate: '666.6680',
+      startTime: '2019-09-04T12:00:00.000Z',
+      endTime: '2019-09-05T12:00:00.000Z',
+      reuse: true,
+    },
+    {
+      currencyPair: 'usdeur',
+      rate: '444.4430',
+      startTime: '2019-09-03T12:00:00.000Z',
+      endTime: '2019-09-04T12:00:00.000Z',
+      reuse: true,
+    },
+  ];
   return (
-    <div className={classes.root}>
-      <p>Forex Rates Tab</p>
-    </div>
+    <Grid container spacing={2}>
+      <Grid item xs={12} />
+      <Grid item xs={12}>
+        <ForexRatesTable forexRates={dummyForexRates} />
+      </Grid>
+    </Grid>
   );
 }
 

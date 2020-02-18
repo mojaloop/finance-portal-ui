@@ -39,7 +39,7 @@ describe('<App />', () => {
   it('should display the Forex Rates tab when it is selected', async () => {
     const { getByText, findByText } = render(<App storybookMode getUserInfo={() => ({})} />);
     fireEvent.click(getByText('Forex Rates'));
-    const element = await findByText('Forex Rates Tab');
+    const element = await findByText('Reuse?');
     expect(element).toBeDefined();
   });
 });
