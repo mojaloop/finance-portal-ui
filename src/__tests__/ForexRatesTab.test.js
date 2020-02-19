@@ -2,9 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import 'core-js/features/array/flat';
 
-import {
+import ForexRatesTab, {
   fxpResponseToForexRates,
-  ForexRatesTab,
   stringRateFromDecimalRateAndInteger,
 } from '../components/ForexRatesTab';
 
