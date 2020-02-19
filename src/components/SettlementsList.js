@@ -24,12 +24,12 @@ function SettlementsListList(props) {
           {settlements.map((settlement) => (
             <ListItem key={settlement.id}>
               <ListItemText>
-[
+                [
                 {settlement.id}
-] |
+                ] |
                 {settlement.state}
                 {' '}
-|
+                |
                 {settlement.participants.map(participantInfo).join(', ')}
               </ListItemText>
             </ListItem>

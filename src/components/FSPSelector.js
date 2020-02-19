@@ -15,9 +15,9 @@ function FSPSelector(props) {
           onClick={() => selectFsp(fsp.id)}
         >
           <ListItemText>
-          [
+            [
             {fsp.id}
-          ] |
+            ] |
             {fsp.name}
           </ListItemText>
         </ListItem>
