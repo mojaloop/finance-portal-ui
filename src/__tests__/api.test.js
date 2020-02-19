@@ -1,4 +1,4 @@
-import {getForexRates, validateTransferId} from '../api';
+import { getForexRates, validateTransferId } from '../api';
 
 describe('API Utilities', () => {
   describe('getForexRates(requestOpts)', () => {
