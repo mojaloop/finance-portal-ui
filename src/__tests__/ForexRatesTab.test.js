@@ -92,7 +92,7 @@ describe('<ForexRatesTab />', () => {
   });
   it('should fetch forex rates from the server', () => {
     const getRatesMock = jest.fn();
-    const rendered = render(<ForexRatesTab getRates={getRatesMock} />);
+    render(<ForexRatesTab getRates={getRatesMock} />);
     expect(getRatesMock).toHaveBeenCalled();
   });
 });
