@@ -2,9 +2,8 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import 'core-js/features/array/flat';
 
-import {
+import ForexRatesTab, {
   fxpResponseToForexRates,
-  ForexRatesTab,
   stringRateFromDecimalRateAndInteger,
 } from '../components/ForexRatesTab';
 
@@ -80,5 +79,20 @@ describe('<ForexRatesTab />', () => {
   it('should render without crashing', () => {
     const rendered = render(<ForexRatesTab />);
     expect(rendered).toBeTruthy();
+  });
+  it('should contain a forex rates table', async () => {
+    const { findByText } = render(<ForexRatesTab />);
+    const element = await findByText('Reuse?');
+    expect(element).toBeDefined();
+  });
+  it('should contain a forex rate entry area', async () => {
+    const { findByText } = render(<ForexRatesTab />);
+    const element = await findByText('Sample Exchange Estimate');
+    expect(element).toBeDefined();
+  });
+  it('should fetch forex rates from the server', () => {
+    const getRatesMock = jest.fn();
+    render(<ForexRatesTab getRates={getRatesMock} />);
+    expect(getRatesMock).toHaveBeenCalled();
   });
 });

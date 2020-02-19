@@ -411,10 +411,10 @@ function SettlementWindowsGrid(props) {
           Commit Settlement Window
         </DialogTitle>
         <DialogContent>
-        You are about to process funds against the DFSP settlement accounts
-        according to the payment matrix for this settlement.
-        Do not proceed if the settlement bank has not processed these funds.
-        Do you want to proceed?
+          You are about to process funds against the DFSP settlement accounts
+          according to the payment matrix for this settlement.
+          Do not proceed if the settlement bank has not processed these funds.
+          Do you want to proceed?
           {settlementWindowDetails && settlementWindowDetails
             .relatedSettlementWindows && settlementWindowDetails.relatedSettlementWindows.length > 0
             && (

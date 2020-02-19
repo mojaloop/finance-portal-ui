@@ -55,7 +55,7 @@ function PositionInfo(props) {
             <Grid item md={3}>
               <Paper>
                 {((100.0 * p.position) / p.limit).toFixed(2)}
-%
+                %
               </Paper>
             </Grid>
           </Grid>

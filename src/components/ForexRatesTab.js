@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core';
+import { Grid, withStyles } from '@material-ui/core';
 
-const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => [
+import ForexRateEntry from './ForexRateEntry';
+import ForexRatesTable from './ForexRatesTable';
+import { getForexRates } from '../api';
+
+export const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => [
   String(integer).slice(0, String(integer).length - decimalRate),
   '.',
   String(integer).slice(String(integer).length - decimalRate),
 ].join('');
 
-const fxpResponseToForexRates = (response) => Object.keys(response)
+export const fxpResponseToForexRates = (response) => Object.keys(response)
   .map((currencyChannel) => response[currencyChannel]
     .map((rate) => ({
       currencyPair: currencyChannel,
@@ -39,22 +43,86 @@ const styles = (theme) => ({
 });
 
 function ForexRatesTab(props) {
-  const { classes } = props;
+  const { classes, getRates } = props;
+
+  const [forexRates, setForexRates] = useState([]);
+  const [snackBarParams, setSnackBarParams] = useState({
+    show: false, message: '', variant: 'success',
+  });
+
+  useEffect(() => {
+    async function fetchForexRates() {
+      try {
+        const fxpResponse = await getRates();
+        setForexRates(fxpResponseToForexRates(fxpResponse));
+      } catch (error) {
+        if (error.name === 'AbortError') {
+          setSnackBarParams({
+            show: true,
+            message: 'Timeout getting Forex rates. Retry?',
+            variant: 'error',
+            callback: fetchForexRates,
+            action: 'retry',
+          });
+        } else {
+          setSnackBarParams({
+            show: true,
+            message: 'An error occurred trying to get the Forex rates. Retry?',
+            variant: 'error',
+            callback: fetchForexRates,
+            action: 'retry',
+          });
+        }
+      }
+    }
+    fetchForexRates();
+  }, []);
+
+  // Forex Rates get transformed into this:
+  // [
+  //   {
+  //     currencyPair: 'eurusd',
+  //     rate: '666.6667',
+  //     startTime: '2019-09-03T12:00:00.000Z',
+  //     endTime: '2019-09-04T12:00:00.000Z',
+  //     reuse: true,
+  //   },
+  //   {
+  //     currencyPair: 'eurusd',
+  //     rate: '666.6680',
+  //     startTime: '2019-09-04T12:00:00.000Z',
+  //     endTime: '2019-09-05T12:00:00.000Z',
+  //     reuse: true,
+  //   },
+  //   {
+  //     currencyPair: 'usdeur',
+  //     rate: '444.4430',
+  //     startTime: '2019-09-03T12:00:00.000Z',
+  //     endTime: '2019-09-04T12:00:00.000Z',
+  //     reuse: true,
+  //   },
+  // ]
+
   return (
-    <div className={classes.root}>
-      <p>Forex Rates Tab</p>
-    </div>
+    <Grid className={classes.root} container spacing={0}>
+      <Grid item xs={12}>
+        <ForexRateEntry />
+      </Grid>
+      <Grid item xs={12}>
+        <ForexRatesTable forexRates={forexRates} />
+      </Grid>
+      {console.log('Error in forex rates component. Message parameters:', snackBarParams)}
+    </Grid>
   );
 }
 
 ForexRatesTab.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  classes: PropTypes.shape({ root: PropTypes.string }).isRequired,
+  getRates: PropTypes.func,
 };
 
-const ForexRatesTabWrapped = withStyles(styles)(ForexRatesTab);
-
-export {
-  ForexRatesTabWrapped as ForexRatesTab,
-  fxpResponseToForexRates,
-  stringRateFromDecimalRateAndInteger,
+ForexRatesTab.defaultProps = {
+  getRates: getForexRates,
 };
+
+export default withStyles(styles)(ForexRatesTab);
