@@ -67,7 +67,7 @@ function ForexRatesTab(props) {
     },
   ];
   return (
-    <Grid className={classes.root} container spacing={2}>
+    <Grid className={classes.root} container spacing={0}>
       <Grid item xs={12}>
         <ForexRateEntry />
       </Grid>

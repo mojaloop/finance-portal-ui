@@ -31,7 +31,7 @@ function ForexRateEntry() {
   const [startDate] = useState(today8amUTC);
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={0}>
       <Grid item xs={4}>
         <TextField
           label="Rate"
