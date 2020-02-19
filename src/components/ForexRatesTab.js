@@ -111,7 +111,7 @@ function ForexRatesTab(props) {
       <Grid item xs={12}>
         <ForexRatesTable forexRates={forexRates} />
       </Grid>
-      {console.log(snackBarParams)}
+      {console.log('Error in forex rates component. Message parameters:', snackBarParams)}
     </Grid>
   );
 }
