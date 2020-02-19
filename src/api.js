@@ -117,6 +117,9 @@ async function getHistoricalData(participantName, { from, to }, requestOpts) {
 
 async function validateTransferId(transferId, requestOpts) {
   return get(`/validate-transfer/${transferId}`, requestOpts);
+
+async function getForexRates(getFn = get) {
+  return getFn('forex/rates');
 }
 
 export {
@@ -129,6 +132,7 @@ export {
   getPreviousWindow,
   getDfsps,
   getEmailAddresses,
+  getForexRates,
   getHistoricalData,
   getNetDebitCap,
   getParticipantAccountById,
