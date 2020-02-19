@@ -5,13 +5,13 @@ import { Grid, withStyles } from '@material-ui/core';
 import ForexRateEntry from './ForexRateEntry';
 import ForexRatesTable from './ForexRatesTable';
 
-const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => [
+export const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => [
   String(integer).slice(0, String(integer).length - decimalRate),
   '.',
   String(integer).slice(String(integer).length - decimalRate),
 ].join('');
 
-const fxpResponseToForexRates = (response) => Object.keys(response)
+export const fxpResponseToForexRates = (response) => Object.keys(response)
   .map((currencyChannel) => response[currencyChannel]
     .map((rate) => ({
       currencyPair: currencyChannel,
@@ -67,7 +67,7 @@ function ForexRatesTab(props) {
     },
   ];
   return (
-    <Grid container spacing={2}>
+    <Grid className={classes.root} container spacing={2}>
       <Grid item xs={12}>
         <ForexRateEntry />
       </Grid>
@@ -79,13 +79,7 @@ function ForexRatesTab(props) {
 }
 
 ForexRatesTab.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  classes: PropTypes.shape({ root: PropTypes.string }).isRequired,
 };
 
-const ForexRatesTabWrapped = withStyles(styles)(ForexRatesTab);
-
-export {
-  ForexRatesTabWrapped as ForexRatesTab,
-  fxpResponseToForexRates,
-  stringRateFromDecimalRateAndInteger,
-};
+export default withStyles(styles)(ForexRatesTab);
