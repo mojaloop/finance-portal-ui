@@ -115,8 +115,9 @@ async function getHistoricalData(participantName, { from, to }, requestOpts) {
   return get(`/historical-window-summary/${participantName}?fromDateTime=${stringifyDate(from)}&toDateTime=${stringifyDate(to)}`, requestOpts);
 }
 
-async function validateTransferId(transferId, requestOpts) {
-  return get(`/validate-transfer/${transferId}`, requestOpts);
+async function validateTransferId(transferId, requestOpts, getFn = get) {
+  return getFn(`/validate-transfer/${transferId}`, requestOpts);
+}
 
 async function getForexRates(getFn = get) {
   return getFn('forex/rates');
