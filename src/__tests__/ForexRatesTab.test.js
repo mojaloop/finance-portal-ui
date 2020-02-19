@@ -90,4 +90,9 @@ describe('<ForexRatesTab />', () => {
     const element = await findByText('Sample Exchange Estimate');
     expect(element).toBeDefined();
   });
+  it('should fetch forex rates from the server', () => {
+    const getRatesMock = jest.fn();
+    const rendered = render(<ForexRatesTab getRates={getRatesMock} />);
+    expect(getRatesMock).toHaveBeenCalled();
+  });
 });
