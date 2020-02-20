@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { DateTime } from 'luxon';
 import { dateToStr } from '../components/DatePicker';
 import ForexRateEndDateOption from '../components/ForexRateEndDateOption';
@@ -67,5 +67,12 @@ describe('<ForexRateEndDateOption />', () => {
     const expected = dateToStr(monday8amUTC);
     const actual = endDateForOneDay.value;
     expect(actual).toEqual(expected);
+  });
+  it('should run the onCommit function when the commit button is pressed', async () => {
+    const onCommitMock = jest.fn();
+    const { findByText } = render(<ForexRateEndDateOption onCommit={onCommitMock} />);
+    const commitButton = await findByText('Commit');
+    fireEvent.click(commitButton);
+    expect(onCommitMock).toHaveBeenCalled();
   });
 });
