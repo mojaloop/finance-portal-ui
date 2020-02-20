@@ -123,6 +123,18 @@ async function getForexRates(getFn = get) {
   return getFn('forex/rates');
 }
 
+async function setForexRate({
+  sourceCurrency, destinationCurrency, rate, startTime, endTime, reuse = true, decimalRate = 4,
+}, postFn = post) {
+  return postFn(`forex/rates/${sourceCurrency}${destinationCurrency}`, {
+    rate,
+    decimalRate,
+    startTime,
+    endTime,
+    reuse,
+  });
+}
+
 export {
   closeSettlementWindow,
   commitSettlement,
@@ -148,6 +160,7 @@ export {
   getTransfer,
   processFundsIn,
   processFundsOut,
+  setForexRate,
   setParticipantIsActiveFlag,
   updateEmailAddress,
   updateNetDebitCap,
