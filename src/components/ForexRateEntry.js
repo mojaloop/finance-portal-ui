@@ -19,6 +19,29 @@ export function receivedAmount(rate) {
   return String(amountToTwoDecimalPlaces);
 }
 
+export const floatToIntDestructive = (f) => parseInt(String(f).replace('.', ''), 10);
+
+export const hasMax4DecimalPlaces = (number) => (number * 100000) % 10 === 0;
+
+export function rateInputToIntAndDecimalPlacesObject(inputRate) {
+  if (!hasMax4DecimalPlaces(inputRate)) {
+    throw new Error('Precision only takes into account up to 4 decimal places');
+  }
+  const decimalRate = 4;
+  const inputRateTimes10e4 = inputRate * 10000;
+  const rate = floatToIntDestructive(inputRate);
+  if (String(inputRateTimes10e4).length > String(rate).length) {
+    return {
+      rate: inputRateTimes10e4,
+      decimalRate,
+    };
+  }
+  return {
+    rate,
+    decimalRate,
+  };
+}
+
 const styles = () => ({
   root: {},
 });

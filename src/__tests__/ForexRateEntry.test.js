@@ -1,6 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import ForexRateEntry, { receivedAmount } from '../components/ForexRateEntry';
+import ForexRateEntry, {
+  floatToIntDestructive, hasMax4DecimalPlaces, rateInputToIntAndDecimalPlacesObject, receivedAmount,
+} from '../components/ForexRateEntry';
 
 describe('receivedAmount(rate)', () => {
   it('should return the amount received in MAD', () => {
@@ -26,6 +28,113 @@ describe('receivedAmount(rate)', () => {
     const expected = '561.50';
     const actual = receivedAmount(rate);
     expect(actual).toEqual(expected);
+  });
+});
+
+describe('floatToIntDestructive(float)', () => {
+  it('should return an integer comprised of all the digits of a given float', () => {
+    const f = 1111.5555;
+    const i = 11115555;
+    const expected = i;
+    const actual = floatToIntDestructive(f);
+    expect(actual).toEqual(expected);
+  });
+});
+
+describe('hasMax4DecimalPlaces(number)', () => {
+  it('should return true if a number has 4 decimal places', () => {
+    const number = 1.2345;
+    const expected = true;
+    const actual = hasMax4DecimalPlaces(number);
+    expect(actual).toEqual(expected);
+  });
+  it('should return true if a number has 3 decimal places', () => {
+    const number = 1.234;
+    const expected = true;
+    const actual = hasMax4DecimalPlaces(number);
+    expect(actual).toEqual(expected);
+  });
+  it('should return true if a number has 2 decimal places', () => {
+    const number = 1.23;
+    const expected = true;
+    const actual = hasMax4DecimalPlaces(number);
+    expect(actual).toEqual(expected);
+  });
+  it('should return true if a number has 1 decimal places', () => {
+    const number = 1.2;
+    const expected = true;
+    const actual = hasMax4DecimalPlaces(number);
+    expect(actual).toEqual(expected);
+  });
+  it('should return true if a number has no decimal places', () => {
+    const number = 1;
+    const expected = true;
+    const actual = hasMax4DecimalPlaces(number);
+    expect(actual).toEqual(expected);
+  });
+  it('should return false if a number has 5 decimal places', () => {
+    const number = 1.23456;
+    const expected = false;
+    const actual = hasMax4DecimalPlaces(number);
+    expect(actual).toEqual(expected);
+  });
+});
+
+describe('rateInputToIntAndDecimalPlacesObject(rateInput)', () => {
+  it('should return an object with integer rate and decimal places value given a rate formatted'
+    + ' with a 4-decimal places rate input', () => {
+    const inputRate = 111.5555;
+    const expected = {
+      rate: 1115555,
+      decimalRate: 4,
+    };
+    const actual = rateInputToIntAndDecimalPlacesObject(inputRate);
+    expect(actual).toEqual(expected);
+  });
+  it('should return an object with integer rate and decimal places value given a rate formatted'
+    + ' with a 3-decimal places rate input', () => {
+    const inputRate = 111.555;
+    const expected = {
+      rate: 1115550,
+      decimalRate: 4,
+    };
+    const actual = rateInputToIntAndDecimalPlacesObject(inputRate);
+    expect(actual).toEqual(expected);
+  });
+  it('should return an object with integer rate and decimal places value given a rate formatted'
+    + ' with a 2-decimal places rate input', () => {
+    const inputRate = 111.55;
+    const expected = {
+      rate: 1115500,
+      decimalRate: 4,
+    };
+    const actual = rateInputToIntAndDecimalPlacesObject(inputRate);
+    expect(actual).toEqual(expected);
+  });
+  it('should return an object with integer rate and decimal places value given a rate formatted'
+    + ' with a 1-decimal place rate input', () => {
+    const inputRate = 111.5;
+    const expected = {
+      rate: 1115000,
+      decimalRate: 4,
+    };
+    const actual = rateInputToIntAndDecimalPlacesObject(inputRate);
+    expect(actual).toEqual(expected);
+  });
+  it('should return an object with integer rate and decimal places value given a rate formatted'
+    + ' with a non-fractional rate input', () => {
+    const inputRate = 111;
+    const expected = {
+      rate: 1110000,
+      decimalRate: 4,
+    };
+    const actual = rateInputToIntAndDecimalPlacesObject(inputRate);
+    expect(actual).toEqual(expected);
+  });
+  it('should throw an error when given a rate that has more than four decimal places', () => {
+    const inputRate = 111.55551;
+    expect(() => rateInputToIntAndDecimalPlacesObject(inputRate))
+      .toThrow('Precision only takes into account up to 4 decimal places');
   });
 });
 
