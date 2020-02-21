@@ -26,6 +26,9 @@ export const floatToIntDestructive = (f) => parseInt(String(f).replace('.', ''),
 export const hasMax4DecimalPlaces = (number) => new Decimal(number).times(100000).mod(10).equals(0);
 
 export function rateInputToInt(inputRate) {
+  if (!inputRate) {
+    return 0;
+  }
   if (!hasMax4DecimalPlaces(inputRate)) {
     throw new Error('Precision only takes into account up to 4 decimal places');
   }

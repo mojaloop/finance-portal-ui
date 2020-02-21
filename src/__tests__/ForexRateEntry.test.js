@@ -116,6 +116,9 @@ describe('rateInputToInt(rateInput)', () => {
     expect(() => rateInputToInt(inputRate))
       .toThrow('Precision only takes into account up to 4 decimal places');
   });
+  it('should return 0 when given a nonsensical rate input', () => {
+    expect(rateInputToInt('')).toEqual(0);
+  });
 });
 
 describe('<ForexRateEntry />', () => {

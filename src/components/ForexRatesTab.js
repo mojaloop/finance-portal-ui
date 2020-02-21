@@ -53,8 +53,24 @@ function ForexRatesTab(props) {
   });
   const [confirmDialog, setConfirmDialog] = useState({ visible: showConfirmDialog, description: '', onConfirm: () => {} });
 
-  const onCommit = () => (event) => {
+  const onCommit = () => (rate, startTime) => (endTime) => {
+    setConfirmDialog({
+      visible: true,
+      description: `This will set the EURMAD rate to ${rate} from ${startTime} to ${endTime}. Are you sure you want to continue?`,
+      onConfirm: () => {
+        setForexRate({
+          rate, startTime, endTime, destinationCurrency: 'mad', sourceCurrency: 'eur',
+        });
+        setConfirmDialog({
+          visible: false,
+          description: '',
+          onConfirm: () => {
 
+          },
+          onReject: () => {},
+        });
+      },
+    });
   };
 
   useEffect(() => {
