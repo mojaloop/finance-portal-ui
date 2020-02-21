@@ -6,7 +6,7 @@ import {
 import { DateTime } from 'luxon';
 import { Decimal } from 'decimal.js';
 
-import DatePicker from './DatePicker';
+import DatePicker, { strToDate } from './DatePicker';
 import ForexRateEndDateOption from './ForexRateEndDateOption';
 
 export function receivedAmount(rate) {
@@ -92,11 +92,16 @@ function ForexRateEntry(props) {
       {/* Row Break */}
       <Grid item xs={3} />
       <Grid item xs={2}>
-        <ForexRateEndDateOption onCommit={onCommit()} />
+        <ForexRateEndDateOption
+          onCommit={onCommit(rateInputToInt(rate), startDate.toISO())}
+        />
       </Grid>
       <Grid item xs={2} />
       <Grid item xs={2}>
-        <ForexRateEndDateOption onCommit={onCommit()} weekend />
+        <ForexRateEndDateOption
+          onCommit={onCommit(rateInputToInt(rate), startDate.toISO())}
+          weekend
+        />
       </Grid>
       <Grid item xs={3} />
     </Grid>
