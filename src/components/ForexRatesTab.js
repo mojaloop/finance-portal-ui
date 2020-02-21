@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, withStyles } from '@material-ui/core';
 
+import ConfirmDialog from './ConfirmDialog';
 import ForexRateEntry from './ForexRateEntry';
 import ForexRatesTable from './ForexRatesTable';
-import { getForexRates } from '../api';
+
+import { getForexRates, setForexRate } from '../api';
 
 export const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => [
   String(integer).slice(0, String(integer).length - decimalRate),
@@ -43,12 +45,17 @@ const styles = (theme) => ({
 });
 
 function ForexRatesTab(props) {
-  const { classes, getRates } = props;
+  const { classes, getRates, showConfirmDialog } = props;
 
   const [forexRates, setForexRates] = useState([]);
   const [snackBarParams, setSnackBarParams] = useState({
     show: false, message: '', variant: 'success',
   });
+  const [confirmDialog, setConfirmDialog] = useState({ visible: showConfirmDialog, description: '', onConfirm: () => {} });
+
+  const onCommit = () => (event) => {
+
+  };
 
   useEffect(() => {
     async function fetchForexRates() {
@@ -104,25 +111,38 @@ function ForexRatesTab(props) {
   // ]
 
   return (
-    <Grid className={classes.root} container spacing={0}>
-      <Grid item xs={12}>
-        <ForexRateEntry />
+    <>
+      {confirmDialog.visible
+      && (
+      <ConfirmDialog
+        title="Warning"
+        description={confirmDialog.description}
+        onReject={() => setConfirmDialog({ ...confirmDialog, visible: false })}
+        onConfirm={confirmDialog.confirm}
+      />
+      )}
+      <Grid className={classes.root} container spacing={0}>
+        <Grid item xs={12}>
+          <ForexRateEntry onCommit={onCommit} />
+        </Grid>
+        <Grid item xs={12}>
+          <ForexRatesTable forexRates={forexRates} />
+        </Grid>
+        {console.log('Error in forex rates component. Message parameters:', snackBarParams)}
       </Grid>
-      <Grid item xs={12}>
-        <ForexRatesTable forexRates={forexRates} />
-      </Grid>
-      {console.log('Error in forex rates component. Message parameters:', snackBarParams)}
-    </Grid>
+    </>
   );
 }
 
 ForexRatesTab.propTypes = {
   classes: PropTypes.shape({ root: PropTypes.string }).isRequired,
   getRates: PropTypes.func,
+  showConfirmDialog: PropTypes.bool,
 };
 
 ForexRatesTab.defaultProps = {
   getRates: getForexRates,
+  showConfirmDialog: false,
 };
 
 export default withStyles(styles)(ForexRatesTab);

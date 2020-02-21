@@ -12,3 +12,7 @@ export default {
 export const Default = () => (
   <ForexRatesTab />
 );
+
+export const ShowConfirmDialog = () => (
+  <ForexRatesTab showConfirmDialog />
+);

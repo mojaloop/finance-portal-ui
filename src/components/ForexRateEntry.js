@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   Grid, TextField, Typography, withStyles,
 } from '@material-ui/core';
@@ -46,7 +47,8 @@ const styles = () => ({
   root: {},
 });
 
-function ForexRateEntry() {
+function ForexRateEntry(props) {
+  const { onCommit } = props;
   const today8amUTC = DateTime.utc().set({
     hour: 8, minute: 0, second: 0, millisecond: 0,
   });
@@ -86,15 +88,19 @@ function ForexRateEntry() {
       {/* Row Break */}
       <Grid item xs={3} />
       <Grid item xs={2}>
-        <ForexRateEndDateOption />
+        <ForexRateEndDateOption onCommit={onCommit()} />
       </Grid>
       <Grid item xs={2} />
       <Grid item xs={2}>
-        <ForexRateEndDateOption weekend />
+        <ForexRateEndDateOption onCommit={onCommit()} weekend />
       </Grid>
       <Grid item xs={3} />
     </Grid>
   );
 }
+
+ForexRateEntry.propTypes = {
+  onCommit: PropTypes.func.isRequired,
+};
 
 export default withStyles(styles)(ForexRateEntry);

@@ -95,4 +95,9 @@ describe('<ForexRatesTab />', () => {
     render(<ForexRatesTab getRates={getRatesMock} />);
     expect(getRatesMock).toHaveBeenCalled();
   });
+  it('should be show the confirm dialog when necessary', async () => {
+    const { getByText } = render(<ForexRatesTab showConfirmDialog /> );
+    const element = await getByText('Warning');
+    expect(element).toBeDefined();
+  });
 });

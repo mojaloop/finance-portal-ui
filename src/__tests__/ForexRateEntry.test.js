@@ -140,26 +140,26 @@ describe('rateInputToIntAndDecimalPlacesObject(rateInput)', () => {
 
 describe('<ForexRateEntry />', () => {
   it('should render without crashing', () => {
-    const rendered = render(<ForexRateEntry />);
+    const rendered = render(<ForexRateEntry onCommit={() => {}} />);
     expect(rendered).toBeTruthy();
   });
   it('should have a rate input field', async () => {
-    const { findByText } = render(<ForexRateEntry />);
+    const { findByText } = render(<ForexRateEntry onCommit={() => {}} />);
     const element = await findByText('Rate');
     expect(element).toBeDefined();
   });
   it('should have a start date input field', async () => {
-    const { findByText } = render(<ForexRateEntry />);
+    const { findByText } = render(<ForexRateEntry onCommit={() => {}} />);
     const element = await findByText('Start Date');
     expect(element).toBeDefined();
   });
   it('should display two end date options', async () => {
-    const { findAllByText } = render(<ForexRateEntry />);
+    const { findAllByText } = render(<ForexRateEntry onCommit={() => {}} />);
     const commitButtons = await findAllByText('Commit');
     expect(commitButtons).toHaveLength(2);
   });
   it('should display a sample calculation using the given rate', async () => {
-    const { findByText } = render(<ForexRateEntry />);
+    const { findByText } = render(<ForexRateEntry onCommit={() => {}} />);
     const element = await findByText('Sample Exchange Estimate');
     expect(element).toBeDefined();
   });
