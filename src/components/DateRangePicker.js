@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid, withStyles } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
-import { DatePicker } from './DatePicker';
+import DatePicker from './DatePicker';
 import { truncateDate } from '../utils';
 
 const styles = (theme) => ({

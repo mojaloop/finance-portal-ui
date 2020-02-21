@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core';
 import { DateTime } from 'luxon';
 
-import { DatePicker } from './DatePicker';
+import DatePicker, { dateToStr } from './DatePicker';
 
 const styles = (theme) => ({
   card: {
