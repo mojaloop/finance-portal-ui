@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { DateTime } from 'luxon';
-import DatePicker, { dateToStr } from '../components/DatePicker';
+import DatePicker, { dateToStr, strToDate } from '../components/DatePicker';
 
 describe('<DatePicker />', () => {
   it('should render without crashing', () => {
@@ -17,6 +17,15 @@ describe('<DatePicker />', () => {
     // eslint-disable-next-line react/jsx-props-no-spreading
     const rendered = render(<DatePicker {...props} />);
     expect(rendered).toBeTruthy();
+  });
+});
+
+describe('strToDate(datestr)', () => {
+  it('should return a proper DateTime (luxon) object from a date string', () => {
+    const datestr = '2020-01-24';
+    const expected = '2020-01-24T00:00:00.000Z';
+    const actual = strToDate(datestr).toISO();
+    expect(actual).toEqual(expected);
   });
 });
 

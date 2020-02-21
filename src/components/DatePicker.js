@@ -4,6 +4,10 @@ import { TextField, withStyles } from '@material-ui/core';
 import { useUIDSeed } from 'react-uid';
 import { DateTime } from 'luxon';
 
+export const strToDate = (datestr) => DateTime.fromFormat(datestr, 'yyyy-mm-dd').toUTC().set({
+  hour: 0, minute: 0, second: 0, millisecond: 0,
+});
+
 // We deliberately lose some information (hh:mm:ss.ms) here. We're just not interested in sub-day
 // granularity.
 export const dateToStr = (dt) => {
