@@ -64,7 +64,7 @@ function ForexRateEndDateOption(props) {
         fullWidth
         variant="contained"
         color="primary"
-        onClick={onCommit(strToDate(endDate).set({ hour: 8, minute: 30 }).toISO())}
+        onClick={() => onCommit(strToDate(endDate).set({ hour: 8, minute: 30 }).toISO())}
       >
         Commit
       </Button>
