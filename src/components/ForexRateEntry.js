@@ -86,6 +86,13 @@ function ForexRateEntry(props) {
       </Grid>
       <Grid item xs={8} />
       {/* Row Break */}
+      <Grid item xs={12}>
+        <Typography variant="subtitle1" align="center">
+          All times below are&nbsp;
+          <strong>8:30AM UTC</strong>
+        </Typography>
+      </Grid>
+      {/* Row Break */}
       <Grid item xs={3} />
       <Grid item xs={2}>
         <ForexRateEndDateOption onCommit={onCommit()} />
