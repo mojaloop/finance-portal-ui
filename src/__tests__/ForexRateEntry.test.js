@@ -78,6 +78,32 @@ describe('hasMax4DecimalPlaces(number)', () => {
     const actual = hasMax4DecimalPlaces(number);
     expect(actual).toEqual(expected);
   });
+  // The following test cases exist because of JS math quirks
+  // TODO: Determine how to write a generative test from 1.0 to 9999.9999
+  it('should return true if given 1.1', () => {
+    const number = 1.1;
+    const expected = true;
+    const actual = hasMax4DecimalPlaces(number);
+    expect(actual).toEqual(expected);
+  });
+  it('should return true if given 1.11', () => {
+    const number = 1.11;
+    const expected = true;
+    const actual = hasMax4DecimalPlaces(number);
+    expect(actual).toEqual(expected);
+  });
+  it('should return true if given 2.2', () => {
+    const number = 2.2;
+    const expected = true;
+    const actual = hasMax4DecimalPlaces(number);
+    expect(actual).toEqual(expected);
+  });
+  it('should return true if given 2.111', () => {
+    const number = 2.2;
+    const expected = true;
+    const actual = hasMax4DecimalPlaces(number);
+    expect(actual).toEqual(expected);
+  });
 });
 
 describe('rateInputToInt(rateInput)', () => {
