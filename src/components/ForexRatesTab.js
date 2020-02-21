@@ -54,14 +54,10 @@ function ForexRatesTab(props) {
   const [confirmDialog, setConfirmDialog] = useState({ visible: showConfirmDialog, description: '', onConfirm: () => {} });
 
   const onCommit = (rate, startTime) => (endTime) => {
-    console.log('rate', rate);
-    console.log('startTime', startTime);
-    console.log('endTime', endTime);
     setConfirmDialog({
       visible: true,
       description: `This will set the EURMAD rate to ${rate} from ${startTime} to ${endTime}. Are you sure you want to continue?`,
       onConfirm: async () => {
-        console.log('confirm button clicked');
         await setForexRate({
           rate, startTime, endTime, destinationCurrency: 'mad', sourceCurrency: 'eur',
         });
@@ -130,7 +126,6 @@ function ForexRatesTab(props) {
 
   return (
     <>
-      {console.log(confirmDialog.onConfirm.toString())}
       {confirmDialog.visible
       && (
       <ConfirmDialog
@@ -147,6 +142,7 @@ function ForexRatesTab(props) {
         <Grid item xs={12}>
           <ForexRatesTable forexRates={forexRates} />
         </Grid>
+        {/* eslint-disable-next-line no-console */}
         {console.log('snackBarParams:', snackBarParams)}
       </Grid>
     </>

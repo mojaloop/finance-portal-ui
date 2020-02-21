@@ -6,7 +6,7 @@ import {
 import { DateTime } from 'luxon';
 import { Decimal } from 'decimal.js';
 
-import DatePicker, { strToDate } from './DatePicker';
+import DatePicker from './DatePicker';
 import ForexRateEndDateOption from './ForexRateEndDateOption';
 
 export function receivedAmount(rate) {
