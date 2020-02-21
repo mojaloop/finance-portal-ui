@@ -53,20 +53,22 @@ function ForexRatesTab(props) {
   });
   const [confirmDialog, setConfirmDialog] = useState({ visible: showConfirmDialog, description: '', onConfirm: () => {} });
 
-  const onCommit = () => (rate, startTime) => (endTime) => {
+  const onCommit = (rate, startTime) => (endTime) => {
+    console.log('rate', rate);
+    console.log('startTime', startTime);
+    console.log('endTime', endTime);
     setConfirmDialog({
       visible: true,
       description: `This will set the EURMAD rate to ${rate} from ${startTime} to ${endTime}. Are you sure you want to continue?`,
-      onConfirm: () => {
-        setForexRate({
+      onConfirm: async () => {
+        console.log('confirm button clicked');
+        await setForexRate({
           rate, startTime, endTime, destinationCurrency: 'mad', sourceCurrency: 'eur',
         });
         setConfirmDialog({
           visible: false,
           description: '',
-          onConfirm: () => {
-
-          },
+          onConfirm: () => {},
           onReject: () => {},
         });
       },
@@ -128,13 +130,14 @@ function ForexRatesTab(props) {
 
   return (
     <>
+      {console.log(confirmDialog.onConfirm.toString())}
       {confirmDialog.visible
       && (
       <ConfirmDialog
         title="Warning"
         description={confirmDialog.description}
-        onReject={() => setConfirmDialog({ ...confirmDialog, visible: false })}
-        onConfirm={confirmDialog.confirm}
+        onReject={() => setConfirmDialog({ visible: showConfirmDialog, description: '', onConfirm: () => {} })}
+        onConfirm={confirmDialog.onConfirm}
       />
       )}
       <Grid className={classes.root} container spacing={0}>
@@ -144,7 +147,7 @@ function ForexRatesTab(props) {
         <Grid item xs={12}>
           <ForexRatesTable forexRates={forexRates} />
         </Grid>
-        {console.log('Error in forex rates component. Message parameters:', snackBarParams)}
+        {console.log('snackBarParams:', snackBarParams)}
       </Grid>
     </>
   );
