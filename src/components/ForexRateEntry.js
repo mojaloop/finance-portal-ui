@@ -25,23 +25,16 @@ export const floatToIntDestructive = (f) => parseInt(String(f).replace('.', ''),
 
 export const hasMax4DecimalPlaces = (number) => new Decimal(number).times(100000).mod(10).equals(0);
 
-export function rateInputToIntAndDecimalPlacesObject(inputRate) {
+export function rateInputToInt(inputRate) {
   if (!hasMax4DecimalPlaces(inputRate)) {
     throw new Error('Precision only takes into account up to 4 decimal places');
   }
-  const decimalRate = 4;
   const inputRateTimes10e4 = inputRate * 10000;
   const rate = floatToIntDestructive(inputRate);
   if (String(inputRateTimes10e4).length > String(rate).length) {
-    return {
-      rate: inputRateTimes10e4,
-      decimalRate,
-    };
+    return inputRateTimes10e4;
   }
-  return {
-    rate,
-    decimalRate,
-  };
+  return rate;
 }
 
 const styles = () => ({
