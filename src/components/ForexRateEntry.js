@@ -49,11 +49,11 @@ const styles = () => ({
 
 function ForexRateEntry(props) {
   const { onCommit } = props;
-  const today8amUTC = DateTime.utc().set({
-    hour: 8, minute: 0, second: 0, millisecond: 0,
+  const today830amUTC = DateTime.utc().set({
+    hour: 8, minute: 30, second: 0, millisecond: 0,
   });
   const [rate, setRate] = useState('');
-  const [startDate] = useState(today8amUTC);
+  const [startDate] = useState(today830amUTC);
 
   return (
     <Grid container spacing={0}>

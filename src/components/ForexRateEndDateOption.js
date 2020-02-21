@@ -26,12 +26,12 @@ const styles = (theme) => ({
 
 function ForexRateEndDateOption(props) {
   const { classes, onCommit, weekend } = props;
-  const today8amUTC = DateTime.utc().set({
+  const today830amUTC = DateTime.utc().set({
     hour: 8, minute: 0, second: 0, millisecond: 0,
   });
   const initialDate = weekend
-    ? today8amUTC.plus({ days: 3 })
-    : today8amUTC.plus({ days: 1 });
+    ? today830amUTC.plus({ days: 3 })
+    : today830amUTC.plus({ days: 1 });
   return (
     <Card className={classes.card}>
       {weekend
