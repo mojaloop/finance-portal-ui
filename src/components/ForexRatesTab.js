@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, withStyles } from '@material-ui/core';
+import { Grid, Snackbar, withStyles } from '@material-ui/core';
 
 import ConfirmDialog from './ConfirmDialog';
 import ForexRateEntry from './ForexRateEntry';
 import ForexRatesTable from './ForexRatesTable';
+import SnackbarContentWrapper from './SnackbarUtils';
 
 import { getForexRates, setForexRate } from '../api';
 
@@ -58,17 +59,37 @@ function ForexRatesTab(props) {
       visible: true,
       description: `This will set the EURMAD rate to ${rate} from ${startTime} to ${endTime}. Are you sure you want to continue?`,
       onConfirm: async () => {
-        await setForexRate({
-          rate, startTime, endTime, destinationCurrency: 'mad', sourceCurrency: 'eur',
-        });
-        setConfirmDialog({
-          visible: false,
-          description: '',
-          onConfirm: () => {},
-          onReject: () => {},
-        });
+        try {
+          await setForexRate({
+            rate, startTime, endTime, destinationCurrency: 'mad', sourceCurrency: 'eur',
+          });
+          setConfirmDialog({
+            visible: false,
+            description: '',
+            onConfirm: () => {},
+          });
+        } catch (error) {
+          setConfirmDialog({
+            visible: false,
+            description: '',
+            onConfirm: () => {},
+          });
+          setSnackBarParams({
+            show: true, message: 'The Forex rate could not be set', variant: 'error',
+          });
+        }
       },
     });
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    if (snackBarParams.callback) {
+      snackBarParams.callback();
+    }
+    setSnackBarParams({ ...snackBarParams, show: false });
   };
 
   useEffect(() => {
@@ -135,6 +156,23 @@ function ForexRatesTab(props) {
         onConfirm={confirmDialog.onConfirm}
       />
       )}
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={snackBarParams.show}
+        autoHideDuration={snackBarParams.action === 'close' ? 6000 : null}
+        onClose={handleCloseSnackbar}
+      >
+        <SnackbarContentWrapper
+          onClose={handleCloseSnackbar}
+          variant={snackBarParams.variant}
+          className={classes.margin}
+          message={snackBarParams.message}
+          action={snackBarParams.action}
+        />
+      </Snackbar>
       <Grid className={classes.root} container spacing={0}>
         <Grid item xs={12}>
           <ForexRateEntry onCommit={onCommit} />
@@ -150,7 +188,7 @@ function ForexRatesTab(props) {
 }
 
 ForexRatesTab.propTypes = {
-  classes: PropTypes.shape({ root: PropTypes.string }).isRequired,
+  classes: PropTypes.shape({ root: PropTypes.object, margin: PropTypes.object }).isRequired,
   getRates: PropTypes.func,
   showConfirmDialog: PropTypes.bool,
 };
