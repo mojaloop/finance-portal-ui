@@ -4,7 +4,6 @@ import {
   Grid, TextField, Typography, withStyles,
 } from '@material-ui/core';
 import { DateTime } from 'luxon';
-import { Decimal } from 'decimal.js';
 
 import DatePicker from './DatePicker';
 import ForexRateEndDateOption from './ForexRateEndDateOption';
@@ -23,7 +22,7 @@ export function receivedAmount(rate) {
 
 export const floatToIntDestructive = (f) => parseInt(String(f).replace('.', ''), 10);
 
-export const hasMax4DecimalPlaces = (number) => new Decimal(number).times(100000).mod(10).equals(0);
+export const hasMax4DecimalPlaces = (number) => (number * 100000) % 10 === 0;
 
 export function rateInputToInt(inputRate) {
   if (!inputRate) {
