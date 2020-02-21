@@ -4,9 +4,13 @@ import { TextField, withStyles } from '@material-ui/core';
 import { useUIDSeed } from 'react-uid';
 import { DateTime } from 'luxon';
 
+export const strToDate = (datestr) => DateTime.fromFormat(datestr, 'yyyy-MM-dd').toUTC().set({
+  hour: 0, minute: 0, second: 0, millisecond: 0,
+});
+
 // We deliberately lose some information (hh:mm:ss.ms) here. We're just not interested in sub-day
 // granularity.
-const dateToStr = (dt) => {
+export const dateToStr = (dt) => {
   if (!dt) {
     throw new TypeError('This function requires a suitable date object as an argument');
   }
@@ -35,7 +39,7 @@ const styles = (theme) => ({
   },
 });
 
-function DatePickerImpl(props) {
+function DatePicker(props) {
   const {
     defDate, desc, classes, onChange, disabled,
   } = props;
@@ -60,7 +64,7 @@ function DatePickerImpl(props) {
   );
 }
 
-DatePickerImpl.propTypes = {
+DatePicker.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   defDate: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.instanceOf(DateTime)])
     .isRequired,
@@ -69,13 +73,8 @@ DatePickerImpl.propTypes = {
   onChange: PropTypes.func.isRequired,
 };
 
-DatePickerImpl.defaultProps = {
+DatePicker.defaultProps = {
   disabled: false,
 };
 
-const DatePicker = withStyles(styles)(DatePickerImpl);
-
-export {
-  DatePicker,
-  dateToStr,
-};
+export default withStyles(styles)(DatePicker);

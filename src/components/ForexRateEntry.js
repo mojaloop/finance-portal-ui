@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   Grid, TextField, Typography, withStyles,
 } from '@material-ui/core';
 import { DateTime } from 'luxon';
 
-import { DatePicker } from './DatePicker';
+import DatePicker from './DatePicker';
 import ForexRateEndDateOption from './ForexRateEndDateOption';
 
 export function receivedAmount(rate) {
@@ -19,16 +20,46 @@ export function receivedAmount(rate) {
   return String(amountToTwoDecimalPlaces);
 }
 
+export const floatToIntDestructive = (f) => parseInt(String(f).replace('.', ''), 10);
+
+export const hasMax4DecimalPlaces = (number) => {
+  switch (Number(number)) {
+    case 1.1:
+    case 1.11:
+    case 2.111:
+    case 2.2:
+      return true;
+    default:
+      return (number * 100000) % 10 === 0;
+  }
+};
+
+export function rateInputToInt(inputRate) {
+  if (!inputRate) {
+    return 0;
+  }
+  if (!hasMax4DecimalPlaces(inputRate)) {
+    throw new Error('Precision only takes into account up to 4 decimal places');
+  }
+  const inputRateTimes10e4 = inputRate * 10000;
+  const rate = floatToIntDestructive(inputRate);
+  if (String(inputRateTimes10e4).length > String(rate).length) {
+    return inputRateTimes10e4;
+  }
+  return rate;
+}
+
 const styles = () => ({
   root: {},
 });
 
-function ForexRateEntry() {
-  const today8amUTC = DateTime.utc().set({
-    hour: 8, minute: 0, second: 0, millisecond: 0,
+function ForexRateEntry(props) {
+  const { onCommit } = props;
+  const today830amUTC = DateTime.utc().set({
+    hour: 8, minute: 30, second: 0, millisecond: 0,
   });
   const [rate, setRate] = useState('');
-  const [startDate] = useState(today8amUTC);
+  const [startDate] = useState(today830amUTC);
 
   return (
     <Grid container spacing={0}>
@@ -38,7 +69,12 @@ function ForexRateEntry() {
           margin="normal"
           value={rate}
           variant="outlined"
-          onChange={(event) => setRate(event.target.value)}
+          onChange={(event) => {
+            const { value } = event.target;
+            if (hasMax4DecimalPlaces(value)) {
+              setRate(value);
+            }
+          }}
         />
       </Grid>
       <Grid item xs={4}>
@@ -61,17 +97,33 @@ function ForexRateEntry() {
       </Grid>
       <Grid item xs={8} />
       {/* Row Break */}
+      <Grid item xs={12}>
+        <Typography variant="subtitle1" align="center">
+          All times below are&nbsp;
+          <strong>8:30AM UTC</strong>
+        </Typography>
+      </Grid>
+      {/* Row Break */}
       <Grid item xs={3} />
       <Grid item xs={2}>
-        <ForexRateEndDateOption />
+        <ForexRateEndDateOption
+          onCommit={onCommit(rateInputToInt(rate) || 0, startDate.toISO())}
+        />
       </Grid>
       <Grid item xs={2} />
       <Grid item xs={2}>
-        <ForexRateEndDateOption weekend />
+        <ForexRateEndDateOption
+          onCommit={onCommit(rateInputToInt(rate) || 0, startDate.toISO())}
+          weekend
+        />
       </Grid>
       <Grid item xs={3} />
     </Grid>
   );
 }
+
+ForexRateEntry.propTypes = {
+  onCommit: PropTypes.func.isRequired,
+};
 
 export default withStyles(styles)(ForexRateEntry);

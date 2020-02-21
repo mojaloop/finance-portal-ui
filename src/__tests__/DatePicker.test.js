@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { DateTime } from 'luxon';
-import { DatePicker, dateToStr } from '../components/DatePicker';
+import DatePicker, { dateToStr, strToDate } from '../components/DatePicker';
 
 describe('<DatePicker />', () => {
   it('should render without crashing', () => {
@@ -18,6 +18,34 @@ describe('<DatePicker />', () => {
     const rendered = render(<DatePicker {...props} />);
     expect(rendered).toBeTruthy();
   });
+});
+
+describe('strToDate(datestr)', () => {
+  it('should return a proper DateTime (luxon) object from a date string', () => {
+    const datestr = '2020-01-24';
+    const expected = '2020-01-24T00:00:00.000Z';
+    const actual = strToDate(datestr).toISO();
+    expect(actual).toEqual(expected);
+  });
+  it('should return a proper DateTime (luxon) object from a date string in February', () => {
+    const datestr = '2020-02-22';
+    const expected = '2020-02-22T00:00:00.000Z';
+    const actual = strToDate(datestr).toISO();
+    expect(actual).toEqual(expected);
+  });
+  it('should return a proper DateTime (luxon) object from a date string in March', () => {
+    const datestr = '2020-03-22';
+    const expected = '2020-03-22T00:00:00.000Z';
+    const actual = strToDate(datestr).toISO();
+    expect(actual).toEqual(expected);
+  });
+  it('should return a proper DateTime (luxon) object from a date string with a single digit day',
+    () => {
+      const datestr = '2020-01-03';
+      const expected = '2020-01-03T00:00:00.000Z';
+      const actual = strToDate(datestr).toISO();
+      expect(actual).toEqual(expected);
+    });
 });
 
 describe('dateToStr(dt)', () => {

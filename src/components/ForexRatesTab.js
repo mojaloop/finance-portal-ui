@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Grid, withStyles } from '@material-ui/core';
+import { Grid, Snackbar, withStyles } from '@material-ui/core';
 
+import ConfirmDialog from './ConfirmDialog';
 import ForexRateEntry from './ForexRateEntry';
 import ForexRatesTable from './ForexRatesTable';
-import { getForexRates } from '../api';
+import SnackbarContentWrapper from './SnackbarUtils';
+
+import { getForexRates, setForexRate } from '../api';
 
 export const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => [
   String(integer).slice(0, String(integer).length - decimalRate),
@@ -43,12 +46,51 @@ const styles = (theme) => ({
 });
 
 function ForexRatesTab(props) {
-  const { classes, getRates } = props;
+  const { classes, getRates, showConfirmDialog } = props;
 
   const [forexRates, setForexRates] = useState([]);
   const [snackBarParams, setSnackBarParams] = useState({
     show: false, message: '', variant: 'success',
   });
+  const [confirmDialog, setConfirmDialog] = useState({ visible: showConfirmDialog, description: '', onConfirm: () => {} });
+
+  const onCommit = (rate, startTime) => (endTime) => {
+    setConfirmDialog({
+      visible: true,
+      description: `This will set the EURMAD rate to ${rate} from ${startTime} to ${endTime}. Are you sure you want to continue?`,
+      onConfirm: async () => {
+        try {
+          await setForexRate({
+            rate, startTime, endTime, destinationCurrency: 'mad', sourceCurrency: 'eur',
+          });
+          setConfirmDialog({
+            visible: false,
+            description: '',
+            onConfirm: () => {},
+          });
+        } catch (error) {
+          setConfirmDialog({
+            visible: false,
+            description: '',
+            onConfirm: () => {},
+          });
+          setSnackBarParams({
+            show: true, message: 'The Forex rate could not be set', variant: 'error',
+          });
+        }
+      },
+    });
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    if (snackBarParams.callback) {
+      snackBarParams.callback();
+    }
+    setSnackBarParams({ ...snackBarParams, show: false });
+  };
 
   useEffect(() => {
     async function fetchForexRates() {
@@ -104,25 +146,56 @@ function ForexRatesTab(props) {
   // ]
 
   return (
-    <Grid className={classes.root} container spacing={0}>
-      <Grid item xs={12}>
-        <ForexRateEntry />
+    <>
+      {confirmDialog.visible
+      && (
+      <ConfirmDialog
+        title="Warning"
+        description={confirmDialog.description}
+        onReject={() => setConfirmDialog({ visible: showConfirmDialog, description: '', onConfirm: () => {} })}
+        onConfirm={confirmDialog.onConfirm}
+      />
+      )}
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={snackBarParams.show}
+        autoHideDuration={snackBarParams.action === 'close' ? 6000 : null}
+        onClose={handleCloseSnackbar}
+      >
+        <SnackbarContentWrapper
+          onClose={handleCloseSnackbar}
+          variant={snackBarParams.variant}
+          className={classes.margin}
+          message={snackBarParams.message}
+          action={snackBarParams.action}
+        />
+      </Snackbar>
+      <Grid className={classes.root} container spacing={0}>
+        <Grid item xs={12}>
+          <ForexRateEntry onCommit={onCommit} />
+        </Grid>
+        <Grid item xs={12}>
+          <ForexRatesTable forexRates={forexRates} />
+        </Grid>
+        {/* eslint-disable-next-line no-console */}
+        {console.log('snackBarParams:', snackBarParams)}
       </Grid>
-      <Grid item xs={12}>
-        <ForexRatesTable forexRates={forexRates} />
-      </Grid>
-      {console.log('Error in forex rates component. Message parameters:', snackBarParams)}
-    </Grid>
+    </>
   );
 }
 
 ForexRatesTab.propTypes = {
-  classes: PropTypes.shape({ root: PropTypes.string }).isRequired,
+  classes: PropTypes.shape({ root: PropTypes.object, margin: PropTypes.object }).isRequired,
   getRates: PropTypes.func,
+  showConfirmDialog: PropTypes.bool,
 };
 
 ForexRatesTab.defaultProps = {
   getRates: getForexRates,
+  showConfirmDialog: false,
 };
 
 export default withStyles(styles)(ForexRatesTab);

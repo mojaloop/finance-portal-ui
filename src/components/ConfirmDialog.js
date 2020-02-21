@@ -1,6 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Dialog } from '@reach/dialog';
+import { Button, withStyles } from '@material-ui/core';
+
+const styles = (theme) => ({
+  root: {
+    marginTop: theme.spacing.unit * 3,
+  },
+  margin: {
+    margin: theme.spacing.unit,
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+});
 
 function ConfirmDialog(props) {
   const {
@@ -9,19 +22,21 @@ function ConfirmDialog(props) {
     description,
     onConfirm,
     onReject,
+    classes,
   } = props;
   return (
-    <Dialog>
+    <Dialog className={classes.root}>
       <h1>{title}</h1>
       <p>{description}</p>
       {children}
-      <button type="button" onClick={onReject}>Cancel</button>
-      <button type="button" onClick={onConfirm}>OK</button>
+      <Button className={classes.button} color="primary" variant="contained" onClick={onReject}>Cancel</Button>
+      <Button className={classes.button} color="secondary" variant="contained" onClick={onConfirm}>OK</Button>
     </Dialog>
   );
 }
 
 ConfirmDialog.propTypes = {
+  classes: PropTypes.objectOf({ root: PropTypes.object, margin: PropTypes.object }).isRequired,
   description: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   children: PropTypes.arrayOf(PropTypes.element),
@@ -35,4 +50,4 @@ ConfirmDialog.defaultProps = {
   onReject: () => {},
 };
 
-export default ConfirmDialog;
+export default withStyles(styles)(ConfirmDialog);
