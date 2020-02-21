@@ -202,7 +202,6 @@ jobs:
 
   test-build:
     machine: true
-    # <<: *default_env
     steps:
       - checkout
       - run:
