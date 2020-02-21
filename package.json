@@ -1,6 +1,6 @@
 {
   "name": "admin-portal-web-ui",
-  "version": "9.1.0",
+  "version": "9.1.1",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.2",
@@ -41,7 +41,7 @@
     "@storybook/preset-create-react-app": "^1.5.2",
     "@storybook/react": "^5.3.13",
     "@testing-library/react": "^9.4.0",
-    "eslint": "^6.1.0",
+    "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
