@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Dialog } from '@reach/dialog';
+import { Button } from '@material-ui/core';
 
 function ConfirmDialog(props) {
   const {
@@ -15,8 +16,8 @@ function ConfirmDialog(props) {
       <h1>{title}</h1>
       <p>{description}</p>
       {children}
-      <button type="button" onClick={onReject}>Cancel</button>
-      <button type="button" onClick={onConfirm}>OK</button>
+      <Button color="primary" variant="contained" onClick={onReject}>Cancel</Button>
+      <Button color="secondary" variant="contained" onClick={onConfirm}>OK</Button>
     </Dialog>
   );
 }
