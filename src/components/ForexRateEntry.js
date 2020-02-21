@@ -93,13 +93,13 @@ function ForexRateEntry(props) {
       <Grid item xs={3} />
       <Grid item xs={2}>
         <ForexRateEndDateOption
-          onCommit={onCommit(rateInputToInt(rate), startDate.toISO())}
+          onCommit={onCommit(rateInputToInt(rate) || 0, startDate.toISO())}
         />
       </Grid>
       <Grid item xs={2} />
       <Grid item xs={2}>
         <ForexRateEndDateOption
-          onCommit={onCommit(rateInputToInt(rate), startDate.toISO())}
+          onCommit={onCommit(rateInputToInt(rate) || 0, startDate.toISO())}
           weekend
         />
       </Grid>
