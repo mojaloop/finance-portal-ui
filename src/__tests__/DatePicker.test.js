@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { DateTime } from 'luxon';
-import DatePicker, { strToDate } from '../components/DatePicker';
+import DatePicker, { dateToStr } from '../components/DatePicker';
 
 describe('<DatePicker />', () => {
   it('should render without crashing', () => {
