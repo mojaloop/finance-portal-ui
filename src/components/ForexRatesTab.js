@@ -52,12 +52,18 @@ function ForexRatesTab(props) {
   const [snackBarParams, setSnackBarParams] = useState({
     show: false, message: '', variant: 'success',
   });
-  const [confirmDialog, setConfirmDialog] = useState({ visible: showConfirmDialog, description: '', onConfirm: () => {} });
+  const [confirmDialog, setConfirmDialog] = useState({
+    visible: showConfirmDialog,
+    description: '',
+    onConfirm: () => {},
+  });
 
   const onCommit = (rate, startTime) => (endTime) => {
     setConfirmDialog({
       visible: true,
-      description: `This will set the EURMAD rate to ${rate} from ${startTime} to ${endTime}. Are you sure you want to continue?`,
+      description: 'This will set the EURMAD rate to '
+        + `${stringRateFromDecimalRateAndInteger(4, rate)} from ${startTime} to ${endTime}. Are `
+        + 'you sure you want to continue?',
       onConfirm: async () => {
         try {
           await setForexRate({
@@ -68,15 +74,48 @@ function ForexRatesTab(props) {
             description: '',
             onConfirm: () => {},
           });
-        } catch (error) {
-          setConfirmDialog({
-            visible: false,
-            description: '',
-            onConfirm: () => {},
-          });
           setSnackBarParams({
-            show: true, message: 'The Forex rate could not be set', variant: 'error',
+            show: true,
+            message: 'The Forex rate was successfully set',
+            variant: 'success',
+            action: 'close',
           });
+          setForexRates([{
+            rate: stringRateFromDecimalRateAndInteger(4, rate),
+            startTime,
+            endTime,
+            reuse: true,
+          }, ...forexRates]);
+        } catch (error) {
+          if (error instanceof SyntaxError) {
+            setConfirmDialog({
+              visible: false,
+              description: '',
+              onConfirm: () => {},
+            });
+            setSnackBarParams({
+              show: true,
+              message: 'The Forex rate was successfully set',
+              variant: 'success',
+              action: 'close',
+            });
+            setForexRates([{
+              rate: stringRateFromDecimalRateAndInteger(4, rate),
+              startTime,
+              endTime,
+              reuse: true,
+            }, ...forexRates]);
+          } else {
+            setConfirmDialog({
+              visible: false,
+              description: '',
+              onConfirm: () => {
+              },
+            });
+            setSnackBarParams({
+              show: true, message: 'Error: Forex rate could not be set', variant: 'error',
+            });
+          }
         }
       },
     });
@@ -152,7 +191,11 @@ function ForexRatesTab(props) {
       <ConfirmDialog
         title="Warning"
         description={confirmDialog.description}
-        onReject={() => setConfirmDialog({ visible: showConfirmDialog, description: '', onConfirm: () => {} })}
+        onReject={() => setConfirmDialog({
+          visible: showConfirmDialog,
+          description: '',
+          onConfirm: () => {},
+        })}
         onConfirm={confirmDialog.onConfirm}
       />
       )}
