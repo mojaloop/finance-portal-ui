@@ -35,7 +35,7 @@ function PreviousSettlementWindowInfo(props) {
           <Paper>Amount</Paper>
         </Grid>
         {Object.keys(payments).map((key) => (
-          <Grid container justify="center" key={key}>
+          <Grid container justify="center" key={`payments-${key}`}>
             <Grid item md={3}><Paper>{key}</Paper></Grid>
             <Grid item md={3}><Paper>{payments[key].num}</Paper></Grid>
             <Grid item md={3}><Paper>{payments[key].value}</Paper></Grid>
@@ -54,7 +54,7 @@ function PreviousSettlementWindowInfo(props) {
           <Paper>Amount</Paper>
         </Grid>
         {Object.keys(receipts).map((key) => (
-          <Grid container justify="center" key={key}>
+          <Grid container justify="center" key={`receipts-${key}`}>
             <Grid item md={3}><Paper>{key}</Paper></Grid>
             <Grid item md={3}><Paper>{receipts[key].num}</Paper></Grid>
             <Grid item md={3}><Paper>{receipts[key].value}</Paper></Grid>
@@ -70,7 +70,7 @@ function PreviousSettlementWindowInfo(props) {
           <Paper>Amount</Paper>
         </Grid>
         {Object.keys(limits).map((key) => (
-          <Grid container justify="center" key={key}>
+          <Grid container justify="center" key={`limits-${key}`}>
             <Grid item md={3}><Paper>{key}</Paper></Grid>
             <Grid item md={3}><Paper>{limits[key].value}</Paper></Grid>
           </Grid>
@@ -85,7 +85,7 @@ function PreviousSettlementWindowInfo(props) {
           <Paper>Amount</Paper>
         </Grid>
         {netPositions.map((entry) => (
-          <Grid container justify="center" key={Object.keys(entry)[0]}>
+          <Grid container justify="center" key={`netPositions-${Object.keys(entry)[0]}`}>
             <Grid item md={3}><Paper>{Object.keys(entry)[0]}</Paper></Grid>
             <Grid item md={3}><Paper>{entry[Object.keys(entry)[0]]}</Paper></Grid>
           </Grid>
