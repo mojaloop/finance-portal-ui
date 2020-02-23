@@ -188,7 +188,7 @@ function ForexRatesTab(props) {
 }
 
 ForexRatesTab.propTypes = {
-  classes: PropTypes.shape({ root: PropTypes.object, margin: PropTypes.object }).isRequired,
+  classes: PropTypes.shape({ root: PropTypes.string, margin: PropTypes.string }).isRequired,
   getRates: PropTypes.func,
   showConfirmDialog: PropTypes.bool,
 };

@@ -36,7 +36,9 @@ function ConfirmDialog(props) {
 }
 
 ConfirmDialog.propTypes = {
-  classes: PropTypes.objectOf({ root: PropTypes.object, margin: PropTypes.object }).isRequired,
+  classes: PropTypes.shape({
+    root: PropTypes.string, margin: PropTypes.string, button: PropTypes.string,
+  }).isRequired,
   description: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   children: PropTypes.arrayOf(PropTypes.element),
