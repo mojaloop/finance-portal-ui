@@ -180,8 +180,6 @@ function ForexRatesTab(props) {
         <Grid item xs={12}>
           <ForexRatesTable forexRates={forexRates} />
         </Grid>
-        {/* eslint-disable-next-line no-console */}
-        {console.log('snackBarParams:', snackBarParams)}
       </Grid>
     </>
   );
