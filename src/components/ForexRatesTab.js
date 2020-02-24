@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Grid, Snackbar, withStyles } from '@material-ui/core';
 
 import ConfirmDialog from './ConfirmDialog';
-import ForexRateEntry from './ForexRateEntry';
+import ForexRateEntry, { hiddenConfirmDialog } from './ForexRateEntry';
 import ForexRatesTable from './ForexRatesTable';
 import SnackbarContentWrapper from './SnackbarUtils';
 
@@ -69,11 +69,7 @@ function ForexRatesTab(props) {
           await setForexRate({
             rate, startTime, endTime, destinationCurrency: 'mad', sourceCurrency: 'eur',
           });
-          setConfirmDialog({
-            visible: false,
-            description: '',
-            onConfirm: () => {},
-          });
+          setConfirmDialog(hiddenConfirmDialog());
           setSnackBarParams({
             show: true,
             message: 'The Forex rate was successfully set',
@@ -88,11 +84,7 @@ function ForexRatesTab(props) {
           }, ...forexRates]);
         } catch (error) {
           if (error instanceof SyntaxError) {
-            setConfirmDialog({
-              visible: false,
-              description: '',
-              onConfirm: () => {},
-            });
+            setConfirmDialog(hiddenConfirmDialog());
             setSnackBarParams({
               show: true,
               message: 'The Forex rate was successfully set',
@@ -106,12 +98,7 @@ function ForexRatesTab(props) {
               reuse: true,
             }, ...forexRates]);
           } else {
-            setConfirmDialog({
-              visible: false,
-              description: '',
-              onConfirm: () => {
-              },
-            });
+            setConfirmDialog(hiddenConfirmDialog());
             setSnackBarParams({
               show: true, message: 'Error: Forex rate could not be set', variant: 'error',
             });
