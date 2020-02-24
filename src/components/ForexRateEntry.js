@@ -5,7 +5,7 @@ import {
 } from '@material-ui/core';
 import { DateTime } from 'luxon';
 
-import RateFormat from './RateFormat'
+import RateFormat from './RateFormat';
 import DatePicker from './DatePicker';
 import ForexRateEndDateOption from './ForexRateEndDateOption';
 
