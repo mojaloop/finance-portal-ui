@@ -4,8 +4,8 @@ import {
   Grid, TextField, Typography, withStyles,
 } from '@material-ui/core';
 import { DateTime } from 'luxon';
-import NumberFormat from 'react-number-format';
 
+import RateFormat from './RateFormat'
 import DatePicker from './DatePicker';
 import ForexRateEndDateOption from './ForexRateEndDateOption';
 
@@ -48,27 +48,6 @@ export const hiddenConfirmDialog = () => ({ visible: false, description: '', onC
 const styles = () => ({
   root: {},
 });
-
-function RateFormat(props) {
-  const { inputRef, onChange, ...other } = props;
-  return (
-    <NumberFormat
-      /* eslint-disable-next-line react/jsx-props-no-spreading */
-      {...other}
-      getInputRef={inputRef}
-      onValueChange={(values) => {
-        onChange({
-          target: {
-            value: values.value,
-          },
-        });
-      }}
-      allowNegative={false}
-      decimalScale={4}
-      fixedDecimalScale
-    />
-  );
-}
 
 function ForexRateEntry(props) {
   const { onCommit } = props;
