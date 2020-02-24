@@ -73,7 +73,7 @@ function ForexRateEndDateOption(props) {
 }
 
 ForexRateEndDateOption.propTypes = {
-  classes: PropTypes.shape({ card: PropTypes.object }).isRequired,
+  classes: PropTypes.shape({ card: PropTypes.string }).isRequired,
   onCommit: PropTypes.func,
   weekend: PropTypes.bool,
 };

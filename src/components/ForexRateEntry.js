@@ -42,6 +42,8 @@ export function rateInputToInt(inputRate) {
   return rate;
 }
 
+export const hiddenConfirmDialog = () => ({ visible: false, description: '', onConfirm: () => {} });
+
 const styles = () => ({
   root: {},
 });

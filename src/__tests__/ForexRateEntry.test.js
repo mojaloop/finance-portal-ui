@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import ForexRateEntry, {
-  floatToIntDestructive, hasMax4DecimalPlaces, rateInputToInt, receivedAmount,
+  floatToIntDestructive, hasMax4DecimalPlaces, hiddenConfirmDialog, rateInputToInt, receivedAmount,
 } from '../components/ForexRateEntry';
 
 describe('receivedAmount(rate)', () => {
@@ -144,6 +144,18 @@ describe('rateInputToInt(rateInput)', () => {
   });
   it('should return 0 when given a nonsensical rate input', () => {
     expect(rateInputToInt('')).toEqual(0);
+  });
+});
+
+describe('hiddenConfirmDialog()', () => {
+  it('should return a setConfirmDialog object that results in a hidden ConfirmDialog', () => {
+    const expected = {
+      visible: false,
+      description: '',
+      onConfirm: () => {},
+    };
+    const actual = hiddenConfirmDialog();
+    expect(JSON.stringify(actual)).toEqual(JSON.stringify(expected));
   });
 });
 

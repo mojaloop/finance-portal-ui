@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Grid, Snackbar, withStyles } from '@material-ui/core';
 
 import ConfirmDialog from './ConfirmDialog';
-import ForexRateEntry from './ForexRateEntry';
+import ForexRateEntry, { hiddenConfirmDialog } from './ForexRateEntry';
 import ForexRatesTable from './ForexRatesTable';
 import SnackbarContentWrapper from './SnackbarUtils';
 
@@ -52,31 +52,57 @@ function ForexRatesTab(props) {
   const [snackBarParams, setSnackBarParams] = useState({
     show: false, message: '', variant: 'success',
   });
-  const [confirmDialog, setConfirmDialog] = useState({ visible: showConfirmDialog, description: '', onConfirm: () => {} });
+  const [confirmDialog, setConfirmDialog] = useState({
+    visible: showConfirmDialog,
+    description: '',
+    onConfirm: () => {},
+  });
 
   const onCommit = (rate, startTime) => (endTime) => {
     setConfirmDialog({
       visible: true,
-      description: `This will set the EURMAD rate to ${rate} from ${startTime} to ${endTime}. Are you sure you want to continue?`,
+      description: 'This will set the EURMAD rate to '
+        + `${stringRateFromDecimalRateAndInteger(4, rate)} from ${startTime} to ${endTime}. Are `
+        + 'you sure you want to continue?',
       onConfirm: async () => {
         try {
           await setForexRate({
             rate, startTime, endTime, destinationCurrency: 'mad', sourceCurrency: 'eur',
           });
-          setConfirmDialog({
-            visible: false,
-            description: '',
-            onConfirm: () => {},
-          });
-        } catch (error) {
-          setConfirmDialog({
-            visible: false,
-            description: '',
-            onConfirm: () => {},
-          });
+          setConfirmDialog(hiddenConfirmDialog());
           setSnackBarParams({
-            show: true, message: 'The Forex rate could not be set', variant: 'error',
+            show: true,
+            message: 'The Forex rate was successfully set',
+            variant: 'success',
+            action: 'close',
           });
+          setForexRates([{
+            rate: stringRateFromDecimalRateAndInteger(4, rate),
+            startTime,
+            endTime,
+            reuse: true,
+          }, ...forexRates]);
+        } catch (error) {
+          if (error instanceof SyntaxError) {
+            setConfirmDialog(hiddenConfirmDialog());
+            setSnackBarParams({
+              show: true,
+              message: 'The Forex rate was successfully set',
+              variant: 'success',
+              action: 'close',
+            });
+            setForexRates([{
+              rate: stringRateFromDecimalRateAndInteger(4, rate),
+              startTime,
+              endTime,
+              reuse: true,
+            }, ...forexRates]);
+          } else {
+            setConfirmDialog(hiddenConfirmDialog());
+            setSnackBarParams({
+              show: true, message: 'Error: Forex rate could not be set', variant: 'error',
+            });
+          }
         }
       },
     });
@@ -152,7 +178,11 @@ function ForexRatesTab(props) {
       <ConfirmDialog
         title="Warning"
         description={confirmDialog.description}
-        onReject={() => setConfirmDialog({ visible: showConfirmDialog, description: '', onConfirm: () => {} })}
+        onReject={() => setConfirmDialog({
+          visible: showConfirmDialog,
+          description: '',
+          onConfirm: () => {},
+        })}
         onConfirm={confirmDialog.onConfirm}
       />
       )}
@@ -180,15 +210,13 @@ function ForexRatesTab(props) {
         <Grid item xs={12}>
           <ForexRatesTable forexRates={forexRates} />
         </Grid>
-        {/* eslint-disable-next-line no-console */}
-        {console.log('snackBarParams:', snackBarParams)}
       </Grid>
     </>
   );
 }
 
 ForexRatesTab.propTypes = {
-  classes: PropTypes.shape({ root: PropTypes.object, margin: PropTypes.object }).isRequired,
+  classes: PropTypes.shape({ root: PropTypes.string, margin: PropTypes.string }).isRequired,
   getRates: PropTypes.func,
   showConfirmDialog: PropTypes.bool,
 };
