@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import ForexRateEntry, {
-  floatToIntDestructive, hasMax4DecimalPlaces, hiddenConfirmDialog, rateInputToInt, receivedAmount,
+  floatToIntDestructive, hasMax4DecimalPlaces, hiddenConfirmDialog, rateInputStringToInt, receivedAmount,
 } from '../components/ForexRateEntry';
 
 describe('receivedAmount(rate)', () => {
@@ -106,44 +106,50 @@ describe('hasMax4DecimalPlaces(number)', () => {
   });
 });
 
-describe('rateInputToInt(rateInput)', () => {
+describe('rateInputStringToInt(rateInput)', () => {
   it('should return an integer rate given a 4-decimal places rate input', () => {
-    const inputRate = 111.5555;
+    const inputRate = '111.5555';
     const expected = 1115555;
-    const actual = rateInputToInt(inputRate);
+    const actual = rateInputStringToInt(inputRate);
     expect(actual).toEqual(expected);
   });
   it('should return an integer rate given a 3-decimal places rate input', () => {
-    const inputRate = 111.555;
+    const inputRate = '111.555';
     const expected = 1115550;
-    const actual = rateInputToInt(inputRate);
+    const actual = rateInputStringToInt(inputRate);
     expect(actual).toEqual(expected);
   });
   it('should return an integer rate given a 2-decimal places rate input', () => {
-    const inputRate = 111.55;
+    const inputRate = '111.55';
     const expected = 1115500;
-    const actual = rateInputToInt(inputRate);
+    const actual = rateInputStringToInt(inputRate);
     expect(actual).toEqual(expected);
   });
   it('should return an integer rate given a 1-decimal place rate input', () => {
-    const inputRate = 111.5;
+    const inputRate = '111.5';
     const expected = 1115000;
-    const actual = rateInputToInt(inputRate);
+    const actual = rateInputStringToInt(inputRate);
     expect(actual).toEqual(expected);
   });
   it('should return an integer rate given a non-fractional rate input', () => {
-    const inputRate = 111;
+    const inputRate = '111';
     const expected = 1110000;
-    const actual = rateInputToInt(inputRate);
+    const actual = rateInputStringToInt(inputRate);
     expect(actual).toEqual(expected);
   });
   it('should throw an error when given a rate that has more than four decimal places', () => {
-    const inputRate = 111.55551;
-    expect(() => rateInputToInt(inputRate))
+    const inputRate = '111.55551';
+    expect(() => rateInputStringToInt(inputRate))
       .toThrow('Precision only takes into account up to 4 decimal places');
   });
   it('should return 0 when given a nonsensical rate input', () => {
-    expect(rateInputToInt('')).toEqual(0);
+    expect(rateInputStringToInt('')).toEqual(0);
+  });
+  it('should throw when provided with non-numeric input', () => {
+    expect(() => rateInputStringToInt('hello')).toThrow('Argument is not a number');
+  });
+  it('should throw when provided with pseudo-numeric input', () => {
+    expect(() => rateInputStringToInt('11.23.4444')).toThrow('Argument is not a number');
   });
 });
 

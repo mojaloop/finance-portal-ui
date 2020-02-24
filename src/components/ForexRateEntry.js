@@ -27,9 +27,15 @@ export const hasMax4DecimalPlaces = (number) => {
   return (frac === undefined || frac.length < 5);
 };
 
-export function rateInputToInt(inputRate) {
-  if (!inputRate) {
+export function rateInputStringToInt(inputRateStr) {
+  if (!inputRateStr) {
     return 0;
+  }
+  // Force inputRateStr to be a string by calling toString here. If the caller doesn't respect the
+  // function name, that's up to them.
+  const inputRate = Number(inputRateStr.toString());
+  if (isNaN(inputRate)) {
+    throw new Error('Argument is not a number');
   }
   if (!hasMax4DecimalPlaces(inputRate)) {
     throw new Error('Precision only takes into account up to 4 decimal places');
@@ -102,13 +108,13 @@ function ForexRateEntry(props) {
       <Grid item xs={3} />
       <Grid item xs={2}>
         <ForexRateEndDateOption
-          onCommit={onCommit(rateInputToInt(rate) || 0, startDate.toISO())}
+          onCommit={onCommit(rateInputStringToInt(rate) || 0, startDate.toISO())}
         />
       </Grid>
       <Grid item xs={2} />
       <Grid item xs={2}>
         <ForexRateEndDateOption
-          onCommit={onCommit(rateInputToInt(rate) || 0, startDate.toISO())}
+          onCommit={onCommit(rateInputStringToInt(rate) || 0, startDate.toISO())}
           weekend
         />
       </Grid>
