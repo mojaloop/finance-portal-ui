@@ -23,7 +23,7 @@ export function receivedAmount(rate) {
 export const floatToIntDestructive = (f) => parseInt(String(f).replace('.', ''), 10);
 
 export const hasMax4DecimalPlaces = (number) => {
-  const [whole, frac] = Number(number).toString().split('.');
+  const [, frac] = Number(number).toString().split('.');
   return (frac === undefined || frac.length < 5);
 };
 
