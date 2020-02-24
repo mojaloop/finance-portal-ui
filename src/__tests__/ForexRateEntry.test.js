@@ -1,7 +1,11 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import ForexRateEntry, {
-  floatToIntDestructive, hasMax4DecimalPlaces, hiddenConfirmDialog, rateInputStringToInt, receivedAmount,
+  floatToIntDestructive,
+  hasMax4DecimalPlaces,
+  hiddenConfirmDialog,
+  rateInputStringToInt,
+  receivedAmount,
 } from '../components/ForexRateEntry';
 
 describe('receivedAmount(rate)', () => {

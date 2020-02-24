@@ -34,7 +34,7 @@ export function rateInputStringToInt(inputRateStr) {
   // Force inputRateStr to be a string by calling toString here. If the caller doesn't respect the
   // function name, that's up to them.
   const inputRate = Number(inputRateStr.toString());
-  if (isNaN(inputRate)) {
+  if (Number.isNaN(inputRate)) {
     throw new Error('Argument is not a number');
   }
   if (!hasMax4DecimalPlaces(inputRate)) {
