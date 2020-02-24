@@ -4,6 +4,7 @@ import {
   Grid, TextField, Typography, withStyles,
 } from '@material-ui/core';
 import { DateTime } from 'luxon';
+import NumberFormat from 'react-number-format';
 
 import DatePicker from './DatePicker';
 import ForexRateEndDateOption from './ForexRateEndDateOption';
@@ -48,6 +49,27 @@ const styles = () => ({
   root: {},
 });
 
+function RateFormat(props) {
+  const { inputRef, onChange, ...other } = props;
+  return (
+    <NumberFormat
+      /* eslint-disable-next-line react/jsx-props-no-spreading */
+      {...other}
+      getInputRef={inputRef}
+      onValueChange={(values) => {
+        onChange({
+          target: {
+            value: values.value,
+          },
+        });
+      }}
+      allowNegative={false}
+      decimalScale={4}
+      fixedDecimalScale
+    />
+  );
+}
+
 function ForexRateEntry(props) {
   const { onCommit } = props;
   const today830amUTC = DateTime.utc().set({
@@ -64,6 +86,9 @@ function ForexRateEntry(props) {
           margin="normal"
           value={rate}
           variant="outlined"
+          InputProps={{
+            inputComponent: RateFormat,
+          }}
           onChange={(event) => {
             const { value } = event.target;
             if (hasMax4DecimalPlaces(value)) {
