@@ -68,20 +68,24 @@ function ForexRateEntry(props) {
           InputProps={{
             inputComponent: RateFormat,
           }}
-          onChange={(event) => {
-            const { value } = event.target;
-            if (hasMax4DecimalPlaces(value)) {
-              setRate(value);
-            }
-          }}
+          onChange={(event) => setRate(Number(event.target.value))}
         />
       </Grid>
       <Grid item xs={4}>
-        <Typography>Sample Exchange Estimate</Typography>
-        <Typography>Send: 50.00 EUR</Typography>
+        <Typography variant="h6">Sample Exchange Estimate</Typography>
+        <Typography>
+          Send:
+          {' '}
+          <strong>50.00</strong>
+          {' '}
+          EUR
+        </Typography>
         <Typography>
           Recv:
-          {` ${receivedAmount(rate)} MAD`}
+          {' '}
+          <strong>{`${receivedAmount(rate)}`}</strong>
+          {' '}
+          MAD
         </Typography>
       </Grid>
       <Grid item xs={4} />

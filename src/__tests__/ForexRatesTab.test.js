@@ -73,6 +73,76 @@ describe('stringRateFromDecimalRateAndInteger(decimalRate, integer)', () => {
     const actual = stringRateFromDecimalRateAndInteger(decimalRate, integer);
     expect(actual).toEqual(expected);
   });
+  it('should return a formatted rate string given 0.0001', () => {
+    const decimalRate = 4;
+    const integer = 1;
+    const expected = '0.0001';
+    const actual = stringRateFromDecimalRateAndInteger(decimalRate, integer);
+    expect(actual).toEqual(expected);
+  });
+  it('should return a formatted rate string given 0.0009', () => {
+    const decimalRate = 4;
+    const integer = 9;
+    const expected = '0.0009';
+    const actual = stringRateFromDecimalRateAndInteger(decimalRate, integer);
+    expect(actual).toEqual(expected);
+  });
+  it('should return a formatted rate string given 0.0099', () => {
+    const decimalRate = 4;
+    const integer = 99;
+    const expected = '0.0099';
+    const actual = stringRateFromDecimalRateAndInteger(decimalRate, integer);
+    expect(actual).toEqual(expected);
+  });
+  it('should return a formatted rate string given 0.0999', () => {
+    const decimalRate = 4;
+    const integer = 999;
+    const expected = '0.0999';
+    const actual = stringRateFromDecimalRateAndInteger(decimalRate, integer);
+    expect(actual).toEqual(expected);
+  });
+  it('should return a formatted rate string given 0.9999', () => {
+    const decimalRate = 4;
+    const integer = 9999;
+    const expected = '0.9999';
+    const actual = stringRateFromDecimalRateAndInteger(decimalRate, integer);
+    expect(actual).toEqual(expected);
+  });
+  it('should return a formatted rate string given 0.001', () => {
+    const decimalRate = 4;
+    const integer = 10;
+    const expected = '0.0010';
+    const actual = stringRateFromDecimalRateAndInteger(decimalRate, integer);
+    expect(actual).toEqual(expected);
+  });
+  it('should return a formatted rate string given 0.01', () => {
+    const decimalRate = 4;
+    const integer = 100;
+    const expected = '0.0100';
+    const actual = stringRateFromDecimalRateAndInteger(decimalRate, integer);
+    expect(actual).toEqual(expected);
+  });
+  it('should return a formatted rate string given 0.1', () => {
+    const decimalRate = 4;
+    const integer = 1000;
+    const expected = '0.1000';
+    const actual = stringRateFromDecimalRateAndInteger(decimalRate, integer);
+    expect(actual).toEqual(expected);
+  });
+  it('should return a formatted rate string given 1', () => {
+    const decimalRate = 4;
+    const integer = 10000;
+    const expected = '1.0000';
+    const actual = stringRateFromDecimalRateAndInteger(decimalRate, integer);
+    expect(actual).toEqual(expected);
+  });
+  it('should return a formatted rate string given 0', () => {
+    const decimalRate = 4;
+    const integer = 0;
+    const expected = '0';
+    const actual = stringRateFromDecimalRateAndInteger(decimalRate, integer);
+    expect(actual).toEqual(expected);
+  });
 });
 
 describe('<ForexRatesTab />', () => {

@@ -104,6 +104,36 @@ describe('hasMax4DecimalPlaces(number)', () => {
     const actual = hasMax4DecimalPlaces(number);
     expect(actual).toEqual(expected);
   });
+  it('should return true if given 0', () => {
+    const number = 0;
+    const expected = true;
+    const actual = hasMax4DecimalPlaces(number);
+    expect(actual).toEqual(expected);
+  });
+  it('should return true if given 0.0', () => {
+    const number = 0.0;
+    const expected = true;
+    const actual = hasMax4DecimalPlaces(number);
+    expect(actual).toEqual(expected);
+  });
+  it('should return true if given 0.01', () => {
+    const number = 0.01;
+    const expected = true;
+    const actual = hasMax4DecimalPlaces(number);
+    expect(actual).toEqual(expected);
+  });
+  it('should return true if given 0.0100', () => {
+    const number = 0.0100;
+    const expected = true;
+    const actual = hasMax4DecimalPlaces(number);
+    expect(actual).toEqual(expected);
+  });
+  it('should return true if given 0.11', () => {
+    const number = 0.11;
+    const expected = true;
+    const actual = hasMax4DecimalPlaces(number);
+    expect(actual).toEqual(expected);
+  });
 });
 
 describe('rateInputToInt(rateInput)', () => {
@@ -134,6 +164,36 @@ describe('rateInputToInt(rateInput)', () => {
   it('should return an integer rate given a non-fractional rate input', () => {
     const inputRate = 111;
     const expected = 1110000;
+    const actual = rateInputToInt(inputRate);
+    expect(actual).toEqual(expected);
+  });
+  it('should return an integer rate given a zero rate input', () => {
+    const inputRate = 0;
+    const expected = 0;
+    const actual = rateInputToInt(inputRate);
+    expect(actual).toEqual(expected);
+  });
+  it('should return an integer rate given a sub-zero rate input', () => {
+    const inputRate = 0.1;
+    const expected = 1000;
+    const actual = rateInputToInt(inputRate);
+    expect(actual).toEqual(expected);
+  });
+  it('should return an integer rate given a small sub-zero rate input', () => {
+    const inputRate = 0.01;
+    const expected = 100;
+    const actual = rateInputToInt(inputRate);
+    expect(actual).toEqual(expected);
+  });
+  it('should return an integer rate given a smaller sub-zero rate input', () => {
+    const inputRate = 0.001;
+    const expected = 10;
+    const actual = rateInputToInt(inputRate);
+    expect(actual).toEqual(expected);
+  });
+  it('should return an integer rate given the smallest sub-zero rate input', () => {
+    const inputRate = 0.0001;
+    const expected = 1;
     const actual = rateInputToInt(inputRate);
     expect(actual).toEqual(expected);
   });

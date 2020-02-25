@@ -9,11 +9,28 @@ import SnackbarContentWrapper from './SnackbarUtils';
 
 import { getForexRates, setForexRate } from '../api';
 
-export const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => [
-  String(integer).slice(0, String(integer).length - decimalRate),
-  '.',
-  String(integer).slice(String(integer).length - decimalRate),
-].join('');
+export const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => {
+  if (integer === 0) {
+    return '0';
+  }
+  if (integer < 10000 && integer >= 1000) {
+    return `0.${String(integer)}`;
+  }
+  if (integer < 1000 && integer >= 100) {
+    return `0.0${String(integer)}`;
+  }
+  if (integer < 100 && integer >= 10) {
+    return `0.00${String(integer)}`;
+  }
+  if (integer < 10) {
+    return `0.000${String(integer)}`;
+  }
+  return [
+    String(integer).slice(0, String(integer).length - decimalRate),
+    '.',
+    String(integer).slice(String(integer).length - decimalRate),
+  ].join('');
+};
 
 export const fxpResponseToForexRates = (response) => Object.keys(response)
   .map((currencyChannel) => response[currencyChannel]
@@ -80,7 +97,7 @@ function ForexRatesTab(props) {
             rate: stringRateFromDecimalRateAndInteger(4, rate),
             startTime,
             endTime,
-            reuse: true,
+            reuse: false,
           }, ...forexRates]);
         } catch (error) {
           if (error instanceof SyntaxError) {
@@ -95,7 +112,7 @@ function ForexRatesTab(props) {
               rate: stringRateFromDecimalRateAndInteger(4, rate),
               startTime,
               endTime,
-              reuse: true,
+              reuse: false,
             }, ...forexRates]);
           } else {
             setConfirmDialog(hiddenConfirmDialog());
@@ -153,21 +170,21 @@ function ForexRatesTab(props) {
   //     rate: '666.6667',
   //     startTime: '2019-09-03T12:00:00.000Z',
   //     endTime: '2019-09-04T12:00:00.000Z',
-  //     reuse: true,
+  //     reuse: false,
   //   },
   //   {
   //     currencyPair: 'eurusd',
   //     rate: '666.6680',
   //     startTime: '2019-09-04T12:00:00.000Z',
   //     endTime: '2019-09-05T12:00:00.000Z',
-  //     reuse: true,
+  //     reuse: false,
   //   },
   //   {
   //     currencyPair: 'usdeur',
   //     rate: '444.4430',
   //     startTime: '2019-09-03T12:00:00.000Z',
   //     endTime: '2019-09-04T12:00:00.000Z',
-  //     reuse: true,
+  //     reuse: false,
   //   },
   // ]
 
