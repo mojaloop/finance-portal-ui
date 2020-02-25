@@ -1,22 +1,45 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useUIDSeed } from 'react-uid';
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import TableBody from '@material-ui/core/TableBody';
-import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
-import Paper from '@material-ui/core/Paper';
+import {
+  Paper, Table, TableBody, TableCell, TableFooter, TableHead, TablePagination, TableRow, withStyles,
+} from '@material-ui/core';
+import { uid } from 'react-uid';
 
 import TablePaginationActions from './TablePaginationActions';
+
+const styles = (theme) => ({
+  root: {
+    flexGrow: 1,
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+  },
+  paper: {
+    padding: theme.spacing.unit * 3,
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+  button: {
+    margin: theme.spacing.unit,
+  },
+  input: {
+    display: 'none',
+  },
+  table: {
+    minWidth: 800,
+  },
+  tableDetails: {
+    minWidth: 100,
+  },
+  detailsDialog: {
+    minWidth: 200,
+  },
+});
 
 function ForexRatesTable(props) {
   const { classes, forexRates } = props;
 
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -30,16 +53,14 @@ function ForexRatesTable(props) {
   const emptyRows = rowsPerPage
     - Math.min(rowsPerPage, forexRates.length - page * rowsPerPage);
 
-  const forexRatesGridUIDGenerator = useUIDSeed();
-
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
             <TableCell><h3>Rate</h3></TableCell>
-            <TableCell><h3>Start Time</h3></TableCell>
-            <TableCell><h3>End Time</h3></TableCell>
+            <TableCell><h3>Start Datetime</h3></TableCell>
+            <TableCell><h3>End Datetime</h3></TableCell>
             <TableCell><h3>Reuse?</h3></TableCell>
           </TableRow>
         </TableHead>
@@ -49,7 +70,7 @@ function ForexRatesTable(props) {
             .sort((a, b) => (new Date(b.endTime)) - (new Date(a.endTime)))
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((forexRate) => (
-              <TableRow key={forexRatesGridUIDGenerator('rate')}>
+              <TableRow key={uid(forexRate)}>
                 <TableCell>{forexRate.rate}</TableCell>
                 <TableCell>{forexRate.startTime}</TableCell>
                 <TableCell>{forexRate.endTime}</TableCell>
@@ -100,4 +121,4 @@ ForexRatesTable.propTypes = {
   })).isRequired,
 };
 
-export default ForexRatesTable;
+export default withStyles(styles)(ForexRatesTable);

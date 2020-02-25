@@ -164,8 +164,8 @@ jobs:
       #          name: Install interledgerjs/five-bells-ledger-api-tests
       #          command: npm install github:interledgerjs/five-bells-ledger-api-tests
       - run:
-          name: Update NPM install
-          command: npm install
+          name: Update NPM install (using `npm ci`)
+          command: npm ci
       - run:
           name: Delete build dependencies
           command: apk del build-dependencies
@@ -199,6 +199,14 @@ jobs:
           prefix: test
       - store_test_results:
           path: ./test/results
+
+  test-build:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Docker Build
+          command: docker build .
 
   #  test-coverage:
   #    <<: *defaults_working_directory
@@ -448,6 +456,17 @@ workflows:
                 - /feature*/
                 - /bugfix*/
       - test-unit:
+          context: org-global
+          requires:
+            - setup
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore:
+                - /feature*/
+                - /bugfix*/
+      - test-build:
           context: org-global
           requires:
             - setup

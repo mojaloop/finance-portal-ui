@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
+import IconButton from '@material-ui/core/IconButton';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
-import IconButton from '@material-ui/core/IconButton';
 
 const actionsStyles = (theme) => ({
   root: {
@@ -86,8 +86,4 @@ TablePaginationActions.propTypes = {
   }).isRequired,
 };
 
-const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: true })(
-  TablePaginationActions,
-);
-
-export default TablePaginationActionsWrapped;
+export default withStyles(actionsStyles, { withTheme: true })(TablePaginationActions);

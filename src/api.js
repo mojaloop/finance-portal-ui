@@ -115,8 +115,24 @@ async function getHistoricalData(participantName, { from, to }, requestOpts) {
   return get(`/historical-window-summary/${participantName}?fromDateTime=${stringifyDate(from)}&toDateTime=${stringifyDate(to)}`, requestOpts);
 }
 
-async function validateTransferId(transferId, requestOpts) {
-  return get(`/validate-transfer/${transferId}`, requestOpts);
+async function validateTransferId(transferId, requestOpts, getFn = get) {
+  return getFn(`/validate-transfer/${transferId}`, requestOpts);
+}
+
+async function getForexRates(getFn = get) {
+  return getFn('forex/rates');
+}
+
+async function setForexRate({
+  sourceCurrency, destinationCurrency, rate, startTime, endTime, reuse = true, decimalRate = 4,
+}, postFn = post) {
+  return postFn(`forex/rates/${sourceCurrency}${destinationCurrency}`, {
+    rate,
+    decimalRate,
+    startTime,
+    endTime,
+    reuse,
+  });
 }
 
 export {
@@ -129,6 +145,7 @@ export {
   getPreviousWindow,
   getDfsps,
   getEmailAddresses,
+  getForexRates,
   getHistoricalData,
   getNetDebitCap,
   getParticipantAccountById,
@@ -143,6 +160,7 @@ export {
   getTransfer,
   processFundsIn,
   processFundsOut,
+  setForexRate,
   setParticipantIsActiveFlag,
   updateEmailAddress,
   updateNetDebitCap,

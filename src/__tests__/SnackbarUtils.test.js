@@ -5,7 +5,9 @@ import SnackbarUtils from '../components/SnackbarUtils';
 describe('<SnackbarUtils />', () => {
   it('should render without crashing', () => {
     const props = {
-      fspList: [],
+      classes: {
+        close: '', icon: '', iconVariant: '', message: '',
+      },
       variant: 'success',
     };
 

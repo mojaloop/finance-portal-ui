@@ -4,7 +4,13 @@ import ConfirmDialog from '../components/ConfirmDialog';
 
 describe('<ConfirmDialog />', () => {
   it('should render without crashing', () => {
-    const rendered = render(<ConfirmDialog />);
+    const props = {
+      description: '',
+      title: '',
+    };
+
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    const rendered = render(<ConfirmDialog {...props} />);
     expect(rendered).toBeTruthy();
   });
 });

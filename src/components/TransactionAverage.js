@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Snackbar from '@material-ui/core/Snackbar';
+import {
+  Grid, Paper, Snackbar, withStyles,
+} from '@material-ui/core';
 
 import DateRangePicker from './DateRangePicker';
 import { getHistoricalData, fetchTimeoutController } from '../api';
@@ -140,7 +139,7 @@ TransactionAverageList.propTypes = {
 
 TransactionAverage.propTypes = {
   fsp: PropTypes.shape({ name: PropTypes.string }).isRequired,
-  classes: PropTypes.objectOf({ margin: PropTypes.string }).isRequired,
+  classes: PropTypes.shape({ margin: PropTypes.string }).isRequired,
 };
 
 export default withStyles(styles)(TransactionAverage);

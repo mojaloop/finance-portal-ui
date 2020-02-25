@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import CurrencyFormat from '../components/CurrencyFormat';
+import RateFormat from '../components/RateFormat';
 
-describe('<CurrencyFormat />', () => {
+describe('<RateFormat />', () => {
   it('should render without crashing', () => {
     const props = {
       inputRef: () => {},
@@ -10,7 +10,7 @@ describe('<CurrencyFormat />', () => {
     };
 
     // eslint-disable-next-line react/jsx-props-no-spreading
-    const rendered = render(<CurrencyFormat {...props} />);
+    const rendered = render(<RateFormat {...props} />);
     expect(rendered).toBeTruthy();
   });
 });

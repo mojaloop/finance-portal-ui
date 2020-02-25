@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import { Grid, Paper, withStyles } from '@material-ui/core';
 
 const styles = (theme) => ({
   root: {
@@ -37,7 +35,7 @@ function PreviousSettlementWindowInfo(props) {
           <Paper>Amount</Paper>
         </Grid>
         {Object.keys(payments).map((key) => (
-          <Grid container justify="center" key={key}>
+          <Grid container justify="center" key={`payments-${key}`}>
             <Grid item md={3}><Paper>{key}</Paper></Grid>
             <Grid item md={3}><Paper>{payments[key].num}</Paper></Grid>
             <Grid item md={3}><Paper>{payments[key].value}</Paper></Grid>
@@ -56,7 +54,7 @@ function PreviousSettlementWindowInfo(props) {
           <Paper>Amount</Paper>
         </Grid>
         {Object.keys(receipts).map((key) => (
-          <Grid container justify="center" key={key}>
+          <Grid container justify="center" key={`receipts-${key}`}>
             <Grid item md={3}><Paper>{key}</Paper></Grid>
             <Grid item md={3}><Paper>{receipts[key].num}</Paper></Grid>
             <Grid item md={3}><Paper>{receipts[key].value}</Paper></Grid>
@@ -72,7 +70,7 @@ function PreviousSettlementWindowInfo(props) {
           <Paper>Amount</Paper>
         </Grid>
         {Object.keys(limits).map((key) => (
-          <Grid container justify="center" key={key}>
+          <Grid container justify="center" key={`limits-${key}`}>
             <Grid item md={3}><Paper>{key}</Paper></Grid>
             <Grid item md={3}><Paper>{limits[key].value}</Paper></Grid>
           </Grid>
@@ -87,7 +85,7 @@ function PreviousSettlementWindowInfo(props) {
           <Paper>Amount</Paper>
         </Grid>
         {netPositions.map((entry) => (
-          <Grid container justify="center" key={Object.keys(entry)[0]}>
+          <Grid container justify="center" key={`netPositions-${Object.keys(entry)[0]}`}>
             <Grid item md={3}><Paper>{Object.keys(entry)[0]}</Paper></Grid>
             <Grid item md={3}><Paper>{entry[Object.keys(entry)[0]]}</Paper></Grid>
           </Grid>
@@ -98,12 +96,12 @@ function PreviousSettlementWindowInfo(props) {
 }
 
 PreviousSettlementWindowInfo.propTypes = {
-  classes: PropTypes.objectOf({ root: PropTypes.string }).isRequired,
-  previousSettlementWindow: PropTypes.objectOf({
-    payments: PropTypes.objectOf({ num: PropTypes.string, value: PropTypes.string }),
-    receipts: PropTypes.objectOf({ num: PropTypes.string, value: PropTypes.string }),
-    limits: PropTypes.objectOf({ value: PropTypes.string }),
-    netPositions: PropTypes.arrayOf({}),
+  classes: PropTypes.shape({ root: PropTypes.string }).isRequired,
+  previousSettlementWindow: PropTypes.shape({
+    payments: PropTypes.shape({ num: PropTypes.string, value: PropTypes.string }),
+    receipts: PropTypes.shape({ num: PropTypes.string, value: PropTypes.string }),
+    limits: PropTypes.shape({ value: PropTypes.string }),
+    netPositions: PropTypes.arrayOf(PropTypes.shape({})),
   }).isRequired,
 };
 

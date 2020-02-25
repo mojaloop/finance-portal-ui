@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableHead from '@material-ui/core/TableHead';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
+import {
+  Button, Table, TableBody, TableCell, TableHead, TableRow, TextField, withStyles,
+} from '@material-ui/core';
 import { useUIDSeed } from 'react-uid';
 
 import { getNetDebitCap, updateNetDebitCap, fetchTimeoutController } from '../api';
@@ -144,7 +139,7 @@ function NDCManagement(props) {
 }
 
 NDCManagement.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  classes: PropTypes.shape({ table: PropTypes.string }).isRequired,
   fspName: PropTypes.string.isRequired,
 };
 

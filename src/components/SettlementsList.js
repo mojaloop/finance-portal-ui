@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
+import { List, ListItem, ListItemText } from '@material-ui/core';
 
 import DateRangePicker from './DateRangePicker';
 import { getSettlements, fetchTimeoutController } from '../api';
@@ -26,12 +24,12 @@ function SettlementsListList(props) {
           {settlements.map((settlement) => (
             <ListItem key={settlement.id}>
               <ListItemText>
-[
+                [
                 {settlement.id}
-] |
+                ] |
                 {settlement.state}
                 {' '}
-|
+                |
                 {settlement.participants.map(participantInfo).join(', ')}
               </ListItemText>
             </ListItem>
@@ -75,16 +73,16 @@ function SettlementsList(props) {
 }
 
 SettlementsListList.propTypes = {
-  fspNamesById: PropTypes.objectOf({ id: PropTypes.string }).isRequired,
-  settlements: PropTypes.arrayOf({
+  fspNamesById: PropTypes.shape({ id: PropTypes.string }).isRequired,
+  settlements: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,
     state: PropTypes.string,
     participants: PropTypes.array,
-  }).isRequired,
+  })).isRequired,
 };
 
 SettlementsList.propTypes = {
-  fspNamesById: PropTypes.objectOf({ id: PropTypes.String }).isRequired,
+  fspNamesById: PropTypes.shape({ id: PropTypes.string }).isRequired,
   fsp: PropTypes.number.isRequired,
 };
 

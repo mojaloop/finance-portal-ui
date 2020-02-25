@@ -1,14 +1,38 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { Grid, Snackbar, withStyles } from '@material-ui/core';
 
-const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => [
-  String(integer).slice(0, String(integer).length - decimalRate),
-  '.',
-  String(integer).slice(String(integer).length - decimalRate),
-].join('');
+import ConfirmDialog from './ConfirmDialog';
+import ForexRateEntry, { hiddenConfirmDialog } from './ForexRateEntry';
+import ForexRatesTable from './ForexRatesTable';
+import SnackbarContentWrapper from './SnackbarUtils';
 
-const fxpResponseToForexRates = (response) => Object.keys(response)
+import { getForexRates, setForexRate } from '../api';
+
+export const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => {
+  if (integer === 0) {
+    return '0';
+  }
+  if (integer < 10000 && integer >= 1000) {
+    return `0.${String(integer)}`;
+  }
+  if (integer < 1000 && integer >= 100) {
+    return `0.0${String(integer)}`;
+  }
+  if (integer < 100 && integer >= 10) {
+    return `0.00${String(integer)}`;
+  }
+  if (integer < 10) {
+    return `0.000${String(integer)}`;
+  }
+  return [
+    String(integer).slice(0, String(integer).length - decimalRate),
+    '.',
+    String(integer).slice(String(integer).length - decimalRate),
+  ].join('');
+};
+
+export const fxpResponseToForexRates = (response) => Object.keys(response)
   .map((currencyChannel) => response[currencyChannel]
     .map((rate) => ({
       currencyPair: currencyChannel,
@@ -39,22 +63,184 @@ const styles = (theme) => ({
 });
 
 function ForexRatesTab(props) {
-  const { classes } = props;
+  const { classes, getRates, showConfirmDialog } = props;
+
+  const [forexRates, setForexRates] = useState([]);
+  const [snackBarParams, setSnackBarParams] = useState({
+    show: false, message: '', variant: 'success',
+  });
+  const [confirmDialog, setConfirmDialog] = useState({
+    visible: showConfirmDialog,
+    description: '',
+    onConfirm: () => {},
+  });
+
+  const onCommit = (rate, startTime) => (endTime) => {
+    setConfirmDialog({
+      visible: true,
+      description: 'This will set the EURMAD rate to '
+        + `${stringRateFromDecimalRateAndInteger(4, rate)} from ${startTime} to ${endTime}. Are `
+        + 'you sure you want to continue?',
+      onConfirm: async () => {
+        try {
+          await setForexRate({
+            rate, startTime, endTime, destinationCurrency: 'mad', sourceCurrency: 'eur',
+          });
+          setConfirmDialog(hiddenConfirmDialog());
+          setSnackBarParams({
+            show: true,
+            message: 'The Forex rate was successfully set',
+            variant: 'success',
+            action: 'close',
+          });
+          setForexRates([{
+            rate: stringRateFromDecimalRateAndInteger(4, rate),
+            startTime,
+            endTime,
+            reuse: false,
+          }, ...forexRates]);
+        } catch (error) {
+          if (error instanceof SyntaxError) {
+            setConfirmDialog(hiddenConfirmDialog());
+            setSnackBarParams({
+              show: true,
+              message: 'The Forex rate was successfully set',
+              variant: 'success',
+              action: 'close',
+            });
+            setForexRates([{
+              rate: stringRateFromDecimalRateAndInteger(4, rate),
+              startTime,
+              endTime,
+              reuse: false,
+            }, ...forexRates]);
+          } else {
+            setConfirmDialog(hiddenConfirmDialog());
+            setSnackBarParams({
+              show: true, message: 'Error: Forex rate could not be set', variant: 'error',
+            });
+          }
+        }
+      },
+    });
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    if (snackBarParams.callback) {
+      snackBarParams.callback();
+    }
+    setSnackBarParams({ ...snackBarParams, show: false });
+  };
+
+  useEffect(() => {
+    async function fetchForexRates() {
+      try {
+        const fxpResponse = await getRates();
+        setForexRates(fxpResponseToForexRates(fxpResponse));
+      } catch (error) {
+        if (error.name === 'AbortError') {
+          setSnackBarParams({
+            show: true,
+            message: 'Timeout getting Forex rates. Retry?',
+            variant: 'error',
+            callback: fetchForexRates,
+            action: 'retry',
+          });
+        } else {
+          setSnackBarParams({
+            show: true,
+            message: 'An error occurred trying to get the Forex rates. Retry?',
+            variant: 'error',
+            callback: fetchForexRates,
+            action: 'retry',
+          });
+        }
+      }
+    }
+    fetchForexRates();
+  }, []);
+
+  // Forex Rates get transformed into this:
+  // [
+  //   {
+  //     currencyPair: 'eurusd',
+  //     rate: '666.6667',
+  //     startTime: '2019-09-03T12:00:00.000Z',
+  //     endTime: '2019-09-04T12:00:00.000Z',
+  //     reuse: false,
+  //   },
+  //   {
+  //     currencyPair: 'eurusd',
+  //     rate: '666.6680',
+  //     startTime: '2019-09-04T12:00:00.000Z',
+  //     endTime: '2019-09-05T12:00:00.000Z',
+  //     reuse: false,
+  //   },
+  //   {
+  //     currencyPair: 'usdeur',
+  //     rate: '444.4430',
+  //     startTime: '2019-09-03T12:00:00.000Z',
+  //     endTime: '2019-09-04T12:00:00.000Z',
+  //     reuse: false,
+  //   },
+  // ]
+
   return (
-    <div className={classes.root}>
-      <p>Forex Rates Tab</p>
-    </div>
+    <>
+      {confirmDialog.visible
+      && (
+      <ConfirmDialog
+        title="Warning"
+        description={confirmDialog.description}
+        onReject={() => setConfirmDialog({
+          visible: showConfirmDialog,
+          description: '',
+          onConfirm: () => {},
+        })}
+        onConfirm={confirmDialog.onConfirm}
+      />
+      )}
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+        open={snackBarParams.show}
+        autoHideDuration={snackBarParams.action === 'close' ? 6000 : null}
+        onClose={handleCloseSnackbar}
+      >
+        <SnackbarContentWrapper
+          onClose={handleCloseSnackbar}
+          variant={snackBarParams.variant}
+          className={classes.margin}
+          message={snackBarParams.message}
+          action={snackBarParams.action}
+        />
+      </Snackbar>
+      <Grid className={classes.root} container spacing={0}>
+        <Grid item xs={12}>
+          <ForexRateEntry onCommit={onCommit} />
+        </Grid>
+        <Grid item xs={12}>
+          <ForexRatesTable forexRates={forexRates} />
+        </Grid>
+      </Grid>
+    </>
   );
 }
 
 ForexRatesTab.propTypes = {
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  classes: PropTypes.shape({ root: PropTypes.string, margin: PropTypes.string }).isRequired,
+  getRates: PropTypes.func,
+  showConfirmDialog: PropTypes.bool,
 };
 
-const ForexRatesTabWrapped = withStyles(styles)(ForexRatesTab);
-
-export {
-  ForexRatesTabWrapped as ForexRatesTab,
-  fxpResponseToForexRates,
-  stringRateFromDecimalRateAndInteger,
+ForexRatesTab.defaultProps = {
+  getRates: getForexRates,
+  showConfirmDialog: false,
 };
+
+export default withStyles(styles)(ForexRatesTab);

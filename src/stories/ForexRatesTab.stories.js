@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ForexRatesTab } from '../components/ForexRatesTab';
+import ForexRatesTab from '../components/ForexRatesTab';
 
 export default {
   component: ForexRatesTab,
@@ -11,4 +11,8 @@ export default {
 
 export const Default = () => (
   <ForexRatesTab />
+);
+
+export const ShowConfirmDialog = () => (
+  <ForexRatesTab showConfirmDialog />
 );

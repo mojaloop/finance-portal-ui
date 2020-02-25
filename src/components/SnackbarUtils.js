@@ -1,17 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { SnackbarContent, withStyles } from '@material-ui/core';
+import { amber, green } from '@material-ui/core/colors';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ErrorIcon from '@material-ui/icons/Error';
-import InfoIcon from '@material-ui/icons/Info';
 import CloseIcon from '@material-ui/icons/Close';
-import RetryIcon from '@material-ui/icons/Refresh';
-import green from '@material-ui/core/colors/green';
-import amber from '@material-ui/core/colors/amber';
+import ErrorIcon from '@material-ui/icons/Error';
 import IconButton from '@material-ui/core/IconButton';
-import SnackbarContent from '@material-ui/core/SnackbarContent';
+import InfoIcon from '@material-ui/icons/Info';
+import RetryIcon from '@material-ui/icons/Refresh';
 import WarningIcon from '@material-ui/icons/Warning';
-import { withStyles } from '@material-ui/core/styles';
 import { useUIDSeed } from 'react-uid';
 
 const variantIcon = {
@@ -52,7 +50,7 @@ const styles = (theme) => ({
   },
 });
 
-function SnackbarContentImpl(props) {
+function SnackbarUtils(props) {
   const {
     classes, className, message, onClose, variant, action, ...other
   } = props;
@@ -89,7 +87,7 @@ function SnackbarContentImpl(props) {
   );
 }
 
-SnackbarContentImpl.propTypes = {
+SnackbarUtils.propTypes = {
   action: PropTypes.string,
   classes: PropTypes.shape({
     close: PropTypes.string,
@@ -103,13 +101,11 @@ SnackbarContentImpl.propTypes = {
   variant: PropTypes.oneOf(['success', 'warning', 'error', 'info']).isRequired,
 };
 
-SnackbarContentImpl.defaultProps = {
+SnackbarUtils.defaultProps = {
   action: 'close',
   className: '',
   message: '',
   onClose: () => {},
 };
 
-const SnackbarContentWrapper = withStyles(styles)(SnackbarContentImpl);
-
-export default SnackbarContentWrapper;
+export default withStyles(styles)(SnackbarUtils);

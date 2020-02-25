@@ -8,7 +8,7 @@ RUN apk add --no-cache -t build-dependencies git make gcc g++ python libtool aut
     && npm install -g node-gyp
 
 COPY package.json package-lock.json* /opt/finance-portal-ui/
-RUN npm install
+RUN npm ci
 
 COPY ./public/ /opt/finance-portal-ui/public
 COPY ./src/ /opt/finance-portal-ui/src

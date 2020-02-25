@@ -1,14 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
+import { TextField, withStyles } from '@material-ui/core';
 import { useUIDSeed } from 'react-uid';
+import { DateTime } from 'luxon';
+
+export const strToDate = (datestr) => DateTime.fromFormat(datestr, 'yyyy-MM-dd').toUTC().set({
+  hour: 0, minute: 0, second: 0, millisecond: 0,
+});
 
 // We deliberately lose some information (hh:mm:ss.ms) here. We're just not interested in sub-day
 // granularity.
-const dateToStr = (dt) => {
+export const dateToStr = (dt) => {
+  if (!dt) {
+    throw new TypeError('This function requires a suitable date object as an argument');
+  }
   const pad = ((s) => (s.length > 1 ? s : `0${s}`));
-  return `${dt.getFullYear()}-${pad(dt.getMonth() + 1)}-${pad(dt.getDate().toString())}`;
+  if (dt.year) {
+    return `${String(dt.year)}-${pad(String(dt.month))}-${String(dt.day)}`;
+  }
+  if (dt.getFullYear) {
+    return `${String(dt.getFullYear())}-${pad(String(dt.getMonth() + 1))}-${pad(String(dt.getDate()))}`;
+  }
+  throw new TypeError('This function requires a suitable date object as an argument');
 };
 
 const styles = (theme) => ({
@@ -26,9 +39,9 @@ const styles = (theme) => ({
   },
 });
 
-function DatePickerImpl(props) {
+function DatePicker(props) {
   const {
-    defDate, desc, classes, onChange,
+    defDate, desc, classes, onChange, disabled,
   } = props;
 
   const dateUIDGenerator = useUIDSeed();
@@ -36,6 +49,7 @@ function DatePickerImpl(props) {
   return (
     <form className={classes.container} noValidate>
       <TextField
+        disabled={disabled}
         id={dateUIDGenerator('date')}
         label={desc}
         type="date"
@@ -50,17 +64,17 @@ function DatePickerImpl(props) {
   );
 }
 
-DatePickerImpl.propTypes = {
-  defDate: PropTypes.instanceOf(Date).isRequired,
-  desc: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
+DatePicker.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  defDate: PropTypes.oneOfType([PropTypes.instanceOf(Date), PropTypes.instanceOf(DateTime)])
+    .isRequired,
+  desc: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func.isRequired,
 };
 
-// defDate should be a string in the format
-const DatePicker = withStyles(styles)(DatePickerImpl);
-
-export {
-  DatePicker,
-  dateToStr,
+DatePicker.defaultProps = {
+  disabled: false,
 };
+
+export default withStyles(styles)(DatePicker);
