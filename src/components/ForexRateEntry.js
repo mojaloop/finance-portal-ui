@@ -5,6 +5,7 @@ import {
 } from '@material-ui/core';
 import { DateTime } from 'luxon';
 
+import RateFormat from './RateFormat';
 import DatePicker from './DatePicker';
 import ForexRateEndDateOption from './ForexRateEndDateOption';
 
@@ -64,6 +65,9 @@ function ForexRateEntry(props) {
           margin="normal"
           value={rate}
           variant="outlined"
+          InputProps={{
+            inputComponent: RateFormat,
+          }}
           onChange={(event) => {
             const { value } = event.target;
             if (hasMax4DecimalPlaces(value)) {
