@@ -200,6 +200,14 @@ jobs:
       - store_test_results:
           path: ./test/results
 
+  test-build:
+    machine: true
+    steps:
+      - checkout
+      - run:
+          name: Docker Build
+          command: docker build .
+
   #  test-coverage:
   #    <<: *defaults_working_directory
   #    <<: *defaults_docker_node
@@ -448,6 +456,17 @@ workflows:
                 - /feature*/
                 - /bugfix*/
       - test-unit:
+          context: org-global
+          requires:
+            - setup
+          filters:
+            tags:
+              only: /.*/
+            branches:
+              ignore:
+                - /feature*/
+                - /bugfix*/
+      - test-build:
           context: org-global
           requires:
             - setup
