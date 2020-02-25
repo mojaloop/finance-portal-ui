@@ -72,11 +72,20 @@ function ForexRateEntry(props) {
         />
       </Grid>
       <Grid item xs={4}>
-        <Typography>Sample Exchange Estimate</Typography>
-        <Typography>Send: 50.00 EUR</Typography>
+        <Typography variant="h6">Sample Exchange Estimate</Typography>
+        <Typography>
+          Send:
+          {' '}
+          <strong>50.00</strong>
+          {' '}
+          EUR
+        </Typography>
         <Typography>
           Recv:
-          {` ${receivedAmount(rate)} MAD`}
+          {' '}
+          <strong>{` ${receivedAmount(rate)}`}</strong>
+          {' '}
+          MAD
         </Typography>
       </Grid>
       <Grid item xs={4} />
