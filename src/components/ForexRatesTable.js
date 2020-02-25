@@ -59,8 +59,8 @@ function ForexRatesTable(props) {
         <TableHead>
           <TableRow>
             <TableCell><h3>Rate</h3></TableCell>
-            <TableCell><h3>Start Time</h3></TableCell>
-            <TableCell><h3>End Time</h3></TableCell>
+            <TableCell><h3>Start DateTime</h3></TableCell>
+            <TableCell><h3>End DateTime</h3></TableCell>
             <TableCell><h3>Reuse?</h3></TableCell>
           </TableRow>
         </TableHead>
