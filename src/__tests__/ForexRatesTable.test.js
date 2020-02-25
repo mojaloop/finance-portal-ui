@@ -94,7 +94,7 @@ describe('<ForexRatesTable />', () => {
     const element = await findByText('Rate');
     expect(element).toBeDefined();
   });
-  it('should have a Start DateTime column', async () => {
+  it('should have a Start Datetime column', async () => {
     const props = {
       classes: {},
       forexRates: [
@@ -137,10 +137,10 @@ describe('<ForexRatesTable />', () => {
     };
     // eslint-disable-next-line react/jsx-props-no-spreading
     const { findByText } = render(<ForexRatesTable {...props} />);
-    const element = await findByText('Start DateTime');
+    const element = await findByText('Start Datetime');
     expect(element).toBeDefined();
   });
-  it('should have an End DateTime column', async () => {
+  it('should have an End Datetime column', async () => {
     const props = {
       classes: {},
       forexRates: [
@@ -183,7 +183,7 @@ describe('<ForexRatesTable />', () => {
     };
     // eslint-disable-next-line react/jsx-props-no-spreading
     const { findByText } = render(<ForexRatesTable {...props} />);
-    const element = await findByText('End DateTime');
+    const element = await findByText('End Datetime');
     expect(element).toBeDefined();
   });
   it('should have a Reuse column', async () => {
