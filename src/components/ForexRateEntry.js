@@ -83,7 +83,7 @@ function ForexRateEntry(props) {
         <Typography>
           Recv:
           {' '}
-          <strong>{` ${receivedAmount(rate)}`}</strong>
+          <strong>{`${receivedAmount(rate)}`}</strong>
           {' '}
           MAD
         </Typography>
