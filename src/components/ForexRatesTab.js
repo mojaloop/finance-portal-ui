@@ -9,11 +9,28 @@ import SnackbarContentWrapper from './SnackbarUtils';
 
 import { getForexRates, setForexRate } from '../api';
 
-export const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => [
-  String(integer).slice(0, String(integer).length - decimalRate),
-  '.',
-  String(integer).slice(String(integer).length - decimalRate),
-].join('');
+export const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => {
+  if (integer === 0) {
+    return '0';
+  }
+  if (integer < 10000 && integer >= 1000) {
+    return `0.${String(integer)}`;
+  }
+  if (integer < 1000 && integer >= 100) {
+    return `0.0${String(integer)}`;
+  }
+  if (integer < 100 && integer >= 10) {
+    return `0.00${String(integer)}`;
+  }
+  if (integer < 10) {
+    return `0.000${String(integer)}`;
+  }
+  return [
+    String(integer).slice(0, String(integer).length - decimalRate),
+    '.',
+    String(integer).slice(String(integer).length - decimalRate),
+  ].join('');
+};
 
 export const fxpResponseToForexRates = (response) => Object.keys(response)
   .map((currencyChannel) => response[currencyChannel]
