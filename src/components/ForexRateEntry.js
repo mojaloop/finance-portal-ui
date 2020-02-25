@@ -68,12 +68,7 @@ function ForexRateEntry(props) {
           InputProps={{
             inputComponent: RateFormat,
           }}
-          onChange={(event) => {
-            const { value } = event.target;
-            if (hasMax4DecimalPlaces(value)) {
-              setRate(value);
-            }
-          }}
+          onChange={(event) => setRate(Number(event.target.value))}
         />
       </Grid>
       <Grid item xs={4}>
