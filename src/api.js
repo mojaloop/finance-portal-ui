@@ -124,7 +124,7 @@ async function getForexRates(getFn = get) {
 }
 
 async function setForexRate({
-  sourceCurrency, destinationCurrency, rate, startTime, endTime, reuse = true, decimalRate = 4,
+  sourceCurrency, destinationCurrency, rate, startTime, endTime, reuse = false, decimalRate = 4,
 }, postFn = post) {
   return postFn(`forex/rates/${sourceCurrency}${destinationCurrency}`, {
     rate,
