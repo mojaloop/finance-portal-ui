@@ -265,7 +265,7 @@ function SettlementWindowsGrid(props) {
                   </Paper>
                 </Grid>
               </Grid>
-              {settlementWindowDetails.totalAmount.map(currency => 
+              {settlementWindowDetails.totalAmount.map((currency) => (
                 <Grid container spacing={8} key={Object.keys(currency)[0]}>
                   <Grid item md={6}><Paper className={classes.paper}>Total Amount</Paper></Grid>
                   <Grid item md={6}>
@@ -274,9 +274,8 @@ function SettlementWindowsGrid(props) {
                     </Paper>
                   </Grid>
                 </Grid>
-              )}
+              ))}
               <Grid container spacing={8}>
-                
                 <Grid item md={6}>
                   <Paper className={classes.paper}>Start DateTime</Paper>
                 </Grid>
