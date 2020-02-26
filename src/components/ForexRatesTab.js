@@ -84,7 +84,12 @@ function ForexRatesTab(props) {
       onConfirm: async () => {
         try {
           await setForexRate({
-            rate, startTime, endTime, destinationCurrency: 'mad', sourceCurrency: 'eur',
+            rate,
+            startTime,
+            endTime,
+            destinationCurrency: 'mad',
+            sourceCurrency: 'eur',
+            reuse: false,
           });
           setConfirmDialog(hiddenConfirmDialog());
           setSnackBarParams({
