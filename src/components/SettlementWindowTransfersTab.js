@@ -44,7 +44,7 @@ SettlementWindowTransfersTab.defaultProps = {
 
 SettlementWindowTransfersTab.propTypes = {
   settlementWindowDetails: PropTypes.objectOf(PropTypes.shape),
-  classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  classes: PropTypes.shape({ tableDetails: PropTypes.string }).isRequired,
 };
 
 export default SettlementWindowTransfersTab;
