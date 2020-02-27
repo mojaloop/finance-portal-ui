@@ -8,7 +8,7 @@ import { useUIDSeed } from 'react-uid';
 
 import { DialogTitle, DialogContent, DialogActions } from './DialogUtils';
 import TablePaginationActionsWrapped from './TablePaginationActions';
-import SettlementWindowTransferTab from './SettementWindowTransfersTab';
+import SettlementWindowTransfersTab from './SettlementWindowTransfersTab';
 import DateRangePicker from './DateRangePicker';
 import SnackbarContentWrapper from './SnackbarUtils';
 import {
@@ -296,7 +296,10 @@ function SettlementWindowsGrid(props) {
               </Grid>
             </Grid>
             )}
-          <SettlementWindowTransferTab classes={classes} settlementWindowDetails={settlementWindowDetails} />
+          <SettlementWindowTransfersTab
+            classes={classes}
+            settlementWindowDetails={settlementWindowDetails}
+          />
         </DialogContent>
         <DialogActions>
           {settlementWindowDetails && settlementWindowDetails
