@@ -8,6 +8,7 @@ import { useUIDSeed } from 'react-uid';
 
 import { DialogTitle, DialogContent, DialogActions } from './DialogUtils';
 import TablePaginationActionsWrapped from './TablePaginationActions';
+import SettlementWindowTransfersTab from './SettlementWindowTransfersTab';
 import DateRangePicker from './DateRangePicker';
 import SnackbarContentWrapper from './SnackbarUtils';
 import {
@@ -265,22 +266,16 @@ function SettlementWindowsGrid(props) {
                   </Paper>
                 </Grid>
               </Grid>
-              <Grid container spacing={8}>
-                <Grid item md={6}><Paper className={classes.paper}>Total Amount</Paper></Grid>
-                <Grid item md={6}>
-                  <Paper className={classes.paper}>
-                    {settlementWindowDetails.settlementWindow.amount}
-                  </Paper>
+              {settlementWindowDetails.totalAmount.map((currency) => (
+                <Grid container spacing={8} key={Object.keys(currency)[0]}>
+                  <Grid item md={6}><Paper className={classes.paper}>Total Amount</Paper></Grid>
+                  <Grid item md={6}>
+                    <Paper className={classes.paper}>
+                      {`${currency[Object.keys(currency)[0]]} ${Object.keys(currency)[0]}`}
+                    </Paper>
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Grid container spacing={8}>
-                <Grid item md={6}><Paper className={classes.paper}>Currency</Paper></Grid>
-                <Grid item md={6}>
-                  <Paper className={classes.paper}>
-                    {settlementWindowDetails.settlementWindow.currencyId}
-                  </Paper>
-                </Grid>
-              </Grid>
+              ))}
               <Grid container spacing={8}>
                 <Grid item md={6}>
                   <Paper className={classes.paper}>Start DateTime</Paper>
@@ -301,35 +296,10 @@ function SettlementWindowsGrid(props) {
               </Grid>
             </Grid>
             )}
-
-          {settlementWindowDetails && settlementWindowDetails
-            .participantAmount && settlementWindowDetails.participantAmount.length > 0
-            && (
-            <Grid item md={10}>
-              <Table className={classes.tableDetails}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>FSP ID</TableCell>
-                    <TableCell align="right">In Amount</TableCell>
-                    <TableCell align="right">Out Amount</TableCell>
-                    <TableCell align="right">Net Amount</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {settlementWindowDetails.participantAmount
-                    .sort((a, b) => a.fspId > b.fspId).map((row, index) => (
-                      // eslint-disable-next-line
-                      <TableRow key={index}>
-                        <TableCell align="left">{row.fspId}</TableCell>
-                        <TableCell align="right">{row.inAmount}</TableCell>
-                        <TableCell align="right">{row.outAmount}</TableCell>
-                        <TableCell align="right">{row.netAmount}</TableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-            </Grid>
-            )}
+          <SettlementWindowTransfersTab
+            classes={classes}
+            settlementWindowDetails={settlementWindowDetails}
+          />
         </DialogContent>
         <DialogActions>
           {settlementWindowDetails && settlementWindowDetails

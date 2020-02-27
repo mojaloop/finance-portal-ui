@@ -78,6 +78,14 @@ describe('dateToStr(dt)', () => {
     const actual = dateToStr(dt);
     expect(actual).toEqual(expected);
   });
+  it('should correctly pad a string representation of a given DateTime (luxon) object with a'
+    + 'single-digit day', () => {
+    const epochFor24Jan2020 = 1579870320000;
+    const dt = DateTime.fromMillis(epochFor24Jan2020).plus({ days: 37 });
+    const expected = '2020-03-01';
+    const actual = dateToStr(dt);
+    expect(actual).toEqual(expected);
+  });
   it('should throw an error if a type w/o expected attributes is supplied as an argument', () => {
     const dt = '';
     const expected = 'This function requires a suitable date object as an argument';
