@@ -31,7 +31,7 @@ describe('<ForexRateEndDateOption />', () => {
       .plus({ days: 1 })
       .set({
         hour: 8,
-        minute: 0,
+        minute: 30,
         second: 0,
         millisecond: 0,
       });
@@ -43,9 +43,9 @@ describe('<ForexRateEndDateOption />', () => {
   });
   it('should enable the date picker input given the Weekend option', async () => {
     const { findByLabelText } = render(<ForexRateEndDateOption weekend />);
-    const endDateForOneDay = await findByLabelText('End Date');
+    const endDateForWeekend = await findByLabelText('End Date');
     const expected = false;
-    const actual = endDateForOneDay.disabled;
+    const actual = endDateForWeekend.disabled;
     expect(actual).toEqual(expected);
   });
   it('should display the correct title, "Weekend", given the Weekend option', async () => {
@@ -58,7 +58,7 @@ describe('<ForexRateEndDateOption />', () => {
       .plus({ days: 3 })
       .set({
         hour: 8,
-        minute: 0,
+        minute: 30,
         second: 0,
         millisecond: 0,
       });
