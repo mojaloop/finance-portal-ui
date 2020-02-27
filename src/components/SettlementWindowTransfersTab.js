@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  Grid, Table, TableBody, TableCell, TableHead, TableRow, withStyles,
+  Grid, Table, TableBody, TableCell, TableHead, TableRow,
 } from '@material-ui/core';
 
 function SettlementWindowTransfersTab(props) {
@@ -47,4 +47,4 @@ SettlementWindowTransfersTab.propTypes = {
   classes: PropTypes.shape({ tableDetails: PropTypes.string }).isRequired,
 };
 
-export default withStyles(SettlementWindowTransfersTab);
+export default SettlementWindowTransfersTab;
