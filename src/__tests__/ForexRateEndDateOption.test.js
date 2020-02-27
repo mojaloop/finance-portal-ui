@@ -27,7 +27,7 @@ describe('<ForexRateEndDateOption />', () => {
     expect(element).toBeDefined();
   });
   it('should display the right end date given the 1 Day option', async () => {
-    const tomorrow8amUTC = DateTime.utc()
+    const tomorrow830amUTC = DateTime.utc()
       .plus({ days: 1 })
       .set({
         hour: 8,
@@ -37,7 +37,7 @@ describe('<ForexRateEndDateOption />', () => {
       });
     const { findByLabelText } = render(<ForexRateEndDateOption />);
     const endDateForOneDay = await findByLabelText('End Date');
-    const expected = dateToStr(tomorrow8amUTC);
+    const expected = dateToStr(tomorrow830amUTC);
     const actual = endDateForOneDay.value;
     expect(actual).toEqual(expected);
   });
@@ -54,7 +54,7 @@ describe('<ForexRateEndDateOption />', () => {
     expect(element).toBeDefined();
   });
   it('should display the right initial end date given the Weekend option', async () => {
-    const monday8amUTC = DateTime.utc()
+    const monday830amUTC = DateTime.utc()
       .plus({ days: 3 })
       .set({
         hour: 8,
@@ -64,7 +64,7 @@ describe('<ForexRateEndDateOption />', () => {
       });
     const { findByLabelText } = render(<ForexRateEndDateOption weekend />);
     const endDateForOneDay = await findByLabelText('End Date');
-    const expected = dateToStr(monday8amUTC);
+    const expected = dateToStr(monday830amUTC);
     const actual = endDateForOneDay.value;
     expect(actual).toEqual(expected);
   });
