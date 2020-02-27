@@ -8,6 +8,7 @@ import { useUIDSeed } from 'react-uid';
 
 import { DialogTitle, DialogContent, DialogActions } from './DialogUtils';
 import TablePaginationActionsWrapped from './TablePaginationActions';
+import SettlementWindowTransferTab from './SettementWindowTransfersTab';
 import DateRangePicker from './DateRangePicker';
 import SnackbarContentWrapper from './SnackbarUtils';
 import {
@@ -295,37 +296,7 @@ function SettlementWindowsGrid(props) {
               </Grid>
             </Grid>
             )}
-
-          {settlementWindowDetails && settlementWindowDetails
-            .participantAmount && settlementWindowDetails.participantAmount.length > 0
-            && (
-            <Grid item md={10}>
-              <Table className={classes.tableDetails}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>FSP ID</TableCell>
-                    <TableCell>Currency</TableCell>
-                    <TableCell align="right">In Amount</TableCell>
-                    <TableCell align="right">Out Amount</TableCell>
-                    <TableCell align="right">Net Amount</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {settlementWindowDetails.participantAmount
-                    .sort((a, b) => a.fspId > b.fspId).map((row, index) => (
-                      // eslint-disable-next-line
-                      <TableRow key={index}>
-                        <TableCell align="left">{row.fspId}</TableCell>
-                        <TableCell align="left">{row.currency}</TableCell>
-                        <TableCell align="right">{row.inAmount}</TableCell>
-                        <TableCell align="right">{row.outAmount}</TableCell>
-                        <TableCell align="right">{row.netAmount}</TableCell>
-                      </TableRow>
-                    ))}
-                </TableBody>
-              </Table>
-            </Grid>
-            )}
+          <SettlementWindowTransferTab classes={classes} settlementWindowDetails={settlementWindowDetails} />
         </DialogContent>
         <DialogActions>
           {settlementWindowDetails && settlementWindowDetails
