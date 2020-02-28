@@ -16,7 +16,7 @@ export const dateToStr = (dt) => {
   }
   const pad = ((s) => (s.length > 1 ? s : `0${s}`));
   if (dt.year) {
-    return `${String(dt.year)}-${pad(String(dt.month))}-${String(dt.day)}`;
+    return `${String(dt.year)}-${pad(String(dt.month))}-${pad(String(dt.day))}`;
   }
   if (dt.getFullYear) {
     return `${String(dt.getFullYear())}-${pad(String(dt.getMonth() + 1))}-${pad(String(dt.getDate()))}`;
