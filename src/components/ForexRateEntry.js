@@ -80,13 +80,16 @@ function ForexRateEntry(props) {
           {' '}
           EUR
         </Typography>
-        <Typography>
-          Recv:
-          {' '}
-          <strong>{`${receivedAmount(rate)}`}</strong>
-          {' '}
-          MAD
-        </Typography>
+          <TextField
+          label="Receive MAD"
+          margin="normal"
+          value={receivedAmount(rate)}
+          variant="outlined"
+          disabled
+          InputProps={{
+            inputComponent: RateFormat,
+          }}
+        />
       </Grid>
       <Grid item xs={4} />
       {/* Row Break */}
