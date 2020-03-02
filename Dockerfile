@@ -1,4 +1,4 @@
-FROM node:12.14.1-alpine AS builder
+FROM node:12.16.1-alpine AS builder
 
 WORKDIR /opt/finance-portal-ui
 
