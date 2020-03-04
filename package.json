@@ -1,6 +1,6 @@
 {
   "name": "admin-portal-web-ui",
-  "version": "9.3.2",
+  "version": "9.3.3",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.2",
