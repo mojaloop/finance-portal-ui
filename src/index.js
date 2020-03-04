@@ -1,11 +1,22 @@
 import 'core-js/features/array/flat';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { JssProvider } from 'react-jss';
+import { createGenerateClassName } from '@material-ui/core/styles';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const generateClassName = createGenerateClassName({
+  dangerouslyUseGlobalCSS: true, // won't minify CSS classnames when true
+});
+
+ReactDOM.render(
+  <JssProvider generateClassName={generateClassName}>
+    <App />
+  </JssProvider>,
+  document.getElementById('root'),
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

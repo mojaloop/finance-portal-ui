@@ -33,6 +33,17 @@ npm install
 npm start
 ```
 
+### Local production build
+Serving the artifacts as they will be delivered in the built artifact without doing so from docker
+is possible as follows:
+
+From the local repo root (so that the `./build` path is correct):
+```
+npm ci
+npm run build
+npx serve ./build
+```
+
 ## Develop
 ### With Storybook
 [Storybook](https://storybook.js.org) has been integrated with this project. Storybook renders a single component in a browser environment with mocked data to accelerate UI development. Get started with the command below:
