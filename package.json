@@ -27,8 +27,7 @@
     "lint": "eslint --ignore-path ./.eslintignore ./src",
     "lint:fix": "eslint ./src --fix",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public",
-    "start-prod": "serve -s ./build -p 3000"
+    "build-storybook": "build-storybook -s public"
   },
   "browserslist": [
     ">0.2%",
@@ -48,7 +47,6 @@
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.18.3",
-    "eslint-plugin-react-hooks": "^1.7.0",
-    "serve": "^11.3.0"
+    "eslint-plugin-react-hooks": "^1.7.0"
   }
 }
