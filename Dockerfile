@@ -9,12 +9,16 @@ RUN apk add --no-cache -t build-dependencies git make gcc g++ python libtool aut
 
 COPY package.json package-lock.json* /opt/finance-portal-ui/
 RUN npm ci
+# Here we eject from create-react-app in order to modify our webpack configuration for our
+# production build.
 RUN echo yes | npm run eject
+# Modify webpack configuration to retain class and function names in the production build to enable
+# E2E testing with react selectors.
+RUN sed -i 's/keep_\(classnames\|fnames\): isEnvProductionProfile/keep_\1: true/' ./config/webpack.config.js
 
 COPY ./public/ /opt/finance-portal-ui/public
 COPY ./src/ /opt/finance-portal-ui/src
 
-RUN sed -i 's/keep_\(classnames\|fnames\): isEnvProductionProfile/keep_\1: true/' ./config/webpack.config.js
 RUN npm run build
 
 FROM nginx:alpine
