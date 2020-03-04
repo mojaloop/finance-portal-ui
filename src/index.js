@@ -9,7 +9,6 @@ import * as serviceWorker from './serviceWorker';
 
 const generateClassName = createGenerateClassName({
   dangerouslyUseGlobalCSS: true, // won't minify CSS classnames when true
-  productionPrefix: 'mow', // 'jss' by default
 });
 
 ReactDOM.render(
