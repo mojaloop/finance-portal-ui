@@ -13,6 +13,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
+    "react-jss": "^10.0.4",
     "react-number-format": "^4.0.7",
     "react-scripts": "^3.3.0",
     "react-uid": "^2.2.0"
@@ -46,6 +47,7 @@
     "eslint-plugin-import": "^2.20.1",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.18.3",
-    "eslint-plugin-react-hooks": "^1.7.0"
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "serve": "^11.3.0"
   }
 }
