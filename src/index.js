@@ -8,7 +8,9 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 const generateClassName = createGenerateClassName({
-  dangerouslyUseGlobalCSS: true, // won't minify CSS classnames when true
+  // Won't minify CSS classnames when true. This is very useful because it means in production
+  // builds we are able to use CSS classnames as selectors for E2E testing.
+  dangerouslyUseGlobalCSS: true,
 });
 
 ReactDOM.render(
