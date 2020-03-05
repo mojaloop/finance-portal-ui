@@ -9,8 +9,15 @@ import RateFormat from './RateFormat';
 import DatePicker from './DatePicker';
 import ForexRateEndDateOption from './ForexRateEndDateOption';
 
-export function receivedAmount(strRate) {
-  return (Number(strRate) * 50).toFixed(2);
+export function receivedAmount(rate) {
+  // Note that the `.toFixed` implementation of this function will not work because of js rounding.
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed#Examples
+  // We should _probably_ use an implementation more like the following:
+  // return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'MAD' }).format(Number(rate));
+  return (Number(rate) * 50).toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).replace(',','');
 }
 
 export const floatToIntDestructive = (f) => parseInt(String(f).replace('.', ''), 10);
