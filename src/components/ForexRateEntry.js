@@ -9,22 +9,14 @@ import RateFormat from './RateFormat';
 import DatePicker from './DatePicker';
 import ForexRateEndDateOption from './ForexRateEndDateOption';
 
-export function receivedAmount(rate) {
-  const amount = rate * 50;
-  const amountToTwoDecimalPlaces = Math.round((amount + Number.EPSILON) * 100) / 100;
-  if (amountToTwoDecimalPlaces === parseInt(amountToTwoDecimalPlaces, 10)) {
-    return `${String(amountToTwoDecimalPlaces)}.00`;
-  }
-  if ((amountToTwoDecimalPlaces * 10) === parseInt((amountToTwoDecimalPlaces * 10), 10)) {
-    return `${String(amountToTwoDecimalPlaces)}0`;
-  }
-  return String(amountToTwoDecimalPlaces);
+export function receivedAmount(strRate) {
+  return (Number(strRate) * 50).toFixed(2);
 }
 
 export const floatToIntDestructive = (f) => parseInt(String(f).replace('.', ''), 10);
 
-export const hasMax4DecimalPlaces = (number) => {
-  const [, frac] = Number(number).toString().split('.');
+export const hasMax4DecimalPlaces = (strNum) => {
+  const [, frac] = Number(strNum).toString().split('.');
   return (frac === undefined || frac.length < 5);
 };
 
@@ -35,12 +27,9 @@ export function rateInputToInt(inputRate) {
   if (!hasMax4DecimalPlaces(inputRate)) {
     throw new Error('Precision only takes into account up to 4 decimal places');
   }
-  const inputRateTimes10e4 = inputRate * 10000;
-  const rate = floatToIntDestructive(inputRate);
-  if (String(inputRateTimes10e4).length > String(rate).length) {
-    return inputRateTimes10e4;
-  }
-  return rate;
+  // Coerce the input to a number, turn it into a string with exactly four decimal places, remove
+  // the decimal and any leading zeroes, and return it as a number.
+  return Number(Number(inputRate).toFixed(4).replace('.', '').replace(/^0*/,''));
 }
 
 export const hiddenConfirmDialog = () => ({ visible: false, description: '', onConfirm: () => {} });
