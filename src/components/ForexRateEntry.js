@@ -13,11 +13,14 @@ export function receivedAmount(rate) {
   // Note that the `.toFixed` implementation of this function will not work because of js rounding.
   // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/toFixed#Examples
   // We should _probably_ use an implementation more like the following:
-  // return new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'MAD' }).format(Number(rate));
+  // return new Intl.NumberFormat('en-GB', {
+  //   style: 'currency',
+  //   currency: 'MAD'
+  // }).format(Number(rate));
   return (Number(rate) * 50).toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
-  }).replace(',','');
+  }).replace(',', '');
 }
 
 export const floatToIntDestructive = (f) => parseInt(String(f).replace('.', ''), 10);
@@ -36,7 +39,7 @@ export function rateInputToInt(inputRate) {
   }
   // Coerce the input to a number, turn it into a string with exactly four decimal places, remove
   // the decimal and any leading zeroes, and return it as a number.
-  return Number(Number(inputRate).toFixed(4).replace('.', '').replace(/^0*/,''));
+  return Number(Number(inputRate).toFixed(4).replace('.', '').replace(/^0*/, ''));
 }
 
 export const hiddenConfirmDialog = () => ({ visible: false, description: '', onConfirm: () => {} });

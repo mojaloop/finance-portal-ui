@@ -34,7 +34,7 @@ describe('receivedAmount(rate)', () => {
     const expected = '2234.12';
     const actual = receivedAmount(rate);
     expect(actual).toEqual(expected);
-  })
+  });
 });
 
 describe('floatToIntDestructive(float)', () => {
