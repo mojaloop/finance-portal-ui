@@ -168,7 +168,7 @@ function SettlementWindowsGrid(props) {
         />
       </Snackbar>
       <Paper className={classes.root}>
-        <Table className={classes.table}>
+        <Table className={`SettlementWindowsTable ${classes.table}`}>
           <TableHead>
             <TableRow>
               <TableCell><h3>Settlement Window Id</h3></TableCell>
