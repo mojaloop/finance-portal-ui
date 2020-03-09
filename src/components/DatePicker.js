@@ -45,7 +45,7 @@ function DatePicker(props) {
   const dateUIDGenerator = useUIDSeed();
 
   return (
-    <form className={classes.container} noValidate>
+    <form className={`DatePicker ${classes.container}`} noValidate>
       <TextField
         disabled={disabled}
         id={dateUIDGenerator('date')}
