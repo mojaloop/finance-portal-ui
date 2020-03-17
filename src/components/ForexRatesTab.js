@@ -228,7 +228,7 @@ function ForexRatesTab(props) {
           <ForexRateEntry onCommit={onCommit} />
         </Grid>
         <Grid item xs={12}>
-          <ForexRatesTable forexRates={forexRates} />
+          <ForexRatesTable forexRates={onlyCurrency(forexRates, 'eurmad')} />
         </Grid>
       </Grid>
     </>
