@@ -43,6 +43,9 @@ export const fxpResponseToForexRates = (response) => Object.keys(response)
     })))
   .flat();
 
+export const onlyCurrency = (forexRates, currencyPair) => forexRates
+  .filter((rate) => rate.currencyPair === currencyPair);
+
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
