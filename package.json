@@ -27,7 +27,7 @@
     "lint:fix": "eslint ./src --fix",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "audit:resolve": "SHELL=sh resolve-audit && sed -i 's/: \"^/: \"/' package.json",
+    "audit:resolve": "SHELL=sh resolve-audit",
     "audit:check": "SHELL=sh check-audit"
   },
   "browserslist": [
