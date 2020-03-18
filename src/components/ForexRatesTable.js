@@ -43,8 +43,8 @@ const styles = (theme) => ({
 });
 
 function ForexRatesTable(props) {
-  const { classes, forexRates, currencyChannel } = props;
-  const singleChannelForexRates = onlyCurrency(forexRates, currencyChannel);
+  const { classes, forexRates, currencyChannelFilter } = props;
+  const singleChannelForexRates = onlyCurrency(forexRates, currencyChannelFilter);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -127,11 +127,11 @@ ForexRatesTable.propTypes = {
     endTime: PropTypes.string,
     reuse: PropTypes.bool,
   })).isRequired,
-  currencyChannel: PropTypes.string,
+  currencyChannelFilter: PropTypes.string,
 };
 
 ForexRatesTable.defaultProps = {
-  currencyChannel: '',
+  currencyChannelFilter: '',
 };
 
 export default withStyles(styles)(ForexRatesTable);
