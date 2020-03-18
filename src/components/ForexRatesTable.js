@@ -14,10 +14,6 @@ export const onlyCurrency = (forexRates, currencyPair) => {
   return forexRates.filter((rate) => rate.currencyPair === currencyPair);
 };
 
-export const setForexRatesOnly = (
-  setForexRates, currencyPair, onlyCurrencyFunc = onlyCurrency,
-) => (newRates) => setForexRates(onlyCurrencyFunc(newRates, currencyPair));
-
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
