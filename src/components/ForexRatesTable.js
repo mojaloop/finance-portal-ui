@@ -7,6 +7,17 @@ import { uid } from 'react-uid';
 
 import TablePaginationActions from './TablePaginationActions';
 
+export const onlyCurrency = (forexRates, currencyPair) => {
+  if (!currencyPair) {
+    return forexRates;
+  }
+  return forexRates.filter((rate) => rate.currencyPair === currencyPair);
+};
+
+export const setForexRatesOnly = (
+  setForexRates, currencyPair, onlyCurrencyFunc = onlyCurrency,
+) => (newRates) => setForexRates(onlyCurrencyFunc(newRates, currencyPair));
+
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -36,7 +47,8 @@ const styles = (theme) => ({
 });
 
 function ForexRatesTable(props) {
-  const { classes, forexRates } = props;
+  const { classes, forexRates, currency } = props;
+  const singleCurrencyForexRates = onlyCurrency(forexRates, currency);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -51,7 +63,7 @@ function ForexRatesTable(props) {
   };
 
   const emptyRows = rowsPerPage
-    - Math.min(rowsPerPage, forexRates.length - page * rowsPerPage);
+    - Math.min(rowsPerPage, singleCurrencyForexRates.length - page * rowsPerPage);
 
   return (
     <Paper className={classes.root}>
@@ -65,7 +77,7 @@ function ForexRatesTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {forexRates
+          {singleCurrencyForexRates
             // Sort by most recent endTime descending
             .sort((a, b) => (new Date(b.endTime)) - (new Date(a.endTime)))
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -91,7 +103,7 @@ function ForexRatesTable(props) {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, 50, 100]}
               colSpan={3}
-              count={forexRates.length}
+              count={singleCurrencyForexRates.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
@@ -119,6 +131,11 @@ ForexRatesTable.propTypes = {
     endTime: PropTypes.string,
     reuse: PropTypes.bool,
   })).isRequired,
+  currency: PropTypes.string,
+};
+
+ForexRatesTable.defaultProps = {
+  currency: '',
 };
 
 export default withStyles(styles)(ForexRatesTable);
