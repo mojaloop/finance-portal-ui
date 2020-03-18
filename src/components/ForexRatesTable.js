@@ -43,8 +43,8 @@ const styles = (theme) => ({
 });
 
 function ForexRatesTable(props) {
-  const { classes, forexRates, currency } = props;
-  const singleCurrencyForexRates = onlyCurrency(forexRates, currency);
+  const { classes, forexRates, currencyChannel } = props;
+  const singleChannelForexRates = onlyCurrency(forexRates, currencyChannel);
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -59,7 +59,7 @@ function ForexRatesTable(props) {
   };
 
   const emptyRows = rowsPerPage
-    - Math.min(rowsPerPage, singleCurrencyForexRates.length - page * rowsPerPage);
+    - Math.min(rowsPerPage, singleChannelForexRates.length - page * rowsPerPage);
 
   return (
     <Paper className={classes.root}>
@@ -73,7 +73,7 @@ function ForexRatesTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {singleCurrencyForexRates
+          {singleChannelForexRates
             // Sort by most recent endTime descending
             .sort((a, b) => (new Date(b.endTime)) - (new Date(a.endTime)))
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -99,7 +99,7 @@ function ForexRatesTable(props) {
             <TablePagination
               rowsPerPageOptions={[5, 10, 25, 50, 100]}
               colSpan={3}
-              count={singleCurrencyForexRates.length}
+              count={singleChannelForexRates.length}
               rowsPerPage={rowsPerPage}
               page={page}
               SelectProps={{
@@ -127,11 +127,11 @@ ForexRatesTable.propTypes = {
     endTime: PropTypes.string,
     reuse: PropTypes.bool,
   })).isRequired,
-  currency: PropTypes.string,
+  currencyChannel: PropTypes.string,
 };
 
 ForexRatesTable.defaultProps = {
-  currency: '',
+  currencyChannel: '',
 };
 
 export default withStyles(styles)(ForexRatesTable);
