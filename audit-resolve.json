@@ -1254,31 +1254,31 @@
     },
     "1488|react-scripts>jest>jest-cli>@jest/core>@jest/reporters>jest-runtime>jest-config>jest-environment-jsdom>jsdom>acorn": {
       "decision": "fix",
-      "madeAt": 1584536176189
+      "madeAt": 1584536563628
     },
     "1488|react-scripts>jest>jest-cli>@jest/core>jest-runner>jest-jasmine2>jest-runtime>jest-config>jest-environment-jsdom>jsdom>acorn": {
       "decision": "fix",
-      "madeAt": 1584536176189
+      "madeAt": 1584536563628
     },
     "1488|react-scripts>jest>jest-cli>@jest/core>jest-runner>jest-runtime>jest-config>jest-environment-jsdom>jsdom>acorn": {
       "decision": "fix",
-      "madeAt": 1584536176189
+      "madeAt": 1584536563628
     },
     "1488|react-scripts>jest>jest-cli>@jest/core>jest-runtime>jest-config>jest-environment-jsdom>jsdom>acorn": {
       "decision": "fix",
-      "madeAt": 1584536176189
+      "madeAt": 1584536563628
     },
     "1488|react-scripts>jest>jest-cli>@jest/core>jest-runner>jest-config>jest-environment-jsdom>jsdom>acorn": {
       "decision": "fix",
-      "madeAt": 1584536176189
+      "madeAt": 1584536563628
     },
     "1488|react-scripts>jest>jest-cli>@jest/core>jest-config>jest-environment-jsdom>jsdom>acorn": {
       "decision": "fix",
-      "madeAt": 1584536176189
+      "madeAt": 1584536563628
     },
     "1488|react-scripts>jest>jest-cli>jest-config>jest-environment-jsdom>jsdom>acorn": {
       "decision": "fix",
-      "madeAt": 1584536176189
+      "madeAt": 1584536563628
     },
     "1179|react-scripts>@svgr/webpack>@svgr/plugin-svgo>svgo>mkdirp>minimist": {
       "decision": "ignore",
