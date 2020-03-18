@@ -29,6 +29,12 @@ describe('receivedAmount(rate)', () => {
     const actual = receivedAmount(rate);
     expect(actual).toEqual(expected);
   });
+  it('should round correctly', () => {
+    const rate = 44.6823;
+    const expected = '2234.12';
+    const actual = receivedAmount(rate);
+    expect(actual).toEqual(expected);
+  });
 });
 
 describe('floatToIntDestructive(float)', () => {
@@ -137,6 +143,12 @@ describe('hasMax4DecimalPlaces(number)', () => {
 });
 
 describe('rateInputToInt(rateInput)', () => {
+  it('should return an integer rate given 0.1337', () => {
+    const inputRate = 0.1337;
+    const expected = 1337;
+    const actual = rateInputToInt(inputRate);
+    expect(actual).toEqual(expected);
+  });
   it('should return an integer rate given a 4-decimal places rate input', () => {
     const inputRate = 111.5555;
     const expected = 1115555;

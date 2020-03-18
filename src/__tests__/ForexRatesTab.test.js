@@ -4,6 +4,7 @@ import 'core-js/features/array/flat';
 
 import ForexRatesTab, {
   fxpResponseToForexRates,
+  onlyCurrency,
   stringRateFromDecimalRateAndInteger,
 } from '../components/ForexRatesTab';
 
@@ -141,6 +142,52 @@ describe('stringRateFromDecimalRateAndInteger(decimalRate, integer)', () => {
     const integer = 0;
     const expected = '0';
     const actual = stringRateFromDecimalRateAndInteger(decimalRate, integer);
+    expect(actual).toEqual(expected);
+  });
+});
+
+describe('onlyCurrency(currencyPair)', () => {
+  it('should return an array of rates with only the selected currencyPair', () => {
+    const allCurrencies = [
+      {
+        currencyPair: 'eurusd',
+        rate: '666.6667',
+        startTime: '2019-09-03T12:00:00.000Z',
+        endTime: '2019-09-04T12:00:00.000Z',
+        reuse: true,
+      },
+      {
+        currencyPair: 'eurusd',
+        rate: '666.6680',
+        startTime: '2019-09-04T12:00:00.000Z',
+        endTime: '2019-09-05T12:00:00.000Z',
+        reuse: true,
+      },
+      {
+        currencyPair: 'usdeur',
+        rate: '444.4430',
+        startTime: '2019-09-03T12:00:00.000Z',
+        endTime: '2019-09-04T12:00:00.000Z',
+        reuse: true,
+      },
+    ];
+    const expected = [
+      {
+        currencyPair: 'eurusd',
+        rate: '666.6667',
+        startTime: '2019-09-03T12:00:00.000Z',
+        endTime: '2019-09-04T12:00:00.000Z',
+        reuse: true,
+      },
+      {
+        currencyPair: 'eurusd',
+        rate: '666.6680',
+        startTime: '2019-09-04T12:00:00.000Z',
+        endTime: '2019-09-05T12:00:00.000Z',
+        reuse: true,
+      },
+    ];
+    const actual = onlyCurrency(allCurrencies, 'eurusd');
     expect(actual).toEqual(expected);
   });
 });
