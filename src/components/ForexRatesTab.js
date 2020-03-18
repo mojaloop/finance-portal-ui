@@ -43,9 +43,6 @@ export const fxpResponseToForexRates = (response) => Object.keys(response)
     })))
   .flat();
 
-export const onlyCurrency = (forexRates, currencyPair) => forexRates
-  .filter((rate) => rate.currencyPair === currencyPair);
-
 const styles = (theme) => ({
   root: {
     flexGrow: 1,
@@ -228,7 +225,7 @@ function ForexRatesTab(props) {
           <ForexRateEntry onCommit={onCommit} />
         </Grid>
         <Grid item xs={12}>
-          <ForexRatesTable forexRates={onlyCurrency(forexRates, 'eurmad')} />
+          <ForexRatesTable forexRates={forexRates} currencyChannelFilter="eurmad" />
         </Grid>
       </Grid>
     </>
