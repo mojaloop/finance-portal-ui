@@ -1,6 +1,102 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import ForexRatesTable from '../components/ForexRatesTable';
+import ForexRatesTable, { onlyCurrency } from '../components/ForexRatesTable';
+
+describe('onlyCurrency(currencyPair)', () => {
+  it('should return an array of rates with only the selected currencyPair', () => {
+    const allCurrencies = [
+      {
+        currencyPair: 'eurusd',
+        rate: '666.6667',
+        startTime: '2019-09-03T12:00:00.000Z',
+        endTime: '2019-09-04T12:00:00.000Z',
+        reuse: true,
+      },
+      {
+        currencyPair: 'eurusd',
+        rate: '666.6680',
+        startTime: '2019-09-04T12:00:00.000Z',
+        endTime: '2019-09-05T12:00:00.000Z',
+        reuse: true,
+      },
+      {
+        currencyPair: 'usdeur',
+        rate: '444.4430',
+        startTime: '2019-09-03T12:00:00.000Z',
+        endTime: '2019-09-04T12:00:00.000Z',
+        reuse: true,
+      },
+    ];
+    const expected = [
+      {
+        currencyPair: 'eurusd',
+        rate: '666.6667',
+        startTime: '2019-09-03T12:00:00.000Z',
+        endTime: '2019-09-04T12:00:00.000Z',
+        reuse: true,
+      },
+      {
+        currencyPair: 'eurusd',
+        rate: '666.6680',
+        startTime: '2019-09-04T12:00:00.000Z',
+        endTime: '2019-09-05T12:00:00.000Z',
+        reuse: true,
+      },
+    ];
+    const actual = onlyCurrency(allCurrencies, 'eurusd');
+    expect(actual).toEqual(expected);
+  });
+  it('should return the given array of rates when supplied a falsy currencyPair', () => {
+    const allCurrencies = [
+      {
+        currencyPair: 'eurusd',
+        rate: '666.6667',
+        startTime: '2019-09-03T12:00:00.000Z',
+        endTime: '2019-09-04T12:00:00.000Z',
+        reuse: true,
+      },
+      {
+        currencyPair: 'eurusd',
+        rate: '666.6680',
+        startTime: '2019-09-04T12:00:00.000Z',
+        endTime: '2019-09-05T12:00:00.000Z',
+        reuse: true,
+      },
+      {
+        currencyPair: 'usdeur',
+        rate: '444.4430',
+        startTime: '2019-09-03T12:00:00.000Z',
+        endTime: '2019-09-04T12:00:00.000Z',
+        reuse: true,
+      },
+    ];
+    const expected = [
+      {
+        currencyPair: 'eurusd',
+        rate: '666.6667',
+        startTime: '2019-09-03T12:00:00.000Z',
+        endTime: '2019-09-04T12:00:00.000Z',
+        reuse: true,
+      },
+      {
+        currencyPair: 'eurusd',
+        rate: '666.6680',
+        startTime: '2019-09-04T12:00:00.000Z',
+        endTime: '2019-09-05T12:00:00.000Z',
+        reuse: true,
+      },
+      {
+        currencyPair: 'usdeur',
+        rate: '444.4430',
+        startTime: '2019-09-03T12:00:00.000Z',
+        endTime: '2019-09-04T12:00:00.000Z',
+        reuse: true,
+      },
+    ];
+    const actual = onlyCurrency(allCurrencies, '');
+    expect(actual).toEqual(expected);
+  });
+});
 
 describe('<ForexRatesTable />', () => {
   it('should render without crashing', () => {
