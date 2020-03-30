@@ -42,7 +42,7 @@
     "@storybook/addon-links": "^5.3.13",
     "@storybook/addons": "^5.3.13",
     "@storybook/preset-create-react-app": "^1.5.2",
-    "@storybook/react": "^5.3.13",
+    "@storybook/react": "^5.3.17",
     "@testing-library/react": "^9.4.0",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.0.1",
