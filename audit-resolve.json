@@ -3092,6 +3092,16 @@
       "decision": "ignore",
       "madeAt": 1584537038752,
       "expiresAt": 1585141770301
+    },
+    "1500|react-scripts>webpack-dev-server>yargs>yargs-parser": {
+      "decision": "ignore",
+      "madeAt": 1588757618981,
+      "expiresAt": 1591349610574
+    },
+    "1500|npm-audit-resolver>audit-resolve-core>yargs-parser": {
+      "decision": "ignore",
+      "madeAt": 1588757618981,
+      "expiresAt": 1591349610574
     }
   },
   "rules": {},
