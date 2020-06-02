@@ -35,11 +35,8 @@ export const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => {
 export const fxpResponseToForexRates = (response) => Object.keys(response)
   .map((currencyChannel) => response[currencyChannel]
     .map((rate) => ({
-      currencyPair: currencyChannel,
+      ...rate,
       rate: stringRateFromDecimalRateAndInteger(rate.decimalRate, rate.rate),
-      startTime: rate.startTime,
-      endTime: rate.endTime,
-      reuse: rate.reuse,
     })))
   .flat();
 
@@ -190,7 +187,7 @@ function ForexRatesTab(props) {
 
   return (
     <>
-      {confirmDialog.visible
+      {/* {confirmDialog.visible
       && (
       <ConfirmDialog
         title="Warning"
@@ -202,8 +199,8 @@ function ForexRatesTab(props) {
         })}
         onConfirm={confirmDialog.onConfirm}
       />
-      )}
-      <Snackbar
+      )} */}
+      {/* <Snackbar
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left',
@@ -219,13 +216,13 @@ function ForexRatesTab(props) {
           message={snackBarParams.message}
           action={snackBarParams.action}
         />
-      </Snackbar>
+      </Snackbar> */}
       <Grid className={classes.root} container spacing={0}>
-        <Grid item xs={12}>
+        {/* <Grid item xs={12}>
           <ForexRateEntry onCommit={onCommit} />
-        </Grid>
+        </Grid> */}
         <Grid item xs={12}>
-          <ForexRatesTable forexRates={forexRates} currencyChannelFilter="eurmad" />
+          <ForexRatesTable forexRates={forexRates} />
         </Grid>
       </Grid>
     </>
