@@ -1,92 +1,160 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import SettlementWindowTransfersTab from '../components/SettlementWindowTransfersTab';
 
 const settlementWindowDetails = {
   settlementWindow: {
     settlementWindowId: 93,
     settlementWindowStateId: 'PENDING_SETTLEMENT',
-    amount: '350.9700',
-    currencyId: 'EUR,MAD',
+    amount: '1116.8200',
+    currencyId: 'EUR,MAD,UGX,ZMW,RWF,GHS',
     settlementWindowOpen: '2020-02-26T20:42:03.000Z',
     settlementWindowClose: '2020-02-26T20:42:10.000Z',
   },
   participantAmount: [
     {
       fspId: 'DFSPEUR',
-      inAmount: '-27.0000',
       currency: 'EUR',
-      outAmount: 0,
-      netAmount: '-27.0000',
+      inAmount: '-20.4800',
+      outAmount: '0',
+      netAmount: '-20.4800',
     },
     {
       fspId: 'DFSPMAD',
-      inAmount: 0,
       currency: 'MAD',
-      outAmount: '323.9700',
-      netAmount: '323.9700',
+      inAmount: '0',
+      outAmount: '110.7700',
+      netAmount: '110.7700',
+    },
+    {
+      fspId: 'DFSPUGX',
+      currency: 'UGX',
+      inAmount: '-1082.0000',
+      outAmount: '259.0000',
+      netAmount: '-823.0000',
+    },
+    {
+      fspId: 'DFSPZMW',
+      currency: 'ZMW',
+      inAmount: '-21.1900',
+      outAmount: '11.9400',
+      netAmount: '-9.2500',
+    },
+    {
+      fspId: 'DFSPRWF',
+      currency: 'RWF',
+      inAmount: '-49.0000',
+      outAmount: '64.0000',
+      netAmount: '15.0000',
+    },
+    {
+      fspId: 'DFSPGHS',
+      currency: 'GHS',
+      inAmount: '0',
+      outAmount: '6.3200',
+      netAmount: '6.3200',
+    },
+    {
+      fspId: 'noresponsepayeefsp',
+      currency: 'XOF',
+      inAmount: '-11.0000',
+      outAmount: '0',
+      netAmount: '-11.0000',
+    },
+    {
+      fspId: 'payeefsp',
+      currency: 'XOF',
+      inAmount: '-1.0000',
+      outAmount: '0',
+      netAmount: '-1.0000',
+    },
+    {
+      fspId: 'payerfsp',
+      currency: 'XOF',
+      inAmount: '0',
+      outAmount: '12.0000',
+      netAmount: '12.0000',
+    },
+    {
+      fspId: 'testfsp1',
+      currency: 'XOF',
+      inAmount: '0',
+      outAmount: '120.0000',
+      netAmount: '120.0000',
+    },
+    {
+      fspId: 'testfsp2',
+      currency: 'XOF',
+      inAmount: '-120.0000',
+      outAmount: '0',
+      netAmount: '-120.0000',
     },
     {
       fspId: 'testfsp3',
-      inAmount: 0,
       currency: 'EUR',
-      outAmount: '27.0000',
-      netAmount: '27.0000',
+      inAmount: '0',
+      outAmount: '20.4800',
+      netAmount: '20.4800',
     },
     {
       fspId: 'testfsp4',
-      inAmount: '-323.9700',
       currency: 'MAD',
-      outAmount: 0,
-      netAmount: '-323.9700',
+      inAmount: '-110.7700',
+      outAmount: '0',
+      netAmount: '-110.7700',
+    },
+    {
+      fspId: 'testfsp5',
+      currency: 'UGX',
+      inAmount: '-259.0000',
+      outAmount: '1082.0000',
+      netAmount: '823.0000',
+    },
+    {
+      fspId: 'testfsp6',
+      currency: 'ZMW',
+      inAmount: '-11.9400',
+      outAmount: '21.1900',
+      netAmount: '9.2500',
+    },
+    {
+      inAmount: '-64.0000',
+      fspId: 'testfsp7',
+      currency: 'RWF',
+      outAmount: '49.0000',
+      netAmount: '-15.0000',
+    },
+    {
+      fspId: 'testfsp8',
+      currency: 'GHS',
+      inAmount: '-6.3200',
+      outAmount: '0',
+      netAmount: '-6.3200',
     },
   ],
   totalAmount: [
     {
-      EUR: '27.0000',
+      XOF: '132.0000',
     },
     {
-      MAD: '323.9700',
-    },
-  ],
-  settlementId: 93,
-  relatedSettlementWindows: [],
-  settlement: {},
-};
-
-const settlementWindowDetailsOneTransfer = {
-  settlementWindow: {
-    settlementWindowId: 93,
-    settlementWindowStateId: 'PENDING_SETTLEMENT',
-    amount: '350.9700',
-    currencyId: 'EUR,MAD',
-    settlementWindowOpen: '2020-02-26T20:42:03.000Z',
-    settlementWindowClose: '2020-02-26T20:42:10.000Z',
-  },
-  participantAmount: [
-    {
-      fspId: 'testfsp3',
-      inAmount: 0,
-      currency: 'EUR',
-      outAmount: '27.0000',
-      netAmount: '27.0000',
+      EUR: '20.4800',
     },
     {
-      fspId: 'testfsp4',
-      inAmount: '-323.9700',
-      currency: 'MAD',
-      outAmount: 0,
-      netAmount: '-323.9700',
-    },
-  ],
-  totalAmount: [
-    {
-      EUR: '27.0000',
+      MAD: '0.0000',
     },
     {
-      MAD: '323.9700',
+      UGX: '1082.0000',
     },
-  ],
+    {
+      ZMW: '21.1900',
+    },
+    {
+      RWF: '49.0000',
+    },
+    {
+      GHS: '0.0000',
+    }],
   settlementId: 93,
   relatedSettlementWindows: [],
   settlement: {},
@@ -96,65 +164,53 @@ const classes = {
   tableDetails: '',
 };
 
+const columnHeaders = ['FSP ID', 'Currency', 'In Amount', 'Out Amount', 'Net Amount'];
+
 describe('<SettlementWindowTransfersTab />', async () => {
-  it('should not render without props', () => {
+  it('should not render if the property `settlementWindowDetails` is not defined.', () => {
     const { queryByText } = render(
       <SettlementWindowTransfersTab />,
     );
-    expect(queryByText('Currency')).toBe(null);
+
+    columnHeaders.forEach((columnHeader) => {
+      expect(queryByText(columnHeader)).toBe(null);
+      expect(queryByText(columnHeader)).toBeDefined();
+    });
   });
 
-  it('should render with props', () => {
+  it('should render if the property `settlementWindowDetails` is defined.', () => {
     const { queryByText } = render(
       <SettlementWindowTransfersTab
         settlementWindowDetails={settlementWindowDetails}
         classes={classes}
       />,
     );
-    const element = queryByText('Currency');
-    expect(element).toBeDefined();
+
+    columnHeaders.forEach((columnHeader) => {
+      expect(queryByText(columnHeader)).not.toBe(null);
+      expect(queryByText(columnHeader)).toBeDefined();
+    });
   });
 
-  it('should have the right amount of transfers', () => {
-    const { queryAllByText } = render(
-      <SettlementWindowTransfersTab
-        settlementWindowDetails={settlementWindowDetails}
-        classes={classes}
-      />,
-    );
-    const transfersEUR = queryAllByText('EUR');
-    const transfersMAD = queryAllByText('MAD');
-    expect(transfersEUR.length).toBe(2);
-    expect(transfersMAD.length).toBe(2);
-  });
+  it('should render all transfers with the correct amounts.', () => {
+    render(<SettlementWindowTransfersTab
+      settlementWindowDetails={settlementWindowDetails}
+      classes={classes}
+    />);
 
-  it('should display the correct amount for a transfer', () => {
-    const { queryAllByText } = render(
-      <SettlementWindowTransfersTab
-        settlementWindowDetails={settlementWindowDetails}
-        classes={classes}
-      />,
-    );
-    const transfersEUR = queryAllByText('-323.9700');
-    const transfersMAD = queryAllByText('-27.0000');
-    expect(transfersEUR.length).toBe(2);
-    expect(transfersMAD.length).toBe(2);
-  });
+    settlementWindowDetails.participantAmount.forEach((item) => {
+      // the FSP ID appears only once
+      expect(screen.getAllByText(item.fspId).length).toBe(1);
 
-  it('should render all rows', () => {
-    const { queryAllByText } = render(
-      <SettlementWindowTransfersTab
-        settlementWindowDetails={settlementWindowDetailsOneTransfer}
-        classes={classes}
-      />,
-    );
-    const fspID = queryAllByText('testfsp3');
-    const fspCurrency = queryAllByText('EUR');
-    const fspOutAmount = queryAllByText('27.0000');
-    const fspInAmount = queryAllByText('0');
-    expect(fspOutAmount.length).toBe(2); // We're also counting net amount.
-    expect(fspID.length).toBe(1);
-    expect(fspCurrency.length).toBe(1);
-    expect(fspInAmount.length).toBe(2); // we also count the other fsp outAmount(0)
+      // get the row of that FSP ID
+      const row = screen.getByText(item.fspId).closest('tr');
+
+      // verify that the columns of the row display the expected values
+      expect(row.cells[0]).toHaveTextContent(item.fspId);
+      expect(row.cells[1]).toHaveTextContent(item.currency);
+      expect(row.cells[2]).toHaveTextContent(item.inAmount);
+      expect(row.cells[3]).toHaveTextContent(item.outAmount);
+      expect(row.cells[4]).toHaveTextContent(item.netAmount);
+    });
   });
 });
