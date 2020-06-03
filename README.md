@@ -51,6 +51,12 @@ npx serve ./build
 npm run storybook
 ```
 
+## Audit Issues
+This repository uses [npm-audit-resolver](https://github.com/naugtur/npm-audit-resolver#readme) to check for security vulnerabilities. Basic troubleshooting of a failed security check is as follows:
+1. Run `npm audit` to show the current issues.
+2. Run `npm audit fix` to attempt to automatically fix the current issues.
+3. If an issue must be ignored, and **it is absolutely safe to do so**, run `npm run audit:resolve` and select "remind me in 24h"
+
 ## TODO
 * Read a little more nginx documentation, consider creating a proper nginx config, because
   * Support client-side routing using browser pushState API
