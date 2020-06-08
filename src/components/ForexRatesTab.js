@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { Grid, Snackbar, withStyles } from '@material-ui/core';
 
 import ConfirmDialog from './ConfirmDialog';
-import ForexRateEntry, { hiddenConfirmDialog } from './ForexRateEntry';
 import ForexRatesTable from './ForexRatesTable';
 import SnackbarContentWrapper from './SnackbarUtils';
 
-import { getForexRates, setForexRate } from '../api';
+import { getForexRates } from '../api';
 
 export const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => {
   if (integer === 0) {
@@ -72,57 +71,7 @@ function ForexRatesTab(props) {
     onConfirm: () => {},
   });
 
-  const onCommit = (rate, startTime) => (endTime) => {
-    setConfirmDialog({
-      visible: true,
-      description: 'This will set the EURMAD rate to '
-        + `${stringRateFromDecimalRateAndInteger(4, rate)} from ${startTime} to ${endTime}. Are `
-        + 'you sure you want to continue?',
-      onConfirm: async () => {
-        try {
-          await setForexRate({
-            rate, startTime, endTime, destinationCurrency: 'mad', sourceCurrency: 'eur',
-          });
-          setConfirmDialog(hiddenConfirmDialog());
-          setSnackBarParams({
-            show: true,
-            message: 'The Forex rate was successfully set',
-            variant: 'success',
-            action: 'close',
-          });
-          setForexRates([{
-            rate: stringRateFromDecimalRateAndInteger(4, rate),
-            startTime,
-            endTime,
-            reuse: false,
-          }, ...forexRates]);
-        } catch (error) {
-          if (error instanceof SyntaxError) {
-            setConfirmDialog(hiddenConfirmDialog());
-            setSnackBarParams({
-              show: true,
-              message: 'The Forex rate was successfully set',
-              variant: 'success',
-              action: 'close',
-            });
-            setForexRates([{
-              rate: stringRateFromDecimalRateAndInteger(4, rate),
-              startTime,
-              endTime,
-              reuse: false,
-            }, ...forexRates]);
-          } else {
-            setConfirmDialog(hiddenConfirmDialog());
-            setSnackBarParams({
-              show: true, message: 'Error: Forex rate could not be set', variant: 'error',
-            });
-          }
-        }
-      },
-    });
-  };
-
-  const handleCloseSnackbar = (event, reason) => {
+  const handleCloseSnackbar = (_, reason) => {
     if (reason === 'clickaway') {
       return;
     }
@@ -187,7 +136,7 @@ function ForexRatesTab(props) {
 
   return (
     <>
-      {/* {confirmDialog.visible
+      {confirmDialog.visible
       && (
       <ConfirmDialog
         title="Warning"
@@ -199,8 +148,8 @@ function ForexRatesTab(props) {
         })}
         onConfirm={confirmDialog.onConfirm}
       />
-      )} */}
-      {/* <Snackbar
+      )}
+      <Snackbar
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'left',
@@ -216,11 +165,8 @@ function ForexRatesTab(props) {
           message={snackBarParams.message}
           action={snackBarParams.action}
         />
-      </Snackbar> */}
+      </Snackbar>
       <Grid className={classes.root} container spacing={0}>
-        {/* <Grid item xs={12}>
-          <ForexRateEntry onCommit={onCommit} />
-        </Grid> */}
         <Grid item xs={12}>
           <ForexRatesTable forexRates={forexRates} />
         </Grid>
