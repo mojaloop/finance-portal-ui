@@ -60,7 +60,6 @@ function ForexRatesTable(props) {
 
   const emptyRows = rowsPerPage
     - Math.min(rowsPerPage, singleChannelForexRates.length - page * rowsPerPage);
-  console.log(singleChannelForexRates)
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>

@@ -107,7 +107,7 @@ function ForexRatesTab(props) {
       }
     }
     fetchForexRates();
-  }, []);
+  }, [getRates]);
 
   // Forex Rates get transformed into this:
   // [
