@@ -49,7 +49,7 @@ function ForexRatesTable(props) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (_, newPage) => {
     setPage(newPage);
   };
 
@@ -65,7 +65,7 @@ function ForexRatesTable(props) {
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell><h3>currencyPair</h3></TableCell>
+            <TableCell><h3>Currency Pair</h3></TableCell>
             <TableCell><h3>rateSetId</h3></TableCell>
             <TableCell><h3>Bid Rate</h3></TableCell>
             <TableCell><h3>Offer Rate</h3></TableCell>

@@ -58,7 +58,7 @@ function SettlementWindowsGrid(props) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [snackBarParams, setSnackBarParams] = useState({ show: false, message: '', variant: 'success' });
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (_, newPage) => {
     setPage(newPage);
   };
 

@@ -109,31 +109,6 @@ function ForexRatesTab(props) {
     fetchForexRates();
   }, [getRates]);
 
-  // Forex Rates get transformed into this:
-  // [
-  //   {
-  //     currencyPair: 'eurusd',
-  //     rate: '666.6667',
-  //     startTime: '2019-09-03T12:00:00.000Z',
-  //     endTime: '2019-09-04T12:00:00.000Z',
-  //     reuse: false,
-  //   },
-  //   {
-  //     currencyPair: 'eurusd',
-  //     rate: '666.6680',
-  //     startTime: '2019-09-04T12:00:00.000Z',
-  //     endTime: '2019-09-05T12:00:00.000Z',
-  //     reuse: false,
-  //   },
-  //   {
-  //     currencyPair: 'usdeur',
-  //     rate: '444.4430',
-  //     startTime: '2019-09-03T12:00:00.000Z',
-  //     endTime: '2019-09-04T12:00:00.000Z',
-  //     reuse: false,
-  //   },
-  // ]
-
   return (
     <>
       {confirmDialog.visible
