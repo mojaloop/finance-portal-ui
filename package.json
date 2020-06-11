@@ -1,7 +1,20 @@
 {
   "name": "admin-portal-web-ui",
-  "version": "9.4.0",
-  "private": true,
+  "version": "10.3.0",
+  "license": "Apache-2.0",
+  "contributors": [
+    "Matt Kingston <matt.kingston@modusbox.com>",
+    "Kamuela Franco <kamuela.franco@modusbox.com>",
+    "Aarón Reynoza <aaron.reynoza@modusbox.com>",
+    "Vassilis Barzokas <vassilis.barzokas@modusbox.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mojaloop/finance-portal-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mojaloop/finance-portal-ui/issues"
+  },
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
@@ -43,6 +56,7 @@
     "@storybook/addons": "^5.3.13",
     "@storybook/preset-create-react-app": "^1.5.2",
     "@storybook/react": "^5.3.17",
+    "@testing-library/jest-dom": "^5.9.0",
     "@testing-library/react": "^9.4.0",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.0.1",
