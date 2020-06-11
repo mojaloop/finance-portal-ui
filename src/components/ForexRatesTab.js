@@ -71,6 +71,57 @@ function ForexRatesTab(props) {
     onConfirm: () => {},
   });
 
+  // This will be re-added on near feature
+  // const onCommit = (rate, startTime) => (endTime) => {
+  //   setConfirmDialog({
+  //     visible: true,
+  //     description: 'This will set the EURMAD rate to '
+  //       + `${stringRateFromDecimalRateAndInteger(4, rate)} from ${startTime} to ${endTime}. Are `
+  //       + 'you sure you want to continue?',
+  //     onConfirm: async () => {
+  //       try {
+  //         await setForexRate({
+  //           rate, startTime, endTime, destinationCurrency: 'mad', sourceCurrency: 'eur',
+  //         });
+  //         setConfirmDialog(hiddenConfirmDialog());
+  //         setSnackBarParams({
+  //           show: true,
+  //           message: 'The Forex rate was successfully set',
+  //           variant: 'success',
+  //           action: 'close',
+  //         });
+  //         setForexRates([{
+  //           rate: stringRateFromDecimalRateAndInteger(4, rate),
+  //           startTime,
+  //           endTime,
+  //           reuse: false,
+  //         }, ...forexRates]);
+  //       } catch (error) {
+  //         if (error instanceof SyntaxError) {
+  //           setConfirmDialog(hiddenConfirmDialog());
+  //           setSnackBarParams({
+  //             show: true,
+  //             message: 'The Forex rate was successfully set',
+  //             variant: 'success',
+  //             action: 'close',
+  //           });
+  //           setForexRates([{
+  //             rate: stringRateFromDecimalRateAndInteger(4, rate),
+  //             startTime,
+  //             endTime,
+  //             reuse: false,
+  //           }, ...forexRates]);
+  //         } else {
+  //           setConfirmDialog(hiddenConfirmDialog());
+  //           setSnackBarParams({
+  //             show: true, message: 'Error: Forex rate could not be set', variant: 'error',
+  //           });
+  //         }
+  //       }
+  //     },
+  //   });
+  // };
+
   const handleCloseSnackbar = (_, reason) => {
     if (reason === 'clickaway') {
       return;

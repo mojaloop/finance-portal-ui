@@ -92,6 +92,7 @@ function ForexRatesTable(props) {
                 <TableCell>
                   {String(forexRate.reuse).charAt(0).toUpperCase()
                   + String(forexRate.reuse).slice(1)}
+                  {/* TODO: Change reuse to active */}
                 </TableCell>
               </TableRow>
             ))}
