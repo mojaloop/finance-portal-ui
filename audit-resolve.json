@@ -3095,13 +3095,13 @@
     },
     "1500|react-scripts>webpack-dev-server>yargs>yargs-parser": {
       "decision": "ignore",
-      "madeAt": 1588757618981,
-      "expiresAt": 1591349610574
+      "madeAt": 1591872276126,
+      "expiresAt": 1592477069578
     },
     "1500|npm-audit-resolver>audit-resolve-core>yargs-parser": {
       "decision": "ignore",
-      "madeAt": 1588757618981,
-      "expiresAt": 1591349610574
+      "madeAt": 1591872276126,
+      "expiresAt": 1592477069578
     }
   },
   "rules": {},
