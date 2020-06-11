@@ -61,7 +61,7 @@ function SettlementsList(props) {
         window.alert('Failed to get settlement list');
       }); // TODO: better error message, let user retry
     return ftc.abortFn;
-  }, [dates]);
+  }, [dates, fsp]);
 
   return (
     <>

@@ -47,9 +47,9 @@ function ForexRatesTable(props) {
   const singleChannelForexRates = onlyCurrency(forexRates, currencyChannelFilter);
 
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  const handleChangePage = (event, newPage) => {
+  const handleChangePage = (_, newPage) => {
     setPage(newPage);
   };
 
@@ -60,15 +60,18 @@ function ForexRatesTable(props) {
 
   const emptyRows = rowsPerPage
     - Math.min(rowsPerPage, singleChannelForexRates.length - page * rowsPerPage);
-
   return (
     <Paper className={classes.root}>
       <Table className={classes.table}>
         <TableHead>
           <TableRow>
-            <TableCell><h3>Rate</h3></TableCell>
+            <TableCell><h3>Currency Pair</h3></TableCell>
+            <TableCell><h3>rateSetId</h3></TableCell>
+            <TableCell><h3>Bid Rate</h3></TableCell>
+            <TableCell><h3>Offer Rate</h3></TableCell>
             <TableCell><h3>Start Datetime</h3></TableCell>
             <TableCell><h3>End Datetime</h3></TableCell>
+            <TableCell><h3>RateID</h3></TableCell>
             <TableCell><h3>Reuse?</h3></TableCell>
           </TableRow>
         </TableHead>
@@ -79,12 +82,17 @@ function ForexRatesTable(props) {
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((forexRate) => (
               <TableRow key={uid(forexRate)}>
+                <TableCell>{forexRate.forexProviderInfo.citi.currencyPair}</TableCell>
+                <TableCell>{forexRate.forexProviderInfo.citi.rateSetId}</TableCell>
+                <TableCell>{forexRate.forexProviderInfo.citi.offerSpotRate}</TableCell>
                 <TableCell>{forexRate.rate}</TableCell>
                 <TableCell>{forexRate.startTime}</TableCell>
                 <TableCell>{forexRate.endTime}</TableCell>
+                <TableCell>{forexRate.id}</TableCell>
                 <TableCell>
                   {String(forexRate.reuse).charAt(0).toUpperCase()
                   + String(forexRate.reuse).slice(1)}
+                  {/* TODO: Change reuse to active */}
                 </TableCell>
               </TableRow>
             ))}
