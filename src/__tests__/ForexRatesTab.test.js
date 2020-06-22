@@ -94,7 +94,7 @@ describe('<ForexRatesTab />', () => {
   });
   it('should contain a forex rates table', async () => {
     const { findByText } = render(<ForexRatesTab />);
-    const element = await findByText('Reuse?');
+    const element = await findByText('Enabled');
     expect(element).toBeDefined();
   });
   // it('should contain a forex rate entry area', async () => {

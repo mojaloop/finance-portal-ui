@@ -281,14 +281,14 @@ describe('<ForexRatesTable />', () => {
     const element = await findByText('End Datetime');
     expect(element).toBeDefined();
   });
-  it('should have a Reuse column', async () => {
+  it('should have an `Enabled` column', async () => {
     const props = {
       classes: {},
       forexRates,
     };
     // eslint-disable-next-line react/jsx-props-no-spreading
     const { findByText } = render(<ForexRatesTable {...props} />);
-    const element = await findByText('Reuse?');
+    const element = await findByText('Enabled');
     expect(element).toBeDefined();
   });
 });
