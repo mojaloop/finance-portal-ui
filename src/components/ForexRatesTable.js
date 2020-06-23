@@ -72,7 +72,7 @@ function ForexRatesTable(props) {
             <TableCell><h3>Start Datetime</h3></TableCell>
             <TableCell><h3>End Datetime</h3></TableCell>
             <TableCell><h3>RateID</h3></TableCell>
-            <TableCell><h3>Reuse?</h3></TableCell>
+            <TableCell><h3>Enabled</h3></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -89,11 +89,7 @@ function ForexRatesTable(props) {
                 <TableCell>{forexRate.startTime}</TableCell>
                 <TableCell>{forexRate.endTime}</TableCell>
                 <TableCell>{forexRate.id}</TableCell>
-                <TableCell>
-                  {String(forexRate.reuse).charAt(0).toUpperCase()
-                  + String(forexRate.reuse).slice(1)}
-                  {/* TODO: Change reuse to active */}
-                </TableCell>
+                <TableCell>{forexRate.enabled}</TableCell>
               </TableRow>
             ))}
           {emptyRows > 0 && (
