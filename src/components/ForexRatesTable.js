@@ -84,8 +84,8 @@ function ForexRatesTable(props) {
               <TableRow key={uid(forexRate)}>
                 <TableCell>{forexRate.forexProviderInfo.citi.currencyPair}</TableCell>
                 <TableCell>{forexRate.forexProviderInfo.citi.rateSetId}</TableCell>
-                <TableCell>{forexRate.forexProviderInfo.citi.offerSpotRate}</TableCell>
                 <TableCell>{forexRate.rate}</TableCell>
+                <TableCell>{forexRate.forexProviderInfo.citi.offerSpotRate}</TableCell>
                 <TableCell>{forexRate.startTime}</TableCell>
                 <TableCell>{forexRate.endTime}</TableCell>
                 <TableCell>{forexRate.id}</TableCell>
