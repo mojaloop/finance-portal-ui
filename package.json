@@ -28,7 +28,7 @@
     "react-dom": "^16.8.1",
     "react-jss": "^8.6.1",
     "react-number-format": "^4.0.7",
-    "react-scripts": "^3.3.0",
+    "react-scripts": "^3.4.3",
     "react-uid": "^2.2.0"
   },
   "scripts": {

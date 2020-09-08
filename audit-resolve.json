@@ -3102,6 +3102,22 @@
       "decision": "ignore",
       "madeAt": 1592832426559,
       "expiresAt": 1593437221155
+    },
+    "1548|react-scripts>webpack>terser-webpack-plugin>serialize-javascript": {
+      "decision": "postpone",
+      "madeAt": 1599530445926
+    },
+    "1548|@storybook/react>@storybook/core>corejs-upgrade-webpack-plugin>webpack>terser-webpack-plugin>serialize-javascript": {
+      "decision": "postpone",
+      "madeAt": 1599530451149
+    },
+    "1548|@storybook/react>@storybook/core>webpack>terser-webpack-plugin>serialize-javascript": {
+      "decision": "postpone",
+      "madeAt": 1599530451149
+    },
+    "1548|@storybook/react>webpack>terser-webpack-plugin>serialize-javascript": {
+      "decision": "postpone",
+      "madeAt": 1599530451149
     }
   },
   "rules": {},
