@@ -3118,6 +3118,14 @@
     "1548|@storybook/react>webpack>terser-webpack-plugin>serialize-javascript": {
       "decision": "postpone",
       "madeAt": 1599530451149
+    },
+    "1556|@material-ui/core>recompose>fbjs>isomorphic-fetch>node-fetch": {
+      "decision": "postpone",
+      "madeAt": 1600113685433
+    },
+    "1556|@material-ui/icons>recompose>fbjs>isomorphic-fetch>node-fetch": {
+      "decision": "postpone",
+      "madeAt": 1600113689886
     }
   },
   "rules": {},
