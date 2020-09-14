@@ -82,7 +82,7 @@ function ForexRatesTable(props) {
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((forexRate) => (
               <TableRow key={uid(forexRate)}>
-                <TableCell>{forexRate.forexProviderInfo.citi.currencyPair}</TableCell>
+                <TableCell>{forexRate.currencyPair}</TableCell>
                 <TableCell>{forexRate.forexProviderInfo.citi.rateSetId}</TableCell>
                 <TableCell>{forexRate.rate}</TableCell>
                 <TableCell>{forexRate.forexProviderInfo.citi.offerSpotRate}</TableCell>
