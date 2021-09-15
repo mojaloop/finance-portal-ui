@@ -317,7 +317,8 @@ function SettlementWindowsGrid(props) {
                   HUB 312 Report
                 </Button>
               </Grid>
-              /*<Grid item md={2}>
+              /*
+              <Grid item md={2}>
                 <Button
                   onClick={() => downloadReport('/report?reportId=644')}
                   id={openWindowGridUIGenerator('download-644-report')}
@@ -326,7 +327,8 @@ function SettlementWindowsGrid(props) {
                 >
                   HUB 644 Report
                 </Button>
-              </Grid>*/
+              </Grid>
+              */
               <Grid item md={2}>
                 <Button
                   color="primary"
