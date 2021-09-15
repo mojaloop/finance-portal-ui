@@ -9,26 +9,25 @@ import SnackbarContentWrapper from './SnackbarUtils';
 import { getForexRates } from '../api';
 
 export const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => {
+  var forexRate = String(integer);
+  var precision = forexRate.length - decimalRate;
   if (integer === 0) {
     return '0';
+  }else if (precision <= 0) {
+    let prefix = "0.";
+    for (precision; precision < 0; precision++) {
+      prefix = prefix+'0';
+    }
+    return prefix+forexRate;
+  }else if (precision === forexRate.length) {
+      return forexRate;
+  }else {
+      return [
+        forexRate.slice(0, precision),
+        '.',
+        forexRate.slice(precision),
+      ].join('');
   }
-  if (integer < 10000 && integer >= 1000) {
-    return `0.${String(integer)}`;
-  }
-  if (integer < 1000 && integer >= 100) {
-    return `0.0${String(integer)}`;
-  }
-  if (integer < 100 && integer >= 10) {
-    return `0.00${String(integer)}`;
-  }
-  if (integer < 10) {
-    return `0.000${String(integer)}`;
-  }
-  return [
-    String(integer).slice(0, String(integer).length - decimalRate),
-    '.',
-    String(integer).slice(String(integer).length - decimalRate),
-  ].join('');
 };
 
 export const fxpResponseToForexRates = (response) => Object.keys(response)
