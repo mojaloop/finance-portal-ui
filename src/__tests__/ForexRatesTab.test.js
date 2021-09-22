@@ -22,10 +22,17 @@ describe('stringRateFromDecimalRateAndInteger(decimalRate, integer)', () => {
     const actual = stringRateFromDecimalRateAndInteger(decimalRate, integer);
     expect(actual).toEqual(expected);
   });
-  it('should return a formatted rate string given 0.0009', () => {
+  it('should return a formatted rate string given 0.0123', () => {
+      const decimalRate = 4;
+      const integer = 0123;
+      const expected = '0.0123';
+      const actual = stringRateFromDecimalRateAndInteger(decimalRate, integer);
+      expect(actual).toEqual(expected);
+  });
+  it('should return a formatted rate string given 0.1234', () => {
     const decimalRate = 4;
-    const integer = 9;
-    const expected = '0.0009';
+    const integer = 1234;
+    const expected = '0.1234';
     const actual = stringRateFromDecimalRateAndInteger(decimalRate, integer);
     expect(actual).toEqual(expected);
   });
@@ -47,6 +54,13 @@ describe('stringRateFromDecimalRateAndInteger(decimalRate, integer)', () => {
     const decimalRate = 4;
     const integer = 9999;
     const expected = '0.9999';
+    const actual = stringRateFromDecimalRateAndInteger(decimalRate, integer);
+    expect(actual).toEqual(expected);
+  });
+  it('should return a formatted rate string given 0.99999', () => {
+    const decimalRate = 5;
+    const integer = 99999;
+    const expected = '0.99999';
     const actual = stringRateFromDecimalRateAndInteger(decimalRate, integer);
     expect(actual).toEqual(expected);
   });
