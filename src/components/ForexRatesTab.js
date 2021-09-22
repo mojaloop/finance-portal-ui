@@ -8,25 +8,11 @@ import SnackbarContentWrapper from './SnackbarUtils';
 
 import { getForexRates } from '../api';
 
+const MLNumber = require('@mojaloop/ml-number');
+
 export const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => {
-  const forexRate = String(integer);
-  let precision = forexRate.length - decimalRate;
-  if (integer === 0) {
-    return '0';
-  } if (precision <= 0) {
-    let prefix = '0.';
-    for (precision; precision < 0; precision++) {
-      prefix += '0';
-    }
-    return prefix + forexRate;
-  } if (precision === forexRate.length) {
-    return forexRate;
-  }
-  return [
-    forexRate.slice(0, precision),
-    '.',
-    forexRate.slice(precision),
-  ].join('');
+  const forexRateWithPrecision = new MLNumber(integer).shiftedBy(-1 * decimalRate);
+  return forexRateWithPrecision;
 };
 
 export const fxpResponseToForexRates = (response) => Object.keys(response)

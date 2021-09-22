@@ -317,7 +317,7 @@ function SettlementWindowsGrid(props) {
                   HUB 312 Report
                 </Button>
               </Grid>
-              /*
+              /* This report is no longer be used, please refer to MES 1 Release for more details https://modusbox.atlassian.net/wiki/spaces/CV/pages/2007334970/MES+1+Mowali+Release+Notes
               <Grid item md={2}>
                 <Button
                   onClick={() => downloadReport('/report?reportId=644')}
