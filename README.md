@@ -13,7 +13,7 @@ make build VER=whatever-you-want
 
 ## Run
 ### Containerised
-You'll need a running frontend-backend. See instructions for [finance-portal-backend-service](
+You will need a running frontend-backend. See instructions for [finance-portal-backend-service](
 https://github.com/mojaloop/finance-portal-backend-service#running-locally).
 
 Default port (3000):
