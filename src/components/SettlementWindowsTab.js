@@ -317,6 +317,11 @@ function SettlementWindowsGrid(props) {
                   HUB 312 Report
                 </Button>
               </Grid>
+              /*
+              This report is no longer be used,
+              but may be useful in future with some enhancements.
+              */
+              /*
               <Grid item md={2}>
                 <Button
                   onClick={() => downloadReport('/report?reportId=644')}
@@ -327,6 +332,7 @@ function SettlementWindowsGrid(props) {
                   HUB 644 Report
                 </Button>
               </Grid>
+              */
               <Grid item md={2}>
                 <Button
                   color="primary"

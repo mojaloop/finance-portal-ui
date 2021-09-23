@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Snackbar, withStyles } from '@material-ui/core';
 
+import MLNumber from '@mojaloop/ml-number';
 import ConfirmDialog from './ConfirmDialog';
 import ForexRatesTable from './ForexRatesTable';
 import SnackbarContentWrapper from './SnackbarUtils';
@@ -9,26 +10,9 @@ import SnackbarContentWrapper from './SnackbarUtils';
 import { getForexRates } from '../api';
 
 export const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => {
-  if (integer === 0) {
-    return '0';
-  }
-  if (integer < 10000 && integer >= 1000) {
-    return `0.${String(integer)}`;
-  }
-  if (integer < 1000 && integer >= 100) {
-    return `0.0${String(integer)}`;
-  }
-  if (integer < 100 && integer >= 10) {
-    return `0.00${String(integer)}`;
-  }
-  if (integer < 10) {
-    return `0.000${String(integer)}`;
-  }
-  return [
-    String(integer).slice(0, String(integer).length - decimalRate),
-    '.',
-    String(integer).slice(String(integer).length - decimalRate),
-  ].join('');
+  if (Number(integer) === 0) return '0';
+  const forexRateWithPrecision = new MLNumber(integer).shiftedBy(-1 * decimalRate);
+  return forexRateWithPrecision.toFixed(decimalRate);
 };
 
 export const fxpResponseToForexRates = (response) => Object.keys(response)

@@ -1,12 +1,13 @@
 {
   "name": "admin-portal-web-ui",
-  "version": "10.4.3",
+  "version": "10.4.4",
   "license": "Apache-2.0",
   "contributors": [
     "Matt Kingston <matt.kingston@modusbox.com>",
     "Kamuela Franco <kamuela.franco@modusbox.com>",
     "Aarón Reynoza <aaron.reynoza@modusbox.com>",
-    "Vassilis Barzokas <vassilis.barzokas@modusbox.com>"
+    "Vassilis Barzokas <vassilis.barzokas@modusbox.com>",
+    "Siva Chunduru <siva.chunnduru@modusbox.com>"
   ],
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
+    "@mojaloop/ml-number": "^11.2.0",
     "@reach/dialog": "^0.2.8",
     "classnames": "^2.2.6",
     "core-js": "^3.6.4",
