@@ -11,8 +11,9 @@ import { getForexRates } from '../api';
 const MLNumber = require('@mojaloop/ml-number');
 
 export const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => {
+  if (Number(integer) === 0) return '0';
   const forexRateWithPrecision = new MLNumber(integer).shiftedBy(-1 * decimalRate);
-  return forexRateWithPrecision;
+  return forexRateWithPrecision.toFixed(decimalRate);
 };
 
 export const fxpResponseToForexRates = (response) => Object.keys(response)
