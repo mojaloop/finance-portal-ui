@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Snackbar, withStyles } from '@material-ui/core';
 
+import MLNumber from '@mojaloop/ml-number';
 import ConfirmDialog from './ConfirmDialog';
 import ForexRatesTable from './ForexRatesTable';
 import SnackbarContentWrapper from './SnackbarUtils';
 
 import { getForexRates } from '../api';
-
-const MLNumber = require('@mojaloop/ml-number');
 
 export const stringRateFromDecimalRateAndInteger = (decimalRate, integer) => {
   if (Number(integer) === 0) return '0';
