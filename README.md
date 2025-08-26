@@ -1,3 +1,10 @@
+# [DEPRECATED] finance-portal-ui
+
+Deprecation Notice:
+This repo is deprecated as of August 2025. It is no longer maintained, and is no longer referenced by any releases of Mojaloop.
+
+For further details about Mojaloop, features and technical documentation, please refer to: [docs.mojaloop.io](https://docs.mojaloop.io)
+
 Build: [![CircleCI](https://circleci.com/gh/mojaloop/finance-portal-ui/tree/master.svg?style=svg)](https://circleci.com/gh/mojaloop/finance-portal-ui/tree/master)
 
 ## Build
